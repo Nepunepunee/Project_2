@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-# Project_2 hoi 2
-=======
-# Project_2 hoi derpadoajf
->>>>>>> refs/remotes/origin/master ...
+<h1>project 2</h1>
