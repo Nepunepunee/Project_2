@@ -1,0 +1,196 @@
+<application>
+  <component name="ActionMacroManager">
+    <macro name="test">
+      <typing text-keycode="67:0;76:0;65:0;83:0;83:0;32:0;69:1;77:0;80:0;84:0;89:0;59:1">class&amp;#x20;Empty:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="68:0;69:0;70:0;32:0;45:1;45:1;73:0;78:0;73:0;84:0;45:1;45:1;57:1;83:0">def&amp;#x20;__init__(s</typing>
+    </macro>
+    <macro name="list">
+      <typing text-keycode="67:0;76:0;65:0;83:0;83:0;32:0;69:1;77:0;80:0;84:0;89:0;59:1">class&amp;#x20;Empty:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="68:0;69:0;70:0;32:0;45:1;45:1;73:0;78:0;73:0;84:0;45:1;45:1;57:1;83:0;69:0;76:0;70:0;48:1;59:1">def&amp;#x20;__init__(self):</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="83:0;69:0;76:0;70:0;46:0;73:0;83:0;69:1;77:0;80:0;84:0;89:0;32:0;61:0;32:0;84:1;82:0;85:0;69:0">self.isEmpty&amp;#x20;=&amp;#x20;True</typing>
+      <action id="EditorEnter" />
+      <action id="EditorBackSpace" />
+      <action id="EditorBackSpace" />
+      <typing text-keycode="69:1;77:0;80:0;84:0;89:0;32:0;61:0;32:0;69:1;77:0;80:0;84:0;89:0;57:1;48:1">Empty&amp;#x20;=&amp;#x20;Empty()</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="67:0;76:0;65:0;83:0;83:0;32:0;78:1;79:0;68:0;69:0;59:1">class&amp;#x20;Node:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="68:0;69:0;70:0;32:0;45:1;45:1;73:0;78:0;73:0;84:0;45:1;45:1;57:1;83:0;69:0;76:0;70:0;48:1;59:1">def&amp;#x20;__init__(self):</typing>
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <typing text-keycode="44:0;32:0;72:0;69:0;65:0;68:0;44:0;32:0;84:0;65:0;73:0;76:0">,&amp;#x20;head,&amp;#x20;tail</typing>
+      <action id="EditorRight" />
+      <action id="EditorRight" />
+      <action id="EditorEnter" />
+      <typing text-keycode="83:0;69:0;76:0;70:0;46:0;72:0;69:0;65:0;68:0;32:0;61:0;32:0;72:0;69:0;65:0;68:0">self.head&amp;#x20;=&amp;#x20;head</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="83:0;69:0;76:0;70:0;46:0;84:0;65:0;73:0;76:0;32:0;61:0;32:0;84:0;65:0;73:0;76:0">self.tail&amp;#x20;=&amp;#x20;tail</typing>
+      <action id="EditorUp" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorLeft" />
+      <action id="EditorEnter" />
+      <action id="EditorUp" />
+      <typing text-keycode="83:0;69:0;76:0;70:0;46:0;73:0;83:0;69:1;77:0;80:0;84:0;89:0;32:0;61:0;32:0;70:1;65:0;76:0;83:0;69:0">self.isEmpty&amp;#x20;=&amp;#x20;False</typing>
+    </macro>
+    <macro name="fold">
+      <typing text-keycode="68:0;69:0;70:0;32:0;70:0;79:0;76:0;68:0;57:1;48:1">def&amp;#x20;fold()</typing>
+      <action id="EditorLeft" />
+      <typing text-keycode="76:0;44:0;32:0;80:0;44:0;32:0;67:0">l,&amp;#x20;p,&amp;#x20;c</typing>
+      <action id="EditorRight" />
+      <typing text-keycode="59:1">:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="73:0;70:0;57:1;76:0;46:0;73:0;83:0;69:1;77:0;80:0;84:0;89:0">if(l.isEmpty</typing>
+      <action id="EditorRight" />
+      <typing text-keycode="59:1">:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;32:0;67:1">return&amp;#x20;C</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="67:0">c</typing>
+      <action id="EditorChooseLookupItem" />
+      <action id="EditorEnter" />
+      <typing text-keycode="69:0;76:0;83:0;69:0;59:0">else;</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="59:1">:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;32:0;80:0;57:1;76:0;46:0;72:0;69:0;65:0;68:0;44:0;32:0;70:0;79:0;76:0;68:0;57:1;48:1">return&amp;#x20;p(l.head,&amp;#x20;fold()</typing>
+      <action id="EditorLeft" />
+      <typing text-keycode="76:0;46:0;84:0;65:0;73:0;76:0;44:0;32:0;80:0;44:0;32:0;67:0">l.tail,&amp;#x20;p,&amp;#x20;c</typing>
+    </macro>
+    <macro name="repeat">
+      <typing text-keycode="68:0;69:0;70:0;32:0;82:0;69:0;80:0;69:0;65:0;84:0;57:1;83:0;89:0;77:0;66:0;79:0;76:0;44:0;32:0;78:0;48:1;59:1">def&amp;#x20;repeat(symbol,&amp;#x20;n):</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;83:0;61:0;222:1;222:1">res=&quot;&quot;</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="87:0;72:0;73:0;76:0;69:0;57:1;78:0;46:1;48:0;48:1;59:1">while(n&gt;0):</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;83:0;61:0;82:0;69:0;83:0;61:1;83:0;89:0;44:0;66:0">res=res+sy,b</typing>
+      <action id="EditorBackSpace" />
+      <action id="EditorBackSpace" />
+      <typing text-keycode="77:0;66:0;79:0;76:0">mbol</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="78:0;45:0;61:0;49:0">n-=1</typing>
+      <action id="EditorEnter" />
+      <action id="EditorBackSpace" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;32:0;82:0;69:0;83:0">return&amp;#x20;res</typing>
+    </macro>
+    <macro name="game_db_tests">
+      <typing text-keycode="83:0;80:0;65:0;67:0;69:0;83:0;61:0;82:0;69:0;80:0;69:0;65:0;84:0;57:1;222:1;32:0;222:1;44:0;32:0;78:0;85:0;77:0;45:1;83:0;80:0;65:0;67:0;69:0;83:0;48:1">spaces=repeat(&quot;&amp;#x20;&quot;,&amp;#x20;num_spaces)</typing>
+      <action id="EditorStartNewLine" />
+      <typing text-keycode="83:0;84:0;65:0;82:0;83:0;61:0;82:0;69:0;80:0;69:0;65:0;84:0;57:1;222:1;56:1;222:1;44:0;78:0;85:0;77:0;45:1;83:0;84:0;65:0;82:0;83:0;48:1">stars=repeat(&quot;*&quot;,num_stars)</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;32:0;83:0;80:0;65:0;67:0;69:0;83:0;61:1;83:0;84:0;65:0;82:0;83:0;61:1;222:1;92:0;78:0;222:1;61:1;68:0;82:0;65:0;87:0;45:1;80:0;89:0;82:0;65:0;77:0;73:0;68:0;45:1;65:0;85:0;88:0;57:1;78:0;85:0;77:0;45:1;83:0;80:0;65:0;67:0;69:0;83:0;45:0;49:0;44:0;78:0;85:0;77:0;83:0;84:0;65:0;82:0;83:0;61:1;50:0;48:1">return&amp;#x20;spaces+stars+&quot;\n&quot;+draw_pyramid_aux(num_spaces-1,numstars+2)</typing>
+    </macro>
+    <macro name="bebulbob">
+      <action id="EditorEnter" />
+      <action id="EditorBackSpace" />
+      <typing text-keycode="68:0;69:0;70:0;32:0;84:0;82:0;65:0;78:0;83:0;70:0;79:0;82:0;77:0;57:1;76:0;44:0;67:0;44:0;78:0;48:1;59:1">def&amp;#x20;transform(l,c,n):</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="73:0;70:0;57:1;76:0;46:0;73:0;83:0;69:1;77:0;80:0;84:0;89:0;48:1;59:1">if(l.isEmpty):</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;32:0;78:0">return&amp;#x20;n</typing>
+      <action id="EditorChooseLookupItem" />
+      <action id="EditorEnter" />
+      <typing text-keycode="69:0;76:0;83:0;69:0;59:1">else:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="80:0;82:0;73:0;78:0;84:0;57:1;76:0;46:0;72:0;69:0;65:0;68:0;48:1">print(l.head)</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="77:0;69:0;78:0;85:0;61:0;83:0;84:0;82:0;57:1;73:0;78:0;80:0;85:0;84:0;57:1;222:1;87:0;65:0;78:0;84:0;32:0;84:0;79:0;32:0;67:0;72:0;65:0;78:0;71:0;69:0;32:0;84:0;72:0;73:0;83:0;83:0">menu=str(input(&quot;want&amp;#x20;to&amp;#x20;change&amp;#x20;thiss</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="59:1;32:0;222:1;48:1;48:1">:&amp;#x20;&quot;))</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="73:0;70:0;57:1;77:0;69:0;78:0;85:0;61:0;61:0;222:1;222:1">if(menu==&quot;&quot;</typing>
+      <action id="EditorLeft" />
+      <typing text-keycode="89:0;69:0;83:0">yes</typing>
+      <action id="EditorRight" />
+      <action id="EditorRight" />
+      <action id="EditorLeft" />
+      <typing text-keycode="48:1;59:1">):</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="86:0;65:0;76:0;85:0;69:0;32:0;61:0;32:0;83:0;84:0;82:0;57:1;73:0;78:0;80:0;85:0;84:0;57:1;222:1;78:0;69:0;87:0;32:0;86:0;65:0;76:0;85:0;69:0;59:1;32:0;222:1;48:1;48:1">value&amp;#x20;=&amp;#x20;str(input(&quot;new&amp;#x20;value:&amp;#x20;&quot;))</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="78:0;32:0;61:0;32:0;78:1;79:0;68:0;69:0;82:0">n&amp;#x20;=&amp;#x20;Noder</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="57:1;86:0;65:0;76:0;85:0;69:0;44:0;78:0;48:1">(value,n)</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;32:0;57:1;84:0;82:0;65:0;78:0;83:0;70:0;79:0;82:0;77:0;57:1;76:0;46:0;84:0;65:0;73:0;76:0;44:0;67:0;44:0;78:0;48:1;48:1">return&amp;#x20;(transform(l.tail,c,n))</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="69:0;76:0;83:0;69:0;59:1">else:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="78:0;32:0;61:0;32:0;78:1;79:0;68:0;69:0;57:1;76:0;46:0;72:0;69:0;65:0;68:0;44:0;78:0;48:1">n&amp;#x20;=&amp;#x20;Node(l.head,n)</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;57:1;84:0;82:0;65:0;78:0;83:0;70:0;79:0;82:0;77:0;57:1;76:0;46:0;84:0;65:0;73:0;76:0;44:0;67:0;44:0;78:0;48:1;48:1">return(transform(l.tail,c,n))</typing>
+      <action id="EditorEnter" />
+      <action id="EditorEnter" />
+      <action id="EditorBackSpace" />
+      <action id="EditorBackSpace" />
+      <typing text-keycode="78:0;69:0;87:0;76:0;73:0;83:0;84:0;32:0;61:0;32:0;83:0">newlist&amp;#x20;=&amp;#x20;s</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="84:0;82:0;65:0;78:0;83:0;70:0;79:0;82:0;77:0;57:1;76:0;73:0;83:0;84:0;44:0;48:0;44:0;69:1;77:0;80:0;84:0;89:0;48:1">transform(list,0,Empty)</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="87:0;72:0;73:0;76:0;69:0;32:0;78:0;79:0;84:0;57:1;78:0;69:0;87:0;76:0;73:0;83:0;84:0;46:0;73:0;83:0;69:1;77:0;80:0;84:0;89:0;85:0">while&amp;#x20;not(newlist.isEmptyu</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="48:1;59:1">):</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="80:0;82:0;73:0;78:0;84:0;57:1;78:0;69:0;87:0;76:0;73:0;83:0;84:0;46:0;72:0;69:0;65:0;68:0;48:1">print(newlist.head)</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="78:0;69:0;87:0;76:0;73:0;83:0;84:0;61:0;78:0;69:0;87:0;76:0;73:0;83:0;84:0;46:0;84:0;65:0;73:0;76:0">newlist=newlist.tail</typing>
+    </macro>
+    <macro name="nekoblog connector setup">
+      <typing text-keycode="70:0;79:0;82:0;32:0;73:0;32:0;73:0;78:0;32:0;82:0;65:0;78:0;71:0;69:0;57:1;48:0;44:0;83:0;73:0;90:0;69:0;48:1;59:1">for&amp;#x20;i&amp;#x20;in&amp;#x20;range(0,size):</typing>
+    </macro>
+    <macro name="pygame">
+      <typing text-keycode="73:0;70:0;57:1;76:0;46:0;72:0;69:0">if(l.he</typing>
+      <action id="EditorBackSpace" />
+      <action id="EditorBackSpace" />
+      <action id="EditorBackSpace" />
+      <action id="EditorBackSpace" />
+      <typing text-keycode="80:0;46:0">p.</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="57:1;76:0;46:0;72:0;69:0;65:0;68:0">(l.head</typing>
+      <action id="EditorRight" />
+      <action id="EditorRight" />
+      <typing text-keycode="59:1">:</typing>
+      <action id="EditorEnter" />
+      <typing text-keycode="82:0;69:0;84:0;85:0;82:0;78:0;32:0;78:1;79:0;68:0;69:0;82:0">return&amp;#x20;Noder</typing>
+      <action id="EditorBackSpace" />
+      <typing text-keycode="57:1;76:0;46:0;72:0;69:0;65:0;68:0;44:0;32:0;70:0;73:0;76:0;57:1">(l.head,&amp;#x20;fil(</typing>
+      <action id="EditorLeft" />
+      <typing text-keycode="45:1;78:0;65:0;77:0;69:0">_name</typing>
+      <action id="EditorRight" />
+      <typing text-keycode="76:0;46:0;84:0">l.t</typing>
+      <action id="EditorChooseLookupItem" />
+      <typing text-keycode="44:0;32:0;80:0">,&amp;#x20;p</typing>
+      <action id="EditorRight" />
+      <action id="EditorRight" />
+      <action id="EditorEnter" />
+      <action id="EditorEnter" />
+      <typing text-keycode="76:0;65:0;77:0;66:0;68:0;65:0;32:0;88:0;59:1;32:0;88:0;53:1;50:0;61:0;61:0;48:0">lambda&amp;#x20;x:&amp;#x20;x%2==0</typing>
+    </macro>
+    <macro name="test2">
+      <typing text-keycode="72:0;79:0;79:0;79:0;79:0;79:0;79:0;79:0;79:0;79:0;73:0;69:0;88:0;69:0">hoooooooooiexe</typing>
+    </macro>
+    <macro name="test3">
+      <action id="EditorPaste" />
+    </macro>
+    <macro name="hoi">
+      <action id="EditorPaste" />
+    </macro>
+  </component>
+</application>
