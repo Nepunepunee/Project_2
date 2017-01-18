@@ -1,11 +1,13 @@
+
 import math
 import pygame
-###
+
+
 ##colors
 red = (255,0,0)
 green = (0,255,0)
 blue = (0,0,255)
-black = 0,0,0
+black = (0,0,0)
 white = (255,255,255)
 
 
@@ -27,7 +29,7 @@ class Game:
         
         # Set the resolution
         self.screen = pygame.display.set_mode(size)
-        
+
         # Set up the default font
         self.font = pygame.font.Font(None, 30)
 
@@ -43,16 +45,30 @@ class Game:
         self.screen.fill((white))
         # draw block for menu items
 
-        # load main menu image
+        # load main menu image DOES NOT WORK!
         # load_image('main_menu.png')
 
         # Flip the screen
         pygame.display.flip()
 
+
+    #intro screen
+    def intro(self):
+        intro = True
+        while intro:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+            self.screen.fill(blue)
+            pygame.display.update()
+
+
         #message drawer
     def message_to_screen(self,msg, color):
         screen_text = self.font.render(msg, True, color)
         self.screen.blit(screen_text, [self.width / 2, self.height / 2])
+
 
     # The game loop
     def game_loop(self):
@@ -74,6 +90,7 @@ def process_events():
 # Main program logic
 def program():
     game = Game()
+    game.intro()
     game.game_loop()
 
 
