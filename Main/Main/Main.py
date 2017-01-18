@@ -10,10 +10,13 @@ class Game:
 
         # Start PyGame
         pygame.init()
+
+        # Program caption
+        pygame.display.set_caption("Battleport V.0.0.1")
         
         # Set the resolution
         self.screen = pygame.display.set_mode(size)
-        .
+
         # Set up the default font
         self.font = pygame.font.Font(None, 30)
 
