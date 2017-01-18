@@ -1,5 +1,8 @@
 import math
 import pygame
+#set FPS
+FPS = 30
+clock = pygame.time.Clock()
 
 
 class Game:
@@ -19,6 +22,9 @@ class Game:
         
         # Set up the default font
         self.font = pygame.font.Font(None, 30)
+
+        #Set up FPS
+        clock.tick(FPS)
 
 
 
