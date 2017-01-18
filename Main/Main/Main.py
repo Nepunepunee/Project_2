@@ -1,6 +1,6 @@
 import math
 import pygame
-import Main.Main.Database
+from Main.Main.Database import *
 
 
 ##colors
