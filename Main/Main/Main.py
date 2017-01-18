@@ -1,7 +1,8 @@
 import math
 import pygame
 
-
+white_color = (255,255,255)
+blue = (0,0,255)
 class Game:
     def __init__(self):
         width = 640
@@ -16,7 +17,7 @@ class Game:
         
         # Set the resolution
         self.screen = pygame.display.set_mode(size)
-        
+
         # Set up the default font
         self.font = pygame.font.Font(None, 30)
 
@@ -29,7 +30,20 @@ class Game:
         
         # Flip the screen
         pygame.display.flip()
-        
+
+    #intro screen
+    def intro(self):
+        intro = True
+        while intro:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+            self.screen.fill(blue)
+            pygame.display.update()
+
+
+
     # The game loop
     def game_loop(self):
         while not process_events():
@@ -49,6 +63,7 @@ def process_events():
 # Main program logic
 def program():
     game = Game()
+    game.intro()
     game.game_loop()
 
 
