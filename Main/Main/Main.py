@@ -49,6 +49,8 @@ class Game:
         self.button(load_image('../../images/menu_play_hover.png'),load_image('../../images/menu_play.png'),220,175)
         self.button(load_image('../../images/menu_quit_hover.png'), load_image('../../images/menu_quit.png'), 220, 280)
 
+
+
         # Flip the screen
         pygame.display.flip()
 
@@ -73,15 +75,20 @@ class Game:
     def game_menu(self):
         while not process_events():
             # self.draw_menu()
-            self.match_start()
+            self.settings_menu()
 
 
 
-### match setup
+### settings menu
     def settings_menu(self):
+        self.screen.fill((blue))
+        menu_settings = load_image('../../images/settings_menu.png')
+        self.screen.blit(menu_settings, (120, 0))
 
-
-
+        # volume mixer
+        pygame.mixer.music.load('../../sounds/main.wav')
+        volume = pygame.mixer.music.get_volume()
+        print(volume)
 
         pygame.display.flip()
 
