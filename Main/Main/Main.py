@@ -72,7 +72,19 @@ class Game:
     # The menu loop
     def game_menu(self):
         while not process_events():
-            self.draw_menu()
+            # self.draw_menu()
+            self.match_start()
+
+
+
+### match setup
+    def settings_menu(self):
+
+
+
+
+        pygame.display.flip()
+
 
 
 # Handle pygame events
