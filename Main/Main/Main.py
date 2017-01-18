@@ -1,3 +1,4 @@
+
 import math
 import pygame
 
@@ -13,7 +14,7 @@ class Game:
         
         # Set the resolution
         self.screen = pygame.display.set_mode(size)
-        .wut
+
         # Set up the default font
         self.font = pygame.font.Font(None, 30)
 
