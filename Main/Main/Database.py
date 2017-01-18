@@ -32,4 +32,3 @@ class database:
 
     def update_score(self, name, score):
         self.database_command("UPDATE score SET Score={} WHERE Name={}".format(score, name))
-
