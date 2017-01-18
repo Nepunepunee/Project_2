@@ -1,4 +1,3 @@
-
 import math
 import pygame
 
@@ -42,29 +41,20 @@ class Game:
     # Draw everything
     def draw_menu(self):
         # Clear the screen
-        self.screen.fill((white))
+        self.screen.fill((blue))
         # draw block for menu items
 
         # load main menu image DOES NOT WORK!
-        # load_image('main_menu.png')
+        menu_bg = load_image('../../images/main_menu.png')
+        menu_play = load_image('../../images/menu_play.png')
+        self.screen.blit(menu_bg, (120, 0))
+        self.screen.blit(menu_play, (220, 250))
 
         # Flip the screen
         pygame.display.flip()
 
 
-    #intro screen
-    def intro(self):
-        intro = True
-        while intro:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-            self.screen.fill(blue)
-            pygame.display.update()
-
-
-        #message drawer
+    #message drawer
     def message_to_screen(self,msg, color):
         screen_text = self.font.render(msg, True, color)
         self.screen.blit(screen_text, [self.width / 2, self.height / 2])
@@ -73,7 +63,6 @@ class Game:
     # The game loop
     def game_loop(self):
         while not process_events():
-
             self.draw_menu()
 
 
@@ -90,7 +79,6 @@ def process_events():
 # Main program logic
 def program():
     game = Game()
-    game.intro()
     game.game_loop()
 
 
