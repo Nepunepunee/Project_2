@@ -42,16 +42,26 @@ class Game:
     def draw_menu(self):
         # Clear the screen
         self.screen.fill((blue))
-        # draw block for menu items
-
-        # load main menu image DOES NOT WORK!
+        #load menu img
         menu_bg = load_image('../../images/main_menu.png')
-        menu_play = load_image('../../images/menu_play.png')
         self.screen.blit(menu_bg, (120, 0))
-        self.screen.blit(menu_play, (220, 250))
+        #add buttons
+        self.button(load_image('../../images/menu_play_hover.png'),load_image('../../images/menu_play.png'),220,175)
+        self.button(load_image('../../images/menu_quit_hover.png'), load_image('../../images/menu_quit.png'), 220, 280)
 
         # Flip the screen
         pygame.display.flip()
+
+    # button function
+    def button(self,img_a,img_i,x,y):
+        # buttons are 200x75
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if x+200 > mouse[0] > x and y+75 > mouse[1] >y:
+            self.screen.blit(img_a, (x, y))
+        else:
+            self.screen.blit(img_i, (x, y))
+
 
 
     #message drawer
@@ -59,11 +69,22 @@ class Game:
         screen_text = self.font.render(msg, True, color)
         self.screen.blit(screen_text, [self.width / 2, self.height / 2])
 
-
-    # The game loop
-    def game_loop(self):
+    # The menu loop
+    def game_menu(self):
         while not process_events():
-            self.draw_menu()
+            # self.draw_menu()
+            self.match_start()
+
+
+
+### match setup
+    def settings_menu(self):
+
+
+
+
+        pygame.display.flip()
+
 
 
 # Handle pygame events
@@ -79,7 +100,7 @@ def process_events():
 # Main program logic
 def program():
     game = Game()
-    game.game_loop()
+    game.game_menu()
 
 
 # Start the program
