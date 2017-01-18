@@ -1,5 +1,6 @@
 import math
 import pygame
+from Database import *
 
 
 ##colors
@@ -18,6 +19,7 @@ class Game:
     def __init__(self):
         self.width = 640
         self.height = 480
+        self.menu = True
         size = (self.width, self.height)
 
         # Start PyGame
@@ -37,9 +39,13 @@ class Game:
         clock = pygame.time.Clock()
         clock.tick(FPS)
 
+    def quitgame(self):
+        pygame.quit()
+        quit()
 
-    # Draw everything
+    # Draw menu
     def draw_menu(self):
+<<<<<<< HEAD
         # Clear the screen
         self.screen.fill((blue))
         #load menu img
@@ -52,19 +58,44 @@ class Game:
 
 
         # Flip the screen
+=======
+        while self.menu:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+            # Clear the screen
+            self.screen.fill((blue))
+            #load menu img
+            menu_bg = load_image('../../images/main_menu.png')
+            self.screen.blit(menu_bg, (120, 0))
+            #add buttons
+            self.button(load_image('../../images/menu_play_hover.png'),load_image('../../images/menu_play.png'),220,175,
+            self.match_start)
+            self.button(load_image('../../images/menu_quit_hover.png'), load_image('../../images/menu_quit.png'), 220, 280,
+            self.quitgame)
+            # Flip the screen
+            pygame.display.flip()
+
+    # Game match
+    def match_start(self):
+        self.menu = False
+        self.screen.fill((red))
+>>>>>>> origin/Backend
         pygame.display.flip()
 
+
     # button function
-    def button(self,img_a,img_i,x,y):
+    def button(self,img_a,img_i,x,y,action=None):
         # buttons are 200x75
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if x+200 > mouse[0] > x and y+75 > mouse[1] >y:
             self.screen.blit(img_a, (x, y))
+            if click[0] == 1 and action != None:
+                action()
         else:
             self.screen.blit(img_i, (x, y))
-
-
 
     #message drawer
     def message_to_screen(self,msg, color):
@@ -74,11 +105,21 @@ class Game:
     # The menu loop
     def game_menu(self):
         while not process_events():
+<<<<<<< HEAD
             # self.draw_menu()
             self.settings_menu()
+=======
+            self.draw_menu()
+            # self.match_start()
+>>>>>>> origin/Backend
+
+    # The game loop
+    def game_loop(self):
+        while not process_events():
+            self.match_start()
 
 
-
+<<<<<<< HEAD
 ### settings menu
     def settings_menu(self):
         self.screen.fill((blue))
@@ -90,8 +131,11 @@ class Game:
         volume = pygame.mixer.music.get_volume()
         print(volume)
 
+=======
+    # match setup
+    def settings_menu(self):
+>>>>>>> origin/Backend
         pygame.display.flip()
-
 
 
 # Handle pygame events
@@ -108,6 +152,7 @@ def process_events():
 def program():
     game = Game()
     game.game_menu()
+    game.game_loop()
 
 
 # Start the program
