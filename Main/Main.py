@@ -84,9 +84,6 @@ class Game:
             menu_bg = load_image('../images/main_menu.png')
             self.screen.blit(menu_bg, (120, 0))
             #add buttons
-            self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),250,150,
-            self.match_start)
-
             self.button(load_image('../images/menu_highscore_hover.png'), load_image('../images/menu_highscore.png'), 250,225,
             self.match_start)
 
@@ -95,6 +92,8 @@ class Game:
 
             self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 250, 375,
             self.quitgame)
+            self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),250,150,
+            self.match_start)
 
 
             # Flip the screen
@@ -116,6 +115,7 @@ class Game:
             self.screen.blit(img_a, (x, y))
             if click[0] == 1 and action != None:
                 action()
+
         else:
             self.screen.blit(img_i, (x, y))
 
@@ -161,7 +161,7 @@ def process_events():
         if event.type == pygame.QUIT:
             # Give the signal to quit
             return True
-    
+
     return False
 
 
