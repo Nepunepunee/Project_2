@@ -26,6 +26,7 @@ class Game:
         self.height = 480
         self.menu = True
         size = (self.width, self.height)
+        self.pause = True
 
         # Start PyGame
         pygame.init()
@@ -75,9 +76,14 @@ class Game:
         self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 220, 280)
 
         keys = pygame.key.get_pressed()
-
         if keys[pygame.K_ESCAPE]:
-            self.sub_menu()
+            if(self.pause):
+                self.sub_menu()
+                self.pause = False
+            else:
+                self.screen.fill((red))
+                pygame.display.flip()
+                self.pause = True
 
         # Flip the screen
 
@@ -109,8 +115,10 @@ class Game:
             pygame.display.flip()
     #draw ingame menu
     def sub_menu(self):
-        menu_settings = load_image('../images/settings_menu.png')
+        self.screen.fill((255,255,255))
+        menu_settings = load_image('../images/pause_menu.png')
         self.screen.blit(menu_settings, (120, 0))
+        #self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 250, 375,self.quitgame)
         pygame.display.flip()
     # Game match
     def match_start(self):
@@ -167,7 +175,7 @@ class Game:
     def highscores(self):
         self.menu = False
         self.screen.fill((blue))
-        menu_settings = load_image('../images/settings_menu.png')
+        menu_settings = load_image('../images/highscores_menu.png')
         self.screen.blit(menu_settings, (120, 0))
 
         pygame.display.flip()
