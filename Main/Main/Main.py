@@ -1,8 +1,21 @@
 import math
 import pygame
+<<<<<<< HEAD
+#from Database import
+=======
 from Database import *
 pygame.init()
+<<<<<<< HEAD
 ########
+=======
+
+
+
+
+>>>>>>> origin/master
+
+
+>>>>>>> refs/remotes/origin/master
 ##colors
 red = (255,0,0)
 green = (0,255,0)
