@@ -98,14 +98,15 @@ class Game:
             menu_bg = load_image('../images/main_menu.png')
             self.screen.blit(menu_bg, (120, 0))
             #add buttons
+            self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 250, 375,
+                        self.quitgame)
+
             self.button(load_image('../images/menu_highscore_hover.png'), load_image('../images/menu_highscore.png'), 250,225,
             self.highscores)
 
             self.button(load_image('../images/menu_settings_hover.png'),load_image('../images/menu_settings.png'), 250, 300,
             self.settings_menu)
 
-            self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 250, 375,
-            self.quitgame)
 
             self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),250,150,
             self.match_start)
@@ -124,7 +125,6 @@ class Game:
     def match_start(self):
         self.menu = False
         self.screen.fill((red))
-        pygame.display.flip()
 
     # button function
     def button(self,img_a,img_i,x,y,action=None):
@@ -169,7 +169,6 @@ class Game:
 
 
 
-        pygame.display.flip()
 
     ### settings menu
     def highscores(self):
