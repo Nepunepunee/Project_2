@@ -118,7 +118,6 @@ class Game:
         self.screen.fill((red))
         pygame.display.flip()
 
-
     # button function
     def button(self,img_a,img_i,x,y,action=None):
         # buttons are 200x75
