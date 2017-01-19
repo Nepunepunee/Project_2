@@ -45,7 +45,7 @@ class Game:
         clock.tick(FPS)
 
         pygame.mixer.init()
-        pygame.mixer.music.load("../../sounds/main.wav")
+        pygame.mixer.music.load("../sounds/main.wav")
         pygame.mixer.music.play(-1)
 
 
@@ -63,11 +63,11 @@ class Game:
         # Clear the screen
         self.screen.fill((blue))
         #load menu img
-        menu_bg = load_image('../../images/main_menu.png')
+        menu_bg = load_image('../images/main_menu.png')
         self.screen.blit(menu_bg, (120, 0))
         #add buttons
-        self.button(load_image('../../images/menu_play_hover.png'),load_image('../../images/menu_play.png'),220,175)
-        self.button(load_image('../../images/menu_quit_hover.png'), load_image('../../images/menu_quit.png'), 220, 280)
+        self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),220,175)
+        self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 220, 280)
 
 
 
@@ -81,19 +81,19 @@ class Game:
             # Clear the screen
             self.screen.fill((blue))
             #load menu img
-            menu_bg = load_image('../../images/main_menu.png')
+            menu_bg = load_image('../images/main_menu.png')
             self.screen.blit(menu_bg, (120, 0))
             #add buttons
-            self.button(load_image('../../images/menu_play_hover.png'),load_image('../../images/menu_play.png'),250,150,
+            self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),250,150,
             self.match_start)
 
-            self.button(load_image('../../images/menu_highscore_hover.png'), load_image('../../images/menu_highscore.png'), 250,225,
+            self.button(load_image('../images/menu_highscore_hover.png'), load_image('../images/menu_highscore.png'), 250,225,
             self.match_start)
 
-            self.button(load_image('../../images/menu_settings_hover.png'),load_image('../../images/menu_settings.png'), 250, 300,
+            self.button(load_image('../images/menu_settings_hover.png'),load_image('../images/menu_settings.png'), 250, 300,
             self.settings_menu)
 
-            self.button(load_image('../../images/menu_quit_hover.png'), load_image('../../images/menu_quit.png'), 250, 375,
+            self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 250, 375,
             self.quitgame)
 
 
@@ -144,7 +144,7 @@ class Game:
 ### settings menu
     def settings_menu(self):
         self.screen.fill((blue))
-        menu_settings = load_image('../../images/settings_menu.png')
+        menu_settings = load_image('../images/settings_menu.png')
         self.screen.blit(menu_settings, (120, 0))
 
         # volume mixer
