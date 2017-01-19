@@ -5,6 +5,9 @@ import pygame
 =======
 from Database import *
 pygame.init()
+<<<<<<< HEAD
+########
+=======
 
 
 
@@ -12,6 +15,7 @@ pygame.init()
 >>>>>>> origin/master
 
 
+>>>>>>> refs/remotes/origin/master
 ##colors
 red = (255,0,0)
 green = (0,255,0)
@@ -24,6 +28,12 @@ def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
     return surface
 
+# Main program logic
+def program():
+    game = Game()
+    game.game_menu()
+    game.game_loop()
+
 class Game:
     def __init__(self):
         self.width = 640
@@ -35,7 +45,7 @@ class Game:
         pygame.init()
 
         # Program caption
-        pygame.display.set_caption("Battleport V.0.0.1")
+        pygame.display.set_caption("Battleport V.0.0.2")
         
         # Set the resolution
         self.screen = pygame.display.set_mode(size)
@@ -53,30 +63,12 @@ class Game:
         pygame.mixer.music.play(-1)
 
 
-
-
-
-
     def quitgame(self):
         pygame.quit()
         quit()
 
     # Draw menu
     def draw_menu(self):
-
-        # Clear the screen
-        self.screen.fill((blue))
-        #load menu img
-        menu_bg = load_image('../../images/main_menu.png')
-        self.screen.blit(menu_bg, (120, 0))
-        #add buttons
-        self.button(load_image('../../images/menu_play_hover.png'),load_image('../../images/menu_play.png'),220,175)
-        self.button(load_image('../../images/menu_quit_hover.png'), load_image('../../images/menu_quit.png'), 220, 280)
-
-
-
-        # Flip the screen
-
         while self.menu:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -99,16 +91,14 @@ class Game:
 
             self.button(load_image('../../images/menu_quit_hover.png'), load_image('../../images/menu_quit.png'), 250, 375,
             self.quitgame)
-
-
             # Flip the screen
             pygame.display.flip()
 
     # Game match
     def match_start(self):
-        self.menu = False
-        self.screen.fill((red))
         pygame.display.flip()
+        self.menu = False
+        self.screen.fill((white))
 
 
     # button function
@@ -131,12 +121,8 @@ class Game:
     # The menu loop
     def game_menu(self):
         while not process_events():
-
-
             # self.settings_menu()
-
             self.draw_menu()
-
 
     # The game loop
     def game_loop(self):
@@ -150,14 +136,10 @@ class Game:
         self.screen.fill((blue))
         menu_settings = load_image('../../images/settings_menu.png')
         self.screen.blit(menu_settings, (120, 0))
-
         # volume mixer
         volume = pygame.mixer.music.get_volume()
 
-
-
         pygame.display.flip()
-
 
 # Handle pygame events
 def process_events():
@@ -168,12 +150,6 @@ def process_events():
     
     return False
 
-
-# Main program logic
-def program():
-    game = Game()
-    game.game_menu()
-    game.game_loop()
 
 
 # Start the program
