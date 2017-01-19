@@ -57,6 +57,11 @@ class Game:
         pygame.quit()
         quit()
 
+    def draw_settings(self):
+        self.screen.fill((red))
+        menu_bg = load_image('../images/main_menu.png')
+        self.screen.blit(menu_bg, (120, 0))
+
     # Draw menu
     def draw_menu(self):
 
@@ -85,7 +90,7 @@ class Game:
             self.screen.blit(menu_bg, (120, 0))
             #add buttons
             self.button(load_image('../images/menu_highscore_hover.png'), load_image('../images/menu_highscore.png'), 250,225,
-            self.match_start)
+            self.highscores)
 
             self.button(load_image('../images/menu_settings_hover.png'),load_image('../images/menu_settings.png'), 250, 300,
             self.settings_menu)
@@ -127,10 +132,6 @@ class Game:
     # The menu loop
     def game_menu(self):
         while not process_events():
-
-
-            # self.settings_menu()
-
             self.draw_menu()
 
 
@@ -143,6 +144,7 @@ class Game:
 
 ### settings menu
     def settings_menu(self):
+        self.menu = False
         self.screen.fill((blue))
         menu_settings = load_image('../images/settings_menu.png')
         self.screen.blit(menu_settings, (120, 0))
@@ -151,6 +153,15 @@ class Game:
         volume = pygame.mixer.music.get_volume()
 
 
+
+        pygame.display.flip()
+
+    ### settings menu
+    def highscores(self):
+        self.menu = False
+        self.screen.fill((blue))
+        menu_settings = load_image('../images/settings_menu.png')
+        self.screen.blit(menu_settings, (120, 0))
 
         pygame.display.flip()
 
