@@ -57,6 +57,11 @@ class Game:
         pygame.quit()
         quit()
 
+    def draw_settings(self):
+        self.screen.fill((red))
+        menu_bg = load_image('../images/main_menu.png')
+        self.screen.blit(menu_bg, (120, 0))
+
     # Draw menu
     def draw_menu(self):
 
@@ -69,7 +74,10 @@ class Game:
         self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),220,175)
         self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 220, 280)
 
+        keys = pygame.key.get_pressed()
 
+        if keys[pygame.K_ESCAPE]:
+            self.sub_menu()
 
         # Flip the screen
 
@@ -84,11 +92,8 @@ class Game:
             menu_bg = load_image('../images/main_menu.png')
             self.screen.blit(menu_bg, (120, 0))
             #add buttons
-            self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),250,150,
-            self.match_start)
-
             self.button(load_image('../images/menu_highscore_hover.png'), load_image('../images/menu_highscore.png'), 250,225,
-            self.match_start)
+            self.highscores)
 
             self.button(load_image('../images/menu_settings_hover.png'),load_image('../images/menu_settings.png'), 250, 300,
             self.settings_menu)
@@ -96,16 +101,22 @@ class Game:
             self.button(load_image('../images/menu_quit_hover.png'), load_image('../images/menu_quit.png'), 250, 375,
             self.quitgame)
 
+            self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),250,150,
+            self.match_start)
+
 
             # Flip the screen
             pygame.display.flip()
-
+    #draw ingame menu
+    def sub_menu(self):
+        menu_settings = load_image('../images/settings_menu.png')
+        self.screen.blit(menu_settings, (120, 0))
+        pygame.display.flip()
     # Game match
     def match_start(self):
         self.menu = False
         self.screen.fill((red))
         pygame.display.flip()
-
 
     # button function
     def button(self,img_a,img_i,x,y,action=None):
@@ -116,6 +127,7 @@ class Game:
             self.screen.blit(img_a, (x, y))
             if click[0] == 1 and action != None:
                 action()
+
         else:
             self.screen.blit(img_i, (x, y))
 
@@ -127,10 +139,6 @@ class Game:
     # The menu loop
     def game_menu(self):
         while not process_events():
-
-
-            # self.settings_menu()
-
             self.draw_menu()
 
 
@@ -143,6 +151,7 @@ class Game:
 
 ### settings menu
     def settings_menu(self):
+        self.menu = False
         self.screen.fill((blue))
         menu_settings = load_image('../images/settings_menu.png')
         self.screen.blit(menu_settings, (120, 0))
@@ -154,6 +163,15 @@ class Game:
 
         pygame.display.flip()
 
+    ### settings menu
+    def highscores(self):
+        self.menu = False
+        self.screen.fill((blue))
+        menu_settings = load_image('../images/settings_menu.png')
+        self.screen.blit(menu_settings, (120, 0))
+
+        pygame.display.flip()
+
 
 # Handle pygame events
 def process_events():
@@ -161,7 +179,7 @@ def process_events():
         if event.type == pygame.QUIT:
             # Give the signal to quit
             return True
-    
+
     return False
 
 
