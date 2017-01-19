@@ -1,8 +1,8 @@
 import math
-import pygame
+import pygame,sys,random,os
 from Database import *
 pygame.init()
-
+from pygame.locals import *
 
 
 
@@ -16,9 +16,37 @@ black = (0,0,0)
 white = (255,255,255)
 
 
+def quitgame():
+    pygame.quit()
+    quit()
+
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
     return surface
+
+# message drawer
+# def message_to_screen(msg,color,posx,posy):
+#     screen_text = font.render(msg, True, color)
+#     screen.blit(screen_text, [posx,posy])
+
+#setting up player attributes
+# class Player:
+#     health = 100
+#     ships = 3
+#     def __init__(self,posX,posY):
+#         self.posX = [0]
+#         self.posY = [1]
+#         self.hp = Player.health
+#         self.ships = Player.ships
+
+
+# player1 = Player(320, 300)
+# player2 = Player(150,100)
+
+#constrants representing the different resources
+
+
+
 
 class Game:
     def __init__(self):
@@ -41,7 +69,7 @@ class Game:
         self.font = pygame.font.Font(None, 30)
 
         #Set up FPS
-        FPS = 30
+        FPS = 60
         clock = pygame.time.Clock()
         clock.tick(FPS)
 
@@ -49,10 +77,41 @@ class Game:
         pygame.mixer.music.load("../sounds/main.wav")
         pygame.mixer.music.play(-1)
 
+        self.WATER = 2
+
+        # a dictionary linkin recources to textures
+        self.textures = {
+            self.WATER: pygame.image.load(os.path.join('../images/wave.png'))
+        }
+
+        # useful game dimensions
+        self.TILESIZE = 40
+        self.MAPWIDTH = 20
+        self.MAPHEIGHT = 20
+
+        # a list of recources
+        recources = [self.WATER]
+        # use list comprehension to create our tilemap
+        self.tilemap = [[self.WATER for w in range(self.MAPWIDTH)] for h in range(self.MAPHEIGHT)]
+
+        self.DISPLAYSURF = pygame.display.set_mode((self.MAPWIDTH * self.TILESIZE, self.MAPHEIGHT * self.TILESIZE))
+
+        #
+        # the player image
+        # pygame.draw.rect(screen,red,(player1Pos[0],player1Pos[1],30,30))
+
+        self.player1Pos = [0, 0]
+        self.player1 = pygame.image.load(os.path.join('../images/player1.png')).convert_alpha()
+
+        # pygame.draw.rect(screen, blue, (player2Pos[0],player2Pos[1], 30, 30))
+        self.player2 = pygame.image.load(os.path.join('../images/player2.png')).convert_alpha()
+        self.player2Pos = [1, 0]
+
+        # the position of the player [x,y]
 
 
-
-
+        # PLAYER2 =
+        # playerPos2 =[1,0]
 
     def quitgame(self):
         pygame.quit()
@@ -124,7 +183,91 @@ class Game:
     # Game match
     def match_start(self):
         self.menu = False
-        self.screen.fill((red))
+
+
+        gameExit = False
+
+        mouse = pygame.mouse.get_pos()
+        # click = pygame.mouse.get_pressed()
+
+        while not gameExit:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    quitgame()
+                    gameExit = True
+
+                # if event.type == pygame.MOUSEBUTTONDOWN:
+                #     mousepos = pygame.mouse.get_pos()
+                #     message_to_screen(str(mousepos),black,30,600)
+                #     if mousepos > player1_posX :
+                #         print ("player 1 detected")
+
+                if event.type == KEYDOWN:
+                    # if right arrow is pressed
+                    if (event.key == K_RIGHT) and self.player1Pos[0] < self.MAPWIDTH - 1:
+                        # change player's x position
+                        self.player1Pos[0] += 1
+                    if (event.key == K_LEFT) and self.player1Pos[0] > self.MAPWIDTH - self.MAPWIDTH:
+                        # change player's x position
+                        self.player1Pos[0] -= 1
+                    if (event.key == K_UP) and self.player1Pos[1] > self.MAPHEIGHT - self.MAPHEIGHT:
+                        # change player's y position
+                        self.player1Pos[1] -= 1
+                    if (event.key == K_DOWN) and self.player1Pos[1] < self.MAPHEIGHT - 1:
+                        # change player's y position
+                        self.player1Pos[1] += 1
+                    # if right arrow is pressed
+
+                    if (event.key == K_d) and self.player2Pos[0] < self.MAPWIDTH - 1:
+                        # change player's x position
+                        self.player2Pos[0] += 1
+                    if (event.key == K_a) and self.player2Pos[0] > self.MAPWIDTH - self.MAPWIDTH:
+                        # change player's x position
+                        self.player2Pos[0] -= 1
+                    if (event.key == K_w) and self.player2Pos[1] > self.MAPHEIGHT - self.MAPHEIGHT:
+                        # change player's y position
+                        self.player2Pos[1] -= 1
+                    if (event.key == K_s) and self.player2Pos[1] < self.MAPHEIGHT - 1:
+                        # change player's y position
+                        self.player2Pos[1] += 1
+
+                        ##ERROR
+            # loop through each row
+            for rw in range(self.MAPHEIGHT):
+                for cl in range(self.MAPWIDTH):
+                    randomnumber = random.randint(0, 15)
+                    if randomnumber >= 1 or randomnumber <= 10:
+                        tile = self.WATER
+
+                    self.tilemap[rw][cl] = tile
+
+                for row in range(self.MAPHEIGHT):
+                    for column in range(self.MAPWIDTH):
+                        # draw the resource at that position in the tilemap, using the correct image
+                        self.DISPLAYSURF.blit(self.textures[self.tilemap[row][column]], (column * self.TILESIZE, row * self.TILESIZE))
+                # display the player at the correct position
+                self.DISPLAYSURF.blit(self.player1, (self.player1Pos[0] * self.TILESIZE, self.player1Pos[1] * self.TILESIZE))
+                self.DISPLAYSURF.blit(self.player2, (self.player2Pos[0] * self.TILESIZE, self.player2Pos[1] * self.TILESIZE))
+
+                # screen writings
+                mousepos = pygame.mouse.get_pos()
+                # message_to_screen(str(mousepos), red, 500, 15)
+                # message_to_screen("player ships: " + str(player1.ships), red,10,10)
+                # message_to_screen("player ships: " + str(player2.ships), blue, 200, 10)
+                # message_to_screen("HP: " + str(player1.hp), red, 10, 30)
+                # message_to_screen("HP: " + str(player2.hp), blue, 200, 30)
+
+
+                pygame.display.update()
+
+        # self.clock.tick(FPS)
+        pygame.quit()
+
+    match_start
+
+
+
+
 
     # button function
     def button(self,img_a,img_i,x,y,action=None):
