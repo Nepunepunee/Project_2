@@ -7,8 +7,8 @@ class program:
 
     def run(self):
         while not x is pressed:
-            self.currentscenecurrentscene = self.currentscene.update()
-            self.currentscenecurrentscene.draw()
+            self.currentscene = self.currentscene.update()
+            self.currentscene.draw()
 
     def quitgame(self):
         pygame.quit()
