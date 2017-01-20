@@ -131,11 +131,14 @@ def mainloop():
                 quitgame()
                 gameExit = True
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEMOTION:
                 mousepos = pygame.mouse.get_pos()
-                new_position = []
+                mousecord_x = math.trunc(mousepos[0] // TILESIZE)
+                mousecord_y = math.trunc(mousepos[1] // TILESIZE)
+                mousecord = [mousecord_x,mousecord_y]
 
-
+            #     new_position = []
+            mousepos = pygame.mouse.get_pos()
             if event.type == KEYDOWN:
                 # if right arrow is pressed
                 if (event.key == K_RIGHT) and player1Pos[0] < MAPWIDTH - 1:
@@ -190,6 +193,7 @@ def mainloop():
                 mousepos = pygame.mouse.get_pos()
                 message_to_screen("PLAYER1 " + str(player1Pos),red,650,15)
                 message_to_screen("PLAYER2 " + str(player2Pos), blue, 650, 40)
+                message_to_screen("Mouse Cords " + str(mousecord), black, 625, 65)
                 # message_to_screen("player ships: " + str(player1.ships), red,10,10)
                 # message_to_screen("player ships: " + str(player2.ships), blue, 200, 10)
                 # message_to_screen("HP: " + str(player1.hp), red, 10, 30)
