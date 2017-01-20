@@ -9,8 +9,6 @@ pygame.init()
 #constrants representing the different resources
 WATER = 2
 
-
-#a dictionary linkin recources to textures
 textures = {
     WATER : pygame.image.load(os.path.join('../images/wave.png'))
 }
@@ -19,20 +17,10 @@ textures = {
 TILESIZE = 40
 MAPWIDTH = 15
 MAPHEIGHT = 15
-
-#a list of recources
-recources = [WATER]
+recources = [WATER] #a list of recources
 #use list comprehension to create our tilemap
 tilemap = [[WATER for w in range(MAPWIDTH)] for h in range(MAPHEIGHT)]
-
-
-
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE,MAPHEIGHT*TILESIZE))
-
-
-
-
-
 
 ##colors
 red = (255, 0, 0)
@@ -75,18 +63,46 @@ def message_to_screen(msg,color,posx,posy):
     screen.blit(screen_text, [posx,posy])
 
 #setting up player attributes
-# class Player:
-#     health = 100
-#     ships = 3
-#     def __init__(self,posX,posY):
-#         self.posX = [0]
-#         self.posY = [1]
-#         self.hp = Player.health
-#         self.ships = Player.ships
+class Player:
+    health = 100
+    def __init__(self,posX,posY):
+        self.posX = [0]
+        self.posY = [0]
+        self.sprite = pygame.image.load(os.path.join('../images/player1.png')).convert_alpha()
 
 
-# player1 = Player(320, 300)
-# player2 = Player(150,100)
+class Boat:
+    def __init__(self):
+        self.hp = 100
+        self.attack_range = 0
+        self.defence = 0
+        self.defencemode = False
+
+    def __del__(self):
+        pass
+
+    def attack(self):
+        if self.defencemode == True:
+            pass
+
+
+
+player1 = Player([0],[0])
+player2 = Player([0],[0])
+
+P1_Boat1 = Boat()
+P1_Boat2 = Boat()
+P1_Boat3 = Boat()
+P1_Boat4 = Boat()
+
+P2_Boat1 = Boat()
+P2_Boat2 = Boat()
+P2_Boat3 = Boat()
+P2_Boat4 = Boat()
+
+
+
+
 
 #
 #the player image
@@ -98,11 +114,8 @@ player1 = pygame.image.load(os.path.join('../images/player1.png')).convert_alpha
 player2 = pygame.image.load(os.path.join('../images/player2.png')).convert_alpha()
 player2Pos = [1,0]
 
-#the position of the player [x,y]
 
 
-# PLAYER2 =
-# playerPos2 =[1,0]
 
 
 def mainloop():
@@ -120,22 +133,23 @@ def mainloop():
     player1_posX_change = 0
     player1_posY_change = 0
 
-    mouse = pygame.mouse.get_pos()
-    # click = pygame.mouse.get_pressed()
 
     while not gameExit:
         grid = False
-        print (grid)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
                 gameExit = True
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            # calculate the cordinates of the mouse position
+            if event.type == pygame.MOUSEMOTION:
                 mousepos = pygame.mouse.get_pos()
-                new_position = []
+                mousecord_x = math.trunc(mousepos[0] // TILESIZE)
+                mousecord_y = math.trunc(mousepos[1] // TILESIZE)
+                mousecord = [mousecord_x,mousecord_y]
 
-
+            #     new_position = []
+            mousepos = pygame.mouse.get_pos()
             if event.type == KEYDOWN:
                 # if right arrow is pressed
                 if (event.key == K_RIGHT) and player1Pos[0] < MAPWIDTH - 1:
@@ -190,6 +204,7 @@ def mainloop():
                 mousepos = pygame.mouse.get_pos()
                 message_to_screen("PLAYER1 " + str(player1Pos),red,650,15)
                 message_to_screen("PLAYER2 " + str(player2Pos), blue, 650, 40)
+                message_to_screen("Mouse Cords " + str(mousecord), black, 625, 65)
                 # message_to_screen("player ships: " + str(player1.ships), red,10,10)
                 # message_to_screen("player ships: " + str(player2.ships), blue, 200, 10)
                 # message_to_screen("HP: " + str(player1.hp), red, 10, 30)
@@ -197,12 +212,8 @@ def mainloop():
 
 
                 pygame.display.update()
-
-
-
     clock.tick(FPS)
     pygame.quit()
-
 mainloop()
 ### end mainloop
 
