@@ -107,7 +107,6 @@ class Game:
             self.button(load_image('../images/menu_settings_hover.png'),load_image('../images/menu_settings.png'), 250, 300,
             self.settings_menu)
 
-
             self.button(load_image('../images/menu_play_hover.png'),load_image('../images/menu_play.png'),250,150,
             self.match_start)
 
@@ -125,6 +124,7 @@ class Game:
     def match_start(self):
         self.menu = False
         self.screen.fill((red))
+        pygame.display.update()
 
     # button function
     def button(self,img_a,img_i,x,y,action=None):
@@ -169,6 +169,7 @@ class Game:
 
 
 
+        pygame.display.update()
 
     ### settings menu
     def highscores(self):
