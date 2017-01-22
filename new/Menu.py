@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import pygame, sys
 
 pygame.init()
@@ -8,6 +6,9 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
+def load_image(filename: str) -> pygame.Surface:
+    surface = pygame.image.load(filename).convert()
+    return surface
 
 class MenuItem(pygame.font.Font):
     def __init__(self, text, font=None, font_size=30,
@@ -104,7 +105,7 @@ class GameMenu():
         self.items[self.cur_item].set_font_color(RED)
 
         # Finally check if Enter or Space is pressed
-        if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+        if key == pygame.K_SPACE or key == pygame.K_RETURN:
             text = self.items[self.cur_item].text
             mainloop = False
             self.funcs[text]()
@@ -143,6 +144,7 @@ class GameMenu():
 
             # Redraw the background
             self.screen.fill(self.bg_color)
+            screen.blit(menu_bg, (0, 0))
 
             for item in self.items:
                 if self.mouse_is_visible:
@@ -156,11 +158,14 @@ class GameMenu():
 if __name__ == "__main__":
     def hello_world():
         print("Hello World!")
+    def instructions():
+        print("Instructions")
 
     # Creating the screen
     screen = pygame.display.set_mode((640, 480), 0, 32)
+    menu_bg = load_image('../images/battleship.jpg')
 
-    funcs = {'Start': hello_world, 'Quit': sys.exit}
+    funcs = {'Start': hello_world, 'Instructions':instructions, 'Quit': sys.exit}
 
     pygame.display.set_caption('Game Menu')
     gm = GameMenu(screen, funcs.keys(), funcs)
