@@ -421,7 +421,7 @@ def mainloop():
                 # DISPLAYSURF.blit(img, (650 * TILESIZE, 400 * TILESIZE))
                 # print ("ship selected: " + str(ship_selected))
 
-                #
+
                 # ##DISPLAY CURRENT SELECTED SHIP
                 if img != None:
                     screen.blit(img, (650, 60))
