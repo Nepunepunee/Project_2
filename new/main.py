@@ -13,7 +13,7 @@ class program:
             elif self.currentscene == "Instructions":
                 print("in")
             elif self.currentscene == "Quit":
-                print("quit")
+                self.quitgame()
 
 
         # Update + draw opzet
