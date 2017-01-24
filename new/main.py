@@ -1,15 +1,28 @@
 import pygame
-import Menu.py
+import Menu
 
 class program:
     def __init__(self):
         self.currentscene = Menu
 
     def run(self):
-        while not x is pressed:
-            self.currentscene = self.currentscene.update()
-            self.currentscene.draw()
+        if self.currentscene.__name__ == "Menu":
+            self.currentscene = self.currentscene.gm.run()
+            if self.currentscene == "Start":
+                print("start")
+            elif self.currentscene == "Instructions":
+                print("in")
+            elif self.currentscene == "Quit":
+                print("quit")
+
+
+        # Update + draw opzet
+        # self.currentscene = self.currentscene.update()
+        # self.currentscene.draw()
 
     def quitgame(self):
         pygame.quit()
-    quit()
+        quit()
+
+start = program()
+start.run()
