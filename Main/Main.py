@@ -1,5 +1,6 @@
 import pygame
 import Menu
+import Game
 
 class program:
     def __init__(self):
@@ -9,9 +10,11 @@ class program:
         if self.currentscene.__name__ == "Menu":
             self.currentscene = self.currentscene.gm.run()
             if self.currentscene == "Start":
-                print("start")
+                self.currentscene = Game.mainloop()
             elif self.currentscene == "Instructions":
-                print("in")
+                print("instructions")
+            elif self.currentscene == "Highscore":
+                print("highscorelist")
             elif self.currentscene == "Quit":
                 self.quitgame()
 
