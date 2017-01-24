@@ -6,6 +6,10 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
+pygame.mixer.init()
+pygame.mixer.music.load("../sounds/menu_music.wav")
+pygame.mixer.music.play(-1)
+
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
     return surface
