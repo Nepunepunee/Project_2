@@ -2,9 +2,15 @@ import pygame, sys
 
 pygame.init()
 
+# Globals
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
+
+
+pygame.mixer.init()
+pygame.mixer.music.load("../sounds/menu_music.wav")
+pygame.mixer.music.play(-1)
 
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
@@ -43,7 +49,7 @@ class MenuItem(pygame.font.Font):
 
 
 class GameMenu():
-    def __init__(self, screen, items, funcs, bg_color=BLACK, font=None, font_size=30,
+    def __init__(self, screen, items, bg_color=BLACK, font=None, font_size=30,
                  font_color=WHITE):
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
@@ -52,9 +58,8 @@ class GameMenu():
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
         self.items = []
-        self.funcs = funcs
         for index, item in enumerate(items):
-            menu_item = MenuItem(item, font, font_size, font_color)  # , '/home/nebelhom/.fonts/SHOWG.TTF')
+            menu_item = MenuItem(item, font, font_size, font_color)
 
             # t_h: total height of text block
             t_h = len(items) * menu_item.height
@@ -134,7 +139,7 @@ class GameMenu():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     for item in self.items:
                         if item.is_mouse_selection(mpos[0], mpos[1]):
-                            self.funcs[item.text]()
+                            return item.text
 
             if pygame.mouse.get_rel() != (0, 0):
                 self.mouse_is_visible = True
@@ -154,19 +159,9 @@ class GameMenu():
 
             pygame.display.flip()
 
-
-if __name__ == "__main__":
-    def hello_world():
-        print("Hello World!")
-    def instructions():
-        print("Instructions")
-
-    # Creating the screen
-    screen = pygame.display.set_mode((640, 480), 0, 32)
-    menu_bg = load_image('../images/battleship.jpg')
-
-    funcs = {'Start': hello_world, 'Instructions':instructions, 'Quit': sys.exit}
-
-    pygame.display.set_caption('Game Menu')
-    gm = GameMenu(screen, funcs.keys(), funcs)
-    gm.run()
+# Creating the screen
+screen = pygame.display.set_mode((640, 480), 0, 32)
+menu_bg = load_image('../images/battleship.jpg')
+menu_items = ('Start', 'Instructions', 'Quit')
+pygame.display.set_caption('Game Menu')
+gm = GameMenu(screen, menu_items)
