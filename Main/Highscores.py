@@ -5,7 +5,11 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 
 id = "1234567891"
-screen = pygame.display.set_mode((930, 580), 0, 32)
+
+
+def load_image(filename: str) -> pygame.Surface:
+    surface = pygame.image.load(filename).convert()
+    return surface
 
 class Scoreitem:
     def __init__(self, name):
@@ -36,6 +40,8 @@ class Scoreboard:
         score_items = 0
         pos_x = 350
         pos_y = 80
+        self.screen.fill(self.bg)
+        screen.blit(menu_bg, (0, 0))
         while mainloop:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -48,12 +54,15 @@ class Scoreboard:
                     item.message_to_screen(item.name + "   -   " + str(item.score), WHITE, pos_x, pos_y)
 
                     print(len(self.items))
+
             pygame.display.flip()
 
 
+screen = pygame.display.set_mode((930, 580), 0, 32)
 pygame.display.set_caption('Game Menu')
+menu_bg = load_image('../images/battleship.jpg')
 start = Scoreboard(screen)
-start.run()
+#start.run()
 
 
 

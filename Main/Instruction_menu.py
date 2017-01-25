@@ -10,9 +10,9 @@ BLUE = (0, 0, 255)
 FONT_COLOR = (0, 0, 100)
 
 
-pygame.mixer.init()
-pygame.mixer.music.load("../sounds/menu_music.wav")
-pygame.mixer.music.play(-1)
+#pygame.mixer.init()
+#pygame.mixer.music.load("../sounds/menu_music.wav")
+#pygame.mixer.music.play(-1)
 
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
@@ -56,8 +56,7 @@ class GameMenu():
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
-
-
+        self.font = pygame.font.Font(None, 30)
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
         self.items = []
@@ -67,6 +66,7 @@ class GameMenu():
             # t_h: total height of text block
             t_h = len(items) * menu_item.height
             pos_x = (self.scr_width / 2) - (menu_item.width / 2)
+
             pos_y = (self.scr_height / 2) - (t_h / 2) + ((index * 2) + index * menu_item.height)
 
             menu_item.set_position(pos_x, pos_y)
@@ -152,10 +152,22 @@ class GameMenu():
             self.screen.fill(self.bg_color)
             screen.blit(menu_bg, (0, 0))
 
+
+
+
+            first = "Game instructions:"
+            pos_x = (self.scr_width / 2)
+            self.score_text = self.font.render(first, 1, (255, 255, 255))
+            self.screen.blit(self.score_text, (pos_x, 16))
+
+
+
+
             for item in self.items:
                 if self.mouse_is_visible:
                     mpos = pygame.mouse.get_pos()
                     self.set_mouse_selection(item, mpos)
+
                 self.screen.blit(item.label, item.position)
 
             pygame.display.flip()
@@ -163,6 +175,6 @@ class GameMenu():
 # Creating the screen
 screen = pygame.display.set_mode((930, 580), 0, 32)
 menu_bg = load_image('../images/battleship.jpg')
-menu_items = ('Start', 'Instructions', 'Highscore', 'Quit')
-pygame.display.set_caption('Game Menu')
+menu_items = ('Back','')
+pygame.display.set_caption('Instruction menu')
 gm = GameMenu(screen, menu_items)
