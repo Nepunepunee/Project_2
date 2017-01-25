@@ -7,6 +7,7 @@ pygame.init()
 
 
 
+
 ##Colors
 red = (255, 0, 0)
 green = (0, 255, 0)
@@ -19,10 +20,9 @@ white = (255, 255, 255)
 tilesize = 29
 mapwidth = 20
 mapheight = 20
-recources = [water] #a list of recources
 water = 2
 textures = {water : pygame.image.load(os.path.join('../images/wave.png'))}
-
+recources = [water] #a list of recources
 tilemap = [[water for w in range(mapwidth)] for h in range(mapheight)] #use list comprehension to create our tilemap
 displaysurf = pygame.display.set_mode((mapwidth*tilesize,mapheight*tilesize))
 
@@ -53,7 +53,6 @@ def load_image(filename: str) -> pygame.Surface:
 def message_to_screen(msg,color,posx,posy):
     screen_text = font.render(msg, True, color)
     screen.blit(screen_text, [posx,posy])
-
 
 def image_to_screen(img, posx, posy):
     screen_img = pygame.image.load(img).convert()
@@ -86,7 +85,6 @@ class Boat:
         self.defence = 0
         self.defencemode = False
         Boat.total_boats += 1
-        # print ("boat created at " + str(self.posX) + "," + str(self.posY))
 
     def get_posX(self):
         return self.posX()
@@ -100,12 +98,19 @@ class Boat:
         self.cord = X,Y
         self.posX = X
         self.posY = Y
+
     def get_cord_to_posX(self,cord):
         return cord[0]
     def get_cord_to_posY(self,cord):
         return cord[1]
 
-    ##OLD getter and setter code
+    def __del__(self):
+        pass
+    def attack(self):
+        if self.defencemode == True:
+            pass
+
+                ##OLD getter and setter experimental code
     # @property
     # def set_posX(self):
     #     return self.posX
@@ -122,13 +127,6 @@ class Boat:
     # def set_posY(self,value):
     #     self.posY = value
 
-
-    def __del__(self):
-        pass
-
-    def attack(self):
-        if self.defencemode == True:
-            pass
 
 
 class cordDict:
@@ -181,6 +179,12 @@ sprites_movement.add(movement_up)
 movement_tile = pygame.image.load(os.path.join("../images/movement_tile.png"))
 attack_tile = pygame.image.load(os.path.join("../images/attack_tile.png"))
 
+##interface buttons and art
+movement_down = pygame.image.load(os.path.join("../images/movement_down.png"))
+movement_left = pygame.image.load(os.path.join("../images/movement_left.png"))
+movement_right = pygame.image.load(os.path.join("../images/movement_right.png"))
+ship_selected_bg = pygame.image.load(os.path.join("../images/ship_selected_bg.png"))
+
 
 
 #CREATE BOATS
@@ -196,6 +200,7 @@ P2_Boat4 = Boat(6,4,3,pygame.image.load(os.path.join('../images/P2_ship_large.pn
 
 pygame.transform.flip(P2_Boat1.sprite,P2_Boat1.posX,P2_Boat1.posY)
 pygame.display.update()
+
 ## References for selecting the correct boats during selecting boats in mainloop
 P1_boat_cords = cordDict ({
     P1_Boat1 : P1_Boat1.cord,
@@ -203,27 +208,12 @@ P1_boat_cords = cordDict ({
     P1_Boat3 : P1_Boat3.cord,
     P1_Boat4 : P1_Boat4.cord
 })
-
 P2_boat_cords = cordDict({
     P2_Boat1 : P2_Boat1.cord,
     P2_Boat2 : P2_Boat2.cord,
     P2_Boat3 : P2_Boat3.cord,
     P2_Boat4 : P2_Boat4.cord
 })
-
-##OLD list style
-# P1_boat_cords = [
-#     P1_Boat1.cord,
-#     P1_Boat2.cord,
-#     P1_Boat3.cord,
-#     P1_Boat4.cord
-# ]
-# P2_boat_cords = [
-#     P2_Boat1.cord,
-#     P2_Boat2.cord,
-#     P2_Boat3.cord,
-#     P2_Boat4.cord
-# ]
 
 def mainloop():
     ship_selected = None
@@ -234,30 +224,23 @@ def mainloop():
     attack_tiles = []
     attack_mode = False
 
-    movement_down = pygame.image.load(os.path.join("../images/movement_down.png"))
-    movement_left = pygame.image.load(os.path.join("../images/movement_left.png"))
-    movement_right = pygame.image.load(os.path.join("../images/movement_right.png"))
-    ship_selected_bg = pygame.image.load(os.path.join("../images/ship_selected_bg.png"))
-
     while not gameExit:
 
         grid = False
         frame_times = []
         start_t = time.time()
+        print (attack_mode)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
                 gameExit = True
-            # calculate the cordinates of the mouse  ## not required code , only for debugging
-
-
-            # ACTIVATE FUNCTIONS BY CURRENT STATE CHECKER
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:  # ACTIVATE FUNCTIONS BY CURRENT STATE CHECKER
                 mousepos = getmousepos()
 
                 print (mousepos)
                 print (movement_tiles)
+
                 x, y = event.pos
                 if x == movement_up.width:
                 # if sprites_movement.image == (x, y):
@@ -270,49 +253,45 @@ def mainloop():
                     boat_active = selectedboat()
                 elif boat_active == {}:
                     boat_active = selectedboat()
-                # elif boat_active != {}:
-                #     del movement_tiles[:]
                 else:
                     moveboat()
 
 
-            def selectedboat():
-                global ship_selected_img
-                mousecord = getmousepos()
-                print ("mousecord: " + str(mousecord))
-                global ship_selected ## check if global ship_selected already contains a ship
-                local_ship_selected = None ## check if ship is selected within this function
-                for boat,cord in P1_boat_cords.dict.items():
-                    if cord == mousecord:
-                        ship_selected = True
+        def selectedboat():
+            global ship_selected_img
+            mousecord = getmousepos()
+            global ship_selected ## check if global ship_selected already contains a ship
+            local_ship_selected = None ## check if ship is selected within this function
+            for boat,cord in P1_boat_cords.dict.items():
+                if cord == mousecord:
+                    ship_selected = True
 
-                        ##OLD
-                        # new_boat = boat_active[boat] = boat.sprite
-                        # return new_boat
+                    ##OLD
+                    # new_boat = boat_active[boat] = boat.sprite
+                    # return new_boat
 
-                        new_boat = {boat: boat.sprite}
-                        return new_boat
+                    new_boat = {boat: boat.sprite}
+                    return new_boat
 
-                for boat,cord in P2_boat_cords.dict.items():
-                    if cord == mousecord:
-                        ship_selected = True
-                        new_boat = {boat: boat.sprite}
-                        return new_boat
+            for boat,cord in P2_boat_cords.dict.items():
+                if cord == mousecord:
+                    ship_selected = True
+                    new_boat = {boat: boat.sprite}
+                    return new_boat
 
-                if local_ship_selected == None:
-                    del movement_tiles[:]
-                    del attack_tiles[:]
-                    ship_selected_img = None
-                    return {}
+            if local_ship_selected == None:
+                del movement_tiles[:]
+                del attack_tiles[:]
+                ship_selected_img = None
+                return {}
 
 
-        print (attack_mode)
         if boat_active: ## if there is a ship selected.  give the img variable, the sprite of this ship (for render)
+            print ("boat is active")
             for boat,sprite in boat_active.items():
                 ship_selected_img = sprite
 
-                #SHOW AVAILABLE STEPS
-                boatcord = boat.cord
+                boatcord = boat.cord #SHOW AVAILABLE STEPS
                 if boat.length == 1:
                     movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+1]
                 elif boat.length == 2:
@@ -324,76 +303,69 @@ def mainloop():
                     movement_tiles.append(cord)
                     if len(movement_tiles) == len(movementrange):
                         break
-                    ## MEMORY LEAK
-                break
+                        ## MEMORY LEAK BUG, needs to stop appending when all tiles have been added to list
+        if not boat_active:
+            print ("boat active is false")
+            ship_selected_img = None
 
-        # else:
-        #     ship_selected_img = None
-
-
-
-            ## move fixed boat to the mouse cords
-            def moveboat():
-                global ship_selected_img
-                global attack_mode
-                attack_toggle = False
-                mousecord = getmousepos()
-                for boat,sprite in boat_active.items():
-                    if mousecord in movement_tiles:
-                        boat.set_position(mousecord[0], mousecord[1])
-                        attack_toggle = True
-                    elif mousecord[0] > mapwidth-1 or mousecord[0] < 0:
-                        break
-                    elif mousecord[1] > mapheight-1 or mousecord[1] < 0:
-                        del movement_tiles[:]
-                        break
-
-                    elif mousecord != boat.cord:
-                        ship_selected_img = None
-                        boat_active.clear()
-                        del movement_tiles[:]
-                        del attack_tiles[:]
-                        break
-
-                if attack_toggle == True:
+        def moveboat():  ## move fixed boat to the mouse cords
+            global ship_selected_img
+            global attack_mode
+            attack_toggle = False
+            mousecord = getmousepos()
+            for boat,sprite in boat_active.items():
+                if mousecord in movement_tiles:
+                    boat.set_position(mousecord[0], mousecord[1])
+                    attack_toggle = True
+                elif mousecord[0] > mapwidth-1 or mousecord[0] < 0:
+                    break
+                elif mousecord[1] > mapheight-1 or mousecord[1] < 0:
                     del movement_tiles[:]
-                    attackmode()
-                else:
-                    pass
-                # if len(str(boat_active)) > 0:
-                #     # ship_selected_img = None
-                #     boat_active.clear()
-                # else:
-                #     pass
+                    break
+                elif mousecord != boat.cord or mousecord not in movement_tiles:
+                    ship_selected_img = None
+                    boat_active.clear()
+                    del movement_tiles[:]
+                    del attack_tiles[:]
+                    break
 
-            def attackmode():
-                global attack
-                attack = True
+            if attack_toggle == True:
+                del movement_tiles[:]
+                attackmode()
+            else:
+                pass
+            # if len(str(boat_active)) > 0:
+            #     # ship_selected_img = None
+            #     boat_active.clear()
+            # else:
+            #     pass
 
-                for boat,sprite in boat_active.items():
+        def attackmode():
+            global attack
+            attack = True
+            for boat,sprite in boat_active.items():
 
-                    #SHOW AVAILABLE ATTACK TILES
-                    boatcord = boat.cord
-                    if boat.length == 1:
-                        attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
-                                      [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2], \
-                                      [boatcord[0], boatcord[1]+1], [boatcord[0], boatcord[1]+2]
-                    elif boat.length == 2:
-                        attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
-                                      [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2]
-                    elif boat.length == 3:
-                        attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
-                                      [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2]
+                boatcord = boat.cord #SHOW AVAILABLE ATTACK TILES
+                if boat.length == 1:
+                    attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
+                                  [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2], \
+                                  [boatcord[0], boatcord[1]+1], [boatcord[0], boatcord[1]+2]
+                elif boat.length == 2:
+                    attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
+                                  [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2]
+                elif boat.length == 3:
+                    attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
+                                  [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2]
 
-                    for tile in attackrange:
-                        attack_tiles.append(tile)
-                        if len(tile) == len(attackrange):
-                            break
-                # print (attack_tiles)
-                # if attack_tiles.get_rect().collidepoint(pygame.mouse.get_pos()):
-                #     print ("hovering over tiles")
+                for tile in attackrange:
+                    attack_tiles.append(tile)
+                    if len(tile) == len(attackrange):
+                        break
+            # print (attack_tiles)
+            # if attack_tiles.get_rect().collidepoint(pygame.mouse.get_pos()):
+            #     print ("hovering over tiles")
 
-
+        if grid == False:
             for rw in range(mapheight):
                 for cl in range(mapwidth):
                     randomnumber = random.randint(0, 15)
@@ -403,8 +375,7 @@ def mainloop():
                     screen.fill(white)
 
                 for row in range(mapheight):
-                    for column in range(mapwidth):
-                        # draw the resource at that position in the tilemap, using the correct image
+                    for column in range(mapwidth): ##DRAW GRID
                         displaysurf.blit(textures[tilemap[row][column]], (column * tilesize, row * tilesize))
 
                 # blit the boats at the correct position on the grid
@@ -482,8 +453,8 @@ def mainloop():
                 message_to_screen("PLAYER2 ships: " + str(P2_boat_cords.length), blue, 625, 270)
                 message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 300)
 
-                message_to_screen("Boat Selected:", black, 615,15)
-                message_to_screen(str(boat_active), black, 600, 160)
+
+                message_to_screen(str(boat_active), black, 620, 160)
                 message_to_screen("movement tiles:", black, 600, 330)
                 message_to_screen(str(movement_tiles),black,600,360)
 
