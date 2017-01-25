@@ -7,6 +7,7 @@ pygame.init()
 
 
 
+
 ##Colors
 red = (255, 0, 0)
 green = (0, 255, 0)
@@ -19,10 +20,9 @@ white = (255, 255, 255)
 tilesize = 29
 mapwidth = 20
 mapheight = 20
-recources = [water] #a list of recources
 water = 2
 textures = {water : pygame.image.load(os.path.join('../images/wave.png'))}
-
+recources = [water] #a list of recources
 tilemap = [[water for w in range(mapwidth)] for h in range(mapheight)] #use list comprehension to create our tilemap
 displaysurf = pygame.display.set_mode((mapwidth*tilesize,mapheight*tilesize))
 
@@ -53,7 +53,6 @@ def load_image(filename: str) -> pygame.Surface:
 def message_to_screen(msg,color,posx,posy):
     screen_text = font.render(msg, True, color)
     screen.blit(screen_text, [posx,posy])
-
 
 def image_to_screen(img, posx, posy):
     screen_img = pygame.image.load(img).convert()
@@ -86,7 +85,6 @@ class Boat:
         self.defence = 0
         self.defencemode = False
         Boat.total_boats += 1
-        # print ("boat created at " + str(self.posX) + "," + str(self.posY))
 
     def get_posX(self):
         return self.posX()
@@ -100,12 +98,19 @@ class Boat:
         self.cord = X,Y
         self.posX = X
         self.posY = Y
+
     def get_cord_to_posX(self,cord):
         return cord[0]
     def get_cord_to_posY(self,cord):
         return cord[1]
 
-    ##OLD getter and setter code
+    def __del__(self):
+        pass
+    def attack(self):
+        if self.defencemode == True:
+            pass
+
+                ##OLD getter and setter experimental code
     # @property
     # def set_posX(self):
     #     return self.posX
@@ -122,13 +127,6 @@ class Boat:
     # def set_posY(self,value):
     #     self.posY = value
 
-
-    def __del__(self):
-        pass
-
-    def attack(self):
-        if self.defencemode == True:
-            pass
 
 
 class cordDict:
@@ -393,7 +391,7 @@ def mainloop():
                 # if attack_tiles.get_rect().collidepoint(pygame.mouse.get_pos()):
                 #     print ("hovering over tiles")
 
-
+        if grid == False:
             for rw in range(mapheight):
                 for cl in range(mapwidth):
                     randomnumber = random.randint(0, 15)
