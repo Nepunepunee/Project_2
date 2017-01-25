@@ -54,8 +54,7 @@ class GameMenu():
     def __init__(self, screen, items, bg_color=BLACK, font=None, font_size=30,
                  font_color=FONT_COLOR):
         self.screen = screen
-        self.scr_width = self.screen.get_rect().width
-        self.scr_height = self.screen.get_rect().height
+
 
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
@@ -66,8 +65,6 @@ class GameMenu():
             # t_h: total height of text block
             t_h = len(items) * menu_item.height
             pos_x = (self.scr_width / 2) - (menu_item.width / 2)
-            # This line includes a bug fix by Ariel (Thanks!)
-            # Please check the comments section of pt. 2 for an explanation
             pos_y = (self.scr_height / 2) - (t_h / 2) + ((index * 2) + index * menu_item.height)
 
             menu_item.set_position(pos_x, pos_y)
