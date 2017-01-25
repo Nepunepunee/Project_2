@@ -40,7 +40,7 @@ size = (width, height)
 # Start PyGame
 pygame.init()
 # Program caption
-pygame.display.set_caption("Battleport V.0.0.1")
+pygame.display.set_caption("Battleport V.1.0.1")
 # Set the resolution
 screen = pygame.display.set_mode(size)
 # Set up the default font
@@ -282,13 +282,13 @@ P2_boat_cords = cordDict({
 def mainloop():
     ship_selected = None
     ship_selected_img = None
-    attack = False
+
 
     gameExit = False
     boat_active = {}
     movement_tiles = []
     attack_tiles = []
-
+    attack_mode = False
 
 
 
@@ -303,27 +303,37 @@ def mainloop():
         frame_times = []
         start_t = time.time()
 
-
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quitgame()
                 gameExit = True
             # calculate the cordinates of the mouse  ## not required code , only for debugging
-            if event.type == pygame.MOUSEMOTION:
+
+
+            # ACTIVATE FUNCTIONS BY CURRENT STATE CHECKER
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
                 mousepos = getmousepos()
 
-            # SELECT SHIP
-            if event.type == pygame.MOUSEBUTTONDOWN:
+
+
+                print (mousepos)
+                print (movement_tiles)
                 x, y = event.pos
                 if x == movement_up.width:
                 # if sprites_movement.image == (x, y):
                     print ("movement up pressed")
 
+                # elif mousepos not in attack_tiles:
+                #     print ("pos in movement tiles")
+                #     del attack_tiles[:]
+
                 elif boat_active == {} and ship_selected_img != None:
                     boat_active = selectedboat()
                 elif boat_active == {}:
                     boat_active = selectedboat()
+                # elif boat_active != {}:
+                #     del movement_tiles[:]
                 else:
                     moveboat()
 
@@ -362,9 +372,11 @@ def mainloop():
 
                 if local_ship_selected == None:
                     del movement_tiles[:]
+                    del attack_tiles[:]
                     ship_selected_img = None
                     return {}
 
+        print (attack_mode)
         if boat_active: ## if there is a ship selected.  give the img variable, the sprite of this ship (for render)
 
 
@@ -374,81 +386,86 @@ def mainloop():
                 #SHOW AVAILABLE STEPS
                 boatcord = boat.cord
                 if boat.length == 1:
-                    movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1]
+                    movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+1]
                 elif boat.length == 2:
-                    movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1]
+                    movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+2]
                 elif boat.length == 3:
-                    movementrange = [boatcord[0] + 1, boatcord[1]], [boatcord[0] - 1, boatcord[1]], [boatcord[0],boatcord[1] - 1]
+                    movementrange = [boatcord[0] + 1, boatcord[1]], [boatcord[0] - 1, boatcord[1]], [boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+3]
 
                 for cord in movementrange:
                     movement_tiles.append(cord)
-                    print (len(movement_tiles))
-
-                    ##BROKEN BREAK
-                    # if len(movement_tiles) > boat.length:
-                    #     break
-
-                # print (movement_tiles)
+                    if len(movement_tiles) == len(movementrange):
+                        break
+                    ## MEMORY LEAK
                 break
 
+        # else:
+        #     ship_selected_img = None
 
 
 
             ## move fixed boat to the mouse cords
             def moveboat():
                 global ship_selected_img
-
+                global attack_mode
+                attack_toggle = False
                 mousecord = getmousepos()
-
                 for boat,sprite in boat_active.items():
-                    # boat.set_posX = mousecord[0]
-                    # boat.set_posY = mousecord[1]
-                    # boat.cord = (mousecord[0],mousecord[1])
-
-
-                    print (mousecord)
-                    print (movement_tiles)
-
-
                     if mousecord in movement_tiles:
                         boat.set_position(mousecord[0], mousecord[1])
-                        attackmode()
-
+                        attack_toggle = True
                     elif mousecord[0] > MAPWIDTH-1 or mousecord[0] < 0:
                         break
                     elif mousecord[1] > MAPHEIGHT-1 or mousecord[1] < 0:
-                        break
-                    elif mousecord != boat.cord:
-                        boat_active.clear()
                         del movement_tiles[:]
                         break
 
-                        # P1_boat_cords.setcord({boat: mousecord})
-                        # P1_boat_cords.setcord(mousecord)
-                        # P2_boat_cords.update(mousecord[0],mousecord[1])
-                        ship_selected_img = sprite
-                if len(str(boat_active)) > 0:
-                    ship_selected_img = None
-                    boat_active.clear()
+                    elif mousecord != boat.cord:
+                        ship_selected_img = None
+                        boat_active.clear()
+                        del movement_tiles[:]
+                        del attack_tiles[:]
+                        break
+
+                if attack_toggle == True:
+                    del movement_tiles[:]
+                    attackmode()
                 else:
                     pass
-
+                # if len(str(boat_active)) > 0:
+                #     # ship_selected_img = None
+                #     boat_active.clear()
+                # else:
+                #     pass
 
             def attackmode():
-                print ("attack mode activated")
+                global attack
+                attack = True
+
                 for boat,sprite in boat_active.items():
 
                     #SHOW AVAILABLE ATTACK TILES
                     boatcord = boat.cord
                     if boat.length == 1:
-                        attackrange = [boatcord[0]+2,boatcord[1]],[boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-2]
+                        attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
+                                      [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2], \
+                                      [boatcord[0], boatcord[1]+1], [boatcord[0], boatcord[1]+2]
                     elif boat.length == 2:
-                        attackrange = [boatcord[0]+2,boatcord[1]],[boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-2]
+                        attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
+                                      [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2]
                     elif boat.length == 3:
-                        attackrange = [boatcord[0] + 2, boatcord[1]], [boatcord[0] - 2, boatcord[1]], [boatcord[0],boatcord[1] - 2]
+                        attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
+                                      [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2]
 
                     for tile in attackrange:
                         attack_tiles.append(tile)
+                        if len(tile) == len(attackrange):
+                            break
+
+
+                # print (attack_tiles)
+                # if attack_tiles.get_rect().collidepoint(pygame.mouse.get_pos()):
+                #     print ("hovering over tiles")
 
 
 
@@ -523,7 +540,7 @@ def mainloop():
 
 
                 ## DRAW ACTIVE STUFF NEEDS REWORK
-                if boat_active:
+                if len(boat_active) > 0:
                     for tile in movement_tiles:
                         cord = getpixelcord(tile[0],tile[1])
                         screen.blit(movement_tile,(cord[0],cord[1]))
@@ -531,7 +548,8 @@ def mainloop():
                     del movement_tiles[:]
 
 
-                if attack_tiles:
+
+                if len(attack_tiles) > 0:
                     for tile in attack_tiles:
                         cord = getpixelcord(tile[0], tile[1])
                         screen.blit(attack_tile, (cord[0], cord[1]))
