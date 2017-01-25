@@ -32,3 +32,6 @@ class database:
 
     def update_score(self, name, score):
         self.database_command("UPDATE score SET Score={} WHERE Name={}".format(score, name))
+
+    def restore_game(self):
+        self.database_command("SELECT * FROM state")
