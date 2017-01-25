@@ -1,6 +1,8 @@
 import pygame
 import Menu
 import Game
+import Instruction_menu
+import Highscores
 
 class program:
     def __init__(self):
@@ -12,11 +14,14 @@ class program:
             if self.currentscene == "Start":
                 self.currentscene = Game.mainloop()
             elif self.currentscene == "Instructions":
-                print("instructions")
+                self.currentscene = Instruction_menu.gm.run()
             elif self.currentscene == "Highscore":
-                print("highscorelist")
+                self.currentscene = Highscores.start.run()
             elif self.currentscene == "Quit":
                 self.quitgame()
+        if self.currentscene == "Back":
+            self.currentscene = Menu
+        self.run()
 
 
         # Update + draw opzet
