@@ -6,6 +6,8 @@ pygame.init()
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+FONT_COLOR = (0, 0, 100)
 
 
 pygame.mixer.init()
@@ -17,8 +19,8 @@ def load_image(filename: str) -> pygame.Surface:
     return surface
 
 class MenuItem(pygame.font.Font):
-    def __init__(self, text, font=None, font_size=30,
-                 font_color=WHITE, pos_x=0, pos_y=0):
+    def __init__(self, text, font=None, font_size=10,
+                 font_color=FONT_COLOR, pos_x=0, pos_y=0):
         pygame.font.Font.__init__(self, font, font_size)
         self.text = text
         self.font_size = font_size
@@ -50,22 +52,19 @@ class MenuItem(pygame.font.Font):
 
 class GameMenu():
     def __init__(self, screen, items, bg_color=BLACK, font=None, font_size=30,
-                 font_color=WHITE):
+                 font_color=FONT_COLOR):
         self.screen = screen
-        self.scr_width = self.screen.get_rect().width
-        self.scr_height = self.screen.get_rect().height
+
 
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
         self.items = []
         for index, item in enumerate(items):
-            menu_item = MenuItem(item, font, font_size, font_color)
+            menu_item = MenuItem(item, font, 38, FONT_COLOR)
 
             # t_h: total height of text block
             t_h = len(items) * menu_item.height
             pos_x = (self.scr_width / 2) - (menu_item.width / 2)
-            # This line includes a bug fix by Ariel (Thanks!)
-            # Please check the comments section of pt. 2 for an explanation
             pos_y = (self.scr_height / 2) - (t_h / 2) + ((index * 2) + index * menu_item.height)
 
             menu_item.set_position(pos_x, pos_y)
@@ -87,7 +86,7 @@ class GameMenu():
         for item in self.items:
             # Return all to neutral
             item.set_italic(False)
-            item.set_font_color(WHITE)
+            item.set_font_color(FONT_COLOR)
 
         if self.cur_item is None:
             self.cur_item = 0
@@ -107,7 +106,7 @@ class GameMenu():
                 self.cur_item = 0
 
         self.items[self.cur_item].set_italic(True)
-        self.items[self.cur_item].set_font_color(RED)
+        self.items[self.cur_item].set_font_color(BLUE)
 
         # Finally check if Enter or Space is pressed
         if key == pygame.K_SPACE or key == pygame.K_RETURN:
@@ -118,10 +117,10 @@ class GameMenu():
     def set_mouse_selection(self, item, mpos):
         """Marks the MenuItem the mouse cursor hovers on."""
         if item.is_mouse_selection(mpos[0],mpos[1]):
-            item.set_font_color(RED)
+            item.set_font_color(BLUE)
             item.set_italic(True)
         else:
-            item.set_font_color(WHITE)
+            item.set_font_color(FONT_COLOR)
             item.set_italic(False)
 
     def run(self):
@@ -160,8 +159,8 @@ class GameMenu():
             pygame.display.flip()
 
 # Creating the screen
-screen = pygame.display.set_mode((640, 480), 0, 32)
+screen = pygame.display.set_mode((930, 580), 0, 32)
 menu_bg = load_image('../images/battleship.jpg')
-menu_items = ('Start', 'Instructions', 'Quit')
+menu_items = ('Start', 'Instructions', 'Highscore', 'Quit')
 pygame.display.set_caption('Game Menu')
 gm = GameMenu(screen, menu_items)
