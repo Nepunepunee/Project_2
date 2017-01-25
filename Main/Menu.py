@@ -54,6 +54,8 @@ class GameMenu():
     def __init__(self, screen, items, bg_color=BLACK, font=None, font_size=30,
                  font_color=FONT_COLOR):
         self.screen = screen
+        self.scr_width = self.screen.get_rect().width
+        self.scr_height = self.screen.get_rect().height
 
 
         self.bg_color = bg_color
