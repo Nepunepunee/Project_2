@@ -2,6 +2,7 @@ import pygame
 import Menu
 import Game
 import Instruction_menu
+import Pausemenu
 import Highscores
 
 class program:
@@ -20,6 +21,13 @@ class program:
             elif self.currentscene == "Quit":
                 self.quitgame()
         if self.currentscene == "Back":
+            self.currentscene = Menu
+        if self.currentscene == "pause":
+            self.safestate = self.currentscene
+            self.currentscene = Pausemenu.gm.run()
+        if self.currentscene == "Resume":
+            self.currentscene = Game.mainloop()
+        if self.currentscene == "Main menu":
             self.currentscene = Menu
         self.run()
 
