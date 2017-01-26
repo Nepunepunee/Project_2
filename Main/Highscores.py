@@ -1,4 +1,5 @@
 import pygame, sys
+from Database import *
 
 pygame.init()
 
@@ -87,12 +88,13 @@ class GameMenu():
             menu_item.set_position(pos_x, pos_y)
             self.items.append(menu_item)
 
-        for score_item in id:
-            entity = Scoreitem("naam uit DB")
+        self.scorelist = Get_top()
+        for row in self.scorelist:
             score_th = len(self.score_items) * entity.height + 150
             score_pos_y = len(score_item) + score_th
             entity.posy = score_pos_y
-            self.score_items.append(entity)
+            entity = Scoreitem(row[1],row[2])
+            self.items.append(entity)
 
 
         self.mouse_is_visible = True
@@ -192,4 +194,4 @@ menu_bg = load_image('../images/battleship.jpg')
 menu_items = ('Back', '')
 pygame.display.set_caption('Game Menu')
 gm = GameMenu(screen, menu_items)
-gm.run()
+#gm.run()
