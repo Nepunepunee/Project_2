@@ -6,7 +6,6 @@ from Database import *
 pygame.init()
 
 
-
 ##Colors
 red = (255, 0, 0)
 green = (0, 255, 0)
@@ -20,9 +19,9 @@ tilesize = 29
 mapwidth = 20
 mapheight = 20
 water = 2
-BLOCK = 6
+block = 6
 textures = {water : pygame.image.load(os.path.join('../images/wave.png')),
-            BLOCK: pygame.image.load(os.path.join('../images/invblock1.png'))}
+            block: pygame.image.load(os.path.join('../images/invblock1.png'))}
 
 ###NEWCODE###
 inv = [0,0,0,0,0,0,0]
@@ -51,12 +50,10 @@ SMOKESCREEN = 27
 SONAR = 28
 
 
-
 class card:
     def __init__(self,turndeck,img):
         self.turndeck = turndeck
         self.img = img
-
 
 ADRENALINERUSH = card('ADRENALINERUSH',pygame.image.load(os.path.join("../images/adrenalinerush.png")))
 ADVANCEDRIFLING = card('ADVANCEDRIFLING',pygame.image.load(os.path.join("../images/advancedrifling.png")))
@@ -90,7 +87,7 @@ recources = [water] #a list of recources
 tilemap = [[water for w in range(mapwidth)] for h in range(mapheight)] #use list comprehension to create our tilemap
 displaysurf = pygame.display.set_mode((mapwidth*tilesize,mapheight*tilesize))
 
-#Setup
+#GAME SETUP
 width = (mapwidth * tilesize) + (350)
 height = (mapheight * tilesize)
 menu = True
@@ -105,6 +102,7 @@ FPS = 60
 clock = pygame.time.Clock()
 clock.tick(FPS)
 
+##GLOBAL FUNCTIONS
 def quitgame():
     pygame.quit()
     quit()
@@ -177,7 +175,7 @@ class Boat:
         if self.defencemode == True:
             pass
 
-                ##OLD getter and setter experimental code
+                ##OLD getter and setter experimental code (maybe need this)
     # @property
     # def set_posX(self):
     #     return self.posX
@@ -286,7 +284,6 @@ P2_boat_cords = cordDict({
 })
 
 def mainloop():
-    ship_selected = False
     ship_selected_img = None
     attack_mode = False
     tiles_render = False
@@ -326,28 +323,23 @@ def mainloop():
 
         def selectedboat():
             global ship_selected_img
-            global tiles_render
-            global tiles_render
-            global ship_selected
-            local_ship_selected = None ## check if ship is selected within this function
+            ship_selected = False ## check if ship is selected within this function
             mousecord = getmousepos()
             for boat,cord in P1_boat_cords.dict.items():
                 print ("boatcord 1 ",cord[0:1])
                 print ("boatcord 2 ",cord[1:2])
                 if mousecord in cord[0:1] or mousecord in cord[1:2]:
                     ship_selected = True
-                    local_ship_selected = True
                     new_boat = {boat: boat.sprite}
                     return new_boat
 
             for boat,cord in P2_boat_cords.dict.items():
                 if mousecord in cord[0:1] or mousecord in cord[1:2]:
                     ship_selected = True
-                    local_ship_selected = True
                     new_boat = {boat: boat.sprite}
                     return new_boat
 
-            if local_ship_selected == None:
+            if not ship_selected:
                 del movement_tiles[:]
                 del attack_tiles[:]
                 ship_selected_img = None
@@ -399,17 +391,11 @@ def mainloop():
                     del attack_tiles[:]
                     tiles_render = False
                     break
-
             if attack_toggle == True:
                 del movement_tiles[:]
                 attackmode()
             else:
                 pass
-            # if len(str(boat_active)) > 0:
-            #     # ship_selected_img = None
-            #     boat_active.clear()
-            # else:
-            #     pass
 
 
         def attackmode():
@@ -467,25 +453,34 @@ def mainloop():
                 sprites_movement.draw(screen)
                 sprites_movement.update()
 
+                ###DRAW INTERFACE ELEMENTS
+                boat_bg = pygame.draw.rect(screen, red, [550, 600, 20, 20])
+                displaysurf.blit(ship_selected_bg, (600, 10))
+                # displaysurf.blit(movement_up.image), (800 , 25)
+                displaysurf.blit(movement_left, (750, 75))
+                displaysurf.blit(movement_right, (850, 75))
+                displaysurf.blit(movement_down, (800, 125))
+
                 ##DRAW CARD SLOTS (PLAYER1)
-                displaysurf.blit(textures[BLOCK], (620, 430))
-                displaysurf.blit(textures[BLOCK], (660, 430))
-                displaysurf.blit(textures[BLOCK], (700, 430))
-                displaysurf.blit(textures[BLOCK], (740, 430))
-                displaysurf.blit(textures[BLOCK], (780, 430))
-                displaysurf.blit(textures[BLOCK], (820, 430))
-                displaysurf.blit(textures[BLOCK], (860, 430))
+                displaysurf.blit(textures[block], (620, 430))
+                displaysurf.blit(textures[block], (660, 430))
+                displaysurf.blit(textures[block], (700, 430))
+                displaysurf.blit(textures[block], (740, 430))
+                displaysurf.blit(textures[block], (780, 430))
+                displaysurf.blit(textures[block], (820, 430))
+                displaysurf.blit(textures[block], (860, 430))
 
                 ##DRAW CARD SLOTS (PLAYER2)
-                displaysurf.blit(textures[BLOCK], (620, 500))
-                displaysurf.blit(textures[BLOCK], (660, 500))
-                displaysurf.blit(textures[BLOCK], (700, 500))
-                displaysurf.blit(textures[BLOCK], (740, 500))
-                displaysurf.blit(textures[BLOCK], (780, 500))
-                displaysurf.blit(textures[BLOCK], (820, 500))
-                displaysurf.blit(textures[BLOCK], (860, 500))
+                displaysurf.blit(textures[block], (620, 500))
+                displaysurf.blit(textures[block], (660, 500))
+                displaysurf.blit(textures[block], (700, 500))
+                displaysurf.blit(textures[block], (740, 500))
+                displaysurf.blit(textures[block], (780, 500))
+                displaysurf.blit(textures[block], (820, 500))
+                displaysurf.blit(textures[block], (860, 500))
 
-                ## DRAW ACTIVE STUFF NEEDS REWORK (Make function)
+
+                ## DRAW ACTIVE STUFF NEEDS REWORK (ALL DRAW STUFF)
                 if len(movement_tiles) > 0:
                     for tile in movement_tiles:
                         cord = getpixelcord(tile[0],tile[1])
@@ -501,60 +496,24 @@ def mainloop():
                     del attack_tiles[:]
 
 
-                ##DRAW INVENTORY ITEMS
-                # if inventory_full == True:
+                # ##DISPLAY CURRENT SELECTED SHIP
+                if ship_selected_img != None:
+                    screen.blit(ship_selected_img, (650, 60))
+
+                ##DRAW P1 INVENTORY ITEMS
                 P1_box_x_pos = 620
                 for i in P1_carddraw:
                     displaysurf.blit(i.img, (P1_box_x_pos, 430))
                     P1_box_x_pos += 40
 
+                ##DRAW P1 INVENTORY ITEMS
                 P2_box_x_pos = 620
                 for i in P2_carddraw:
                     displaysurf.blit(i.img, (P2_box_x_pos, 500))
                     P2_box_x_pos += 40
 
 
-
-
-
-
-                ###DRAW INTERFACE ELEMENTS
-                boat_bg = pygame.draw.rect(screen, red, [550, 600, 20, 20])
-                displaysurf.blit(ship_selected_bg, (600, 10))
-                # displaysurf.blit(movement_up.image), (800 , 25)
-                displaysurf.blit(movement_left, (750, 75))
-                displaysurf.blit(movement_right, (850, 75))
-                displaysurf.blit(movement_down, (800, 125))
-
-
-
-
-
-
-                ###NEWCODE###
-                blockycord = 430
-                blockxcord = 620
-
-
-                # for j in ply:
-                #     for i in inv:
-                # if len(carddraw) > 0:
-                #     for i in carddraw:
-
-
-
-
-
-
-                    #     xcord += 33
-                    # xcord = 620
-                    # ycord += 70
-
-                ###NEWCODE###
-                xcord = 620
-                ycord = 430
-                cnt1 = 1
-
+                ##FILL P1 INVENTORY
                 while len(P1_carddraw) < 7:
                     P1_carddraw += [random.choice(turndeck)]
                     print (len(P1_carddraw))
@@ -565,7 +524,7 @@ def mainloop():
                         else:
                             P1_inventory_full = False
 
-
+                ##FILL P1 INVENTORY
                 while len(P2_carddraw) < 7:
                     P2_carddraw += [random.choice(turndeck)]
                     print (len(P2_carddraw))
@@ -578,35 +537,8 @@ def mainloop():
 
 
 
-
-                                        # cnt2 = 1
-                #         ycord = 500
-                #         xcord = 620
-
-                # while cnt2 <= 7:
-                #     F = random.choice(turndeck)
-                #     displaysurf.blit(cardtextures[F], (xcord, ycord))
-                #     xcord += 33
-                #     cnt2 += 1
-
-
-                    ## GET SELECTED BOAT IMAGE
-                # if len(str(boat_active)) > 2:
-                #     global img
-                #     k, v = boat_active.items()
-                #     img = v
-                # displaysurf.blit(img, (650 * TILESIZE, 400 * TILESIZE))
-                # print ("ship selected: " + str(ship_selected))
-
-
-                # ##DISPLAY CURRENT SELECTED SHIP
-                if ship_selected_img != None:
-                    screen.blit(ship_selected_img, (650, 60))
-
-
-                # screen writings
+                # start of screen writings
                 mousepos = pygame.mouse.get_pos()
-
 
                 ## FPS COUNTER
                 end_t = time.time()
@@ -623,21 +555,12 @@ def mainloop():
                 message_to_screen("PLAYER2 ships: " + str(P2_boat_cords.length), blue, 625, 270)
                 message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 300)
 
-
                 message_to_screen(str(boat_active), black, 620, 160)
                 message_to_screen("movement tiles:", black, 600, 330)
                 message_to_screen(str(movement_tiles),black,600,360)
 
-
-                #NEWCODE#
                 message_to_screen("PLAYER1: " , red, 620, 410)
                 message_to_screen("PLAYER2: " , blue, 620, 480)
-
-                # message_to_screen("P2 boat1 cord: " + (str(P2_Boat1.cord), green, 615, 450))
-                # message_to_screen("player ships: " + str(player1.ships), red,10,10)
-                # message_to_screen("player ships: " + str(player2.ships), blue, 200, 10)
-                # message_to_screen("HP: " + str(player1.hp), red, 10, 30)
-                # message_to_screen("HP: " + str(player2.hp), blue, 200, 30)
 
                 pygame.display.flip()
     clock.tick(FPS)
