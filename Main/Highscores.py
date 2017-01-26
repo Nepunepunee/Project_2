@@ -1,5 +1,6 @@
 import pygame, sys
 pygame.init()
+from Database import *
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -28,6 +29,11 @@ class Scoreboard:
         self.bg = BLACK
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
+
+
+        #self.scorelist = Get_top()
+        # for row in self.scorelist:
+        #     self.items.append(self.scorelist[row])
 
         for item in id:
             # pos_x = (self.scr_width / 2) - (menu_item.width / 2)
