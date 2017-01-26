@@ -52,9 +52,9 @@ class MenuItem(pygame.font.Font):
         return False
 
 class Scoreitem:
-    def __init__(self, name):
+    def __init__(self, name, score):
         self.font = pygame.font.Font(None, 40)
-        self.score = 0
+        self.score = score
         self.name = name
         self.posy = 150
         self.screen_text = self.font.render(self.name, True, WHITE)
@@ -90,7 +90,7 @@ class GameMenu():
 
         self.scorelist = Get_top()
         for score_item in self.scorelist:
-            entity = Scoreitem(row[1],row[2])
+            entity = Scoreitem(score_item[1],score_item[2])
             score_th = len(self.score_items) * entity.height + 150
             score_pos_y = len(score_item) + score_th
             entity.posy = score_pos_y
@@ -194,4 +194,4 @@ menu_bg = load_image('../images/battleship.jpg')
 menu_items = ('Back', '')
 pygame.display.set_caption('Game Menu')
 gm = GameMenu(screen, menu_items)
-gm.run()
+# gm.run()

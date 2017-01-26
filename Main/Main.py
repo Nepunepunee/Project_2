@@ -17,7 +17,7 @@ class program:
             elif self.currentscene == "Instructions":
                 self.currentscene = Instruction_menu.gm.run()
             elif self.currentscene == "Highscore":
-                self.currentscene = Highscores.start.run()
+                self.currentscene = Highscores.gm.run()
             elif self.currentscene == "Quit":
                 self.quitgame()
         if self.currentscene == "Back":
