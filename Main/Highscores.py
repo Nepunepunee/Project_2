@@ -13,9 +13,9 @@ def load_image(filename: str) -> pygame.Surface:
     return surface
 
 class Scoreitem:
-    def __init__(self, name):
+    def __init__(self, name,score):
         self.font = pygame.font.Font(None, 40)
-        self.score = 0
+        self.score = score
         self.name = name
 
     def message_to_screen(self, msg, color, posx, posy):
@@ -33,7 +33,7 @@ class Scoreboard:
 
         self.scorelist = Get_top()
         for row in self.scorelist:
-            entity = Scoreitem(row[1])
+            entity = Scoreitem(row[1],row[2])
             self.items.append(entity)
 
 
