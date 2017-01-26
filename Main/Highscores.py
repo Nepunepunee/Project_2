@@ -31,14 +31,16 @@ class Scoreboard:
         self.scr_height = self.screen.get_rect().height
 
 
-        #self.scorelist = Get_top()
-        # for row in self.scorelist:
-        #     self.items.append(self.scorelist[row])
-
-        for item in id:
-            # pos_x = (self.scr_width / 2) - (menu_item.width / 2)
-            entity = Scoreitem("naam uit DB")
+        self.scorelist = Get_top()
+        for row in self.scorelist:
+            entity = Scoreitem(row[1])
             self.items.append(entity)
+
+
+        # for item in id:
+        #     # pos_x = (self.scr_width / 2) - (menu_item.width / 2)
+        #     entity = Scoreitem("naam uit DB")
+        #     self.items.append(entity)
 
 
     def run(self):
