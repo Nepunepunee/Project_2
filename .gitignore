@@ -9,3 +9,5 @@ Main/__pycache__/Database.cpython-35.pyc
 *.xml
 Main/.idea/misc.xml
 *.xml
+*.iml
+*.pyc
