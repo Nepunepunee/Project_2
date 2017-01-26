@@ -10,7 +10,6 @@ BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 FONT_COLOR = (0, 0, 100)
 
-id = "1234567890"
 
 pygame.mixer.init()
 pygame.mixer.music.load("../sounds/menu_music.wav")
