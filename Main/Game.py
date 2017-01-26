@@ -539,7 +539,7 @@ def mainloop():
 
                 # start of screen writings
                 mousepos = pygame.mouse.get_pos()
-
+                #######
                 ## FPS COUNTER
                 end_t = time.time()
                 time_taken = end_t - start_t
