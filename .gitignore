@@ -23,3 +23,7 @@ Main/__pycache__/Database.cpython-35.pyc
 *.pyc
 *.xml
 *.xml
+Main/Game.py
+*.pyc
+*.pyc
+*.xml
