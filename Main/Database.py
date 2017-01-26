@@ -1,7 +1,7 @@
 import psycopg2
 
 def database_command(command):
-    connection = psycopg2.connect("dbname='Game' user='dbuser' host='localhost' password='dbpass'")
+    connection = psycopg2.connect("dbname='game' user='postgres' host='localhost' password='haoran123'")
     cursor = connection.cursor()
 
     cursor.execute(command)
