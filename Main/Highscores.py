@@ -89,12 +89,12 @@ class GameMenu():
             self.items.append(menu_item)
 
         self.scorelist = Get_top()
-        for row in self.scorelist:
+        for score_item in self.scorelist:
+            entity = Scoreitem(row[1],row[2])
             score_th = len(self.score_items) * entity.height + 150
             score_pos_y = len(score_item) + score_th
             entity.posy = score_pos_y
-            entity = Scoreitem(row[1],row[2])
-            self.items.append(entity)
+            self.score_items.append(entity)
 
 
         self.mouse_is_visible = True
@@ -194,4 +194,4 @@ menu_bg = load_image('../images/battleship.jpg')
 menu_items = ('Back', '')
 pygame.display.set_caption('Game Menu')
 gm = GameMenu(screen, menu_items)
-#gm.run()
+gm.run()
