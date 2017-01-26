@@ -1,5 +1,6 @@
 import pygame, sys
 pygame.init()
+from Database import *
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -12,9 +13,9 @@ def load_image(filename: str) -> pygame.Surface:
     return surface
 
 class Scoreitem:
-    def __init__(self, name):
+    def __init__(self, name,score):
         self.font = pygame.font.Font(None, 40)
-        self.score = 0
+        self.score = score
         self.name = name
 
     def message_to_screen(self, msg, color, posx, posy):
@@ -29,10 +30,17 @@ class Scoreboard:
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
 
-        for item in id:
-            # pos_x = (self.scr_width / 2) - (menu_item.width / 2)
-            entity = Scoreitem("naam uit DB")
+
+        self.scorelist = Get_top()
+        for row in self.scorelist:
+            entity = Scoreitem(row[1],row[2])
             self.items.append(entity)
+
+
+        # for item in id:
+        #     # pos_x = (self.scr_width / 2) - (menu_item.width / 2)
+        #     entity = Scoreitem("naam uit DB")
+        #     self.items.append(entity)
 
 
     def run(self):
