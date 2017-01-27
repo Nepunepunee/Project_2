@@ -566,13 +566,13 @@ def mainloop():
     clock.tick(FPS)
     pygame.quit()
 
-#     game = Game()
-#     game()
-# mainloop()
-# ### end mainloop
-#
-# ##check if mainloop has been paused
-# print (mainloop())
+    game = Game()
+    game()
+mainloop()
+### end mainloop
+
+##check if mainloop has been paused
+print (mainloop())
 
 
 
