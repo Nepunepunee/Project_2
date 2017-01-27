@@ -1,7 +1,10 @@
 import psycopg2
+from Db_pass import *
+password = get_pass()
+
 
 def database_command(command):
-    connection = psycopg2.connect("dbname='game' user='postgres' host='localhost' password='haoran123'")
+    connection = psycopg2.connect("dbname='game' user='postgres' host='localhost' password='"+password+"'")
     cursor = connection.cursor()
 
     cursor.execute(command)
@@ -23,7 +26,7 @@ def database_command(command):
     #
 def insert_new_score(name, score):
     database_command("INSERT INTO score VALUES({}, {})".format(name, score))
-    #eh
+    #
     # ## def save_state(self, state,x1,y1,x2,y2,):#needs more vars since this saves every single variable from the current game
     #
 def get_player(name):
