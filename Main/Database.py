@@ -23,7 +23,7 @@ def database_command(command):
     #
 def insert_new_score(name, score):
     database_command("INSERT INTO score VALUES({}, {})".format(name, score))
-    #
+    #eh
     # ## def save_state(self, state,x1,y1,x2,y2,):#needs more vars since this saves every single variable from the current game
     #
 def get_player(name):
