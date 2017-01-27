@@ -134,6 +134,12 @@ def getpixelcord(pX,pY):
     cord = cord_x, cord_y
     return cord
 
+class Player:
+    boats = 4
+    def __init__(self):
+        self.boats = Player.boats
+
+
 class Boat:
     health = 100
     total_boats = 0
@@ -221,27 +227,33 @@ class cordDict:
 
 
 class sprite(pygame.sprite.Sprite):
-    def __init__(self,image,width,height):
+    def __init__(self,image,rectx,recty,width,height):
         super().__init__()
         # pygame.sprite.Sprite.__init__(self)
+        self.image = image
         self.width = width
         self.height = height
-        self.image = image
         self.rect = self.image.get_rect(); #here rect is created
+        self.rect.x = rectx
+        self.rect.y = recty
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+## Sprite GROUPS
+movement_up = sprite(pygame.image.load(os.path.join('../images/movement_up.png')).convert_alpha(),660,25,30,30)
+movement_left = sprite(pygame.image.load(os.path.join('../images/movement_left.png')).convert_alpha(),625,60,30,30)
+movement_right = sprite(pygame.image.load(os.path.join('../images/movement_right.png')).convert_alpha(),695,60,30,30)
+movement_down = sprite(pygame.image.load(os.path.join('../images/movement_down.png')).convert_alpha(),660,95,30,30)
 
-## Sprite groups experimental code
-# movement_up = sprite(pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha(),40,40)
-# movement_up.rect.x = 650
-# movement_up.rect.y = 30
-#
-# # movement_up.image = (os.path.join('../images/P1_ship_small.png'))
-# sprites_movement = pygame.sprite.Group() ## MOVEMENT INTERFACE
-# sprites_movement.add(movement_up)
-# # movement_up = pygame.sprite.Sprite()
+sprites_1 = pygame.sprite.Group() ## MOVEMENT INTERFACE
+sprites_1.add(movement_up,movement_left,movement_right,movement_down)
+
+
+
+# movement_up = pygame.sprite.Sprite()
+# arrowsprite.rect.x = 650
+# arrowsprite.rect.y = 30
 
 ##CREATE DIFFERENT TILES
 movement_tile = pygame.image.load(os.path.join("../images/movement_tile.png"))
@@ -290,6 +302,7 @@ def mainloop():
     attack_mode = False
     tiles_render = False
     gameExit = False
+    mousemotion = False
     boat_active = []
     movement_tiles = []
     attack_tiles = []
@@ -301,13 +314,15 @@ def mainloop():
 
 
     while not gameExit:
+        global mousemotion
         grid = False
 
         ## FPS counter
         frame_times = []
         start_t = time.time()
-
         for event in pygame.event.get(): ##STATE CHECK
+            if event.type == pygame.MOUSEMOTION:
+                mousemotion = True
             if event.type == pygame.QUIT:
                 quitgame()
                 gameExit = True
@@ -320,6 +335,8 @@ def mainloop():
                     boat_active = selectedboat()
                 elif boat_active == []:
                     boat_active = selectedboat()
+                # elif movement_up.collidepoint():
+                #     print ("pressed on sprites")
                 else:
                     moveboat()
 
@@ -328,8 +345,8 @@ def mainloop():
             ship_selected = False ## check if ship is selected within this function
             mousecord = getmousepos()
             for boat,cord in P1_boat_cords.dict.items():
-                print ("boatcord 1 ",cord[0:1])
-                print ("boatcord 2 ",cord[1:2])
+                # print ("boatcord 1 ",cord[0:1])
+                # print ("boatcord 2 ",cord[1:2])
                 if mousecord in cord[0:1] or mousecord in cord[1:2]:
                     ship_selected = True
                     # new_boat = {boat: boat.sprite}
@@ -359,9 +376,12 @@ def mainloop():
                     if boat.length == 1:
                         movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+1]
                     elif boat.length == 2:
-                        movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+2]
+                        movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+2],\
+                                        [boatcord[0]+1,boatcord[1]-(-1)],[boatcord[0]+(-1),boatcord[1]+1]
                     elif boat.length == 3:
-                        movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+3]
+                        movementrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]-1,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]+3], \
+                                        [boatcord[0]+1,boatcord[1]-(-1)],[boatcord[0]+(-1),boatcord[1]+1],[boatcord[0]+1,boatcord[1]-(-2)],\
+                                        [boatcord[0]+(-1),boatcord[1]+ 2]
                     for cord in movementrange:
                         movement_tiles.append(cord)
                         if len(movement_tiles) == len(movementrange):
@@ -415,11 +435,15 @@ def mainloop():
                 elif boat.length == 2:
                     attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
                                   [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2], \
-                                  [boatcord[0],boatcord[1]+2],[boatcord[0], boatcord[1]+3],
+                                  [boatcord[0],boatcord[1]+2],[boatcord[0], boatcord[1]+3],[boatcord[0]+1,boatcord[1]-(-1)],\
+                                  [boatcord[0]+(-1),boatcord[1]+1],[boatcord[0]+2,boatcord[1]-(-1)],[boatcord[0]+(-2),boatcord[1]+1]
                 elif boat.length == 3:
                     attackrange = [boatcord[0]+1,boatcord[1]],[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
                                   [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2],\
-                                  [boatcord[0], boatcord[1]+3],[boatcord[0], boatcord[1]+4]
+                                  [boatcord[0], boatcord[1]+3],[boatcord[0], boatcord[1]+4],[boatcord[0], boatcord[1]+3],\
+                                  [boatcord[0]+1,boatcord[1]-(-1)],[boatcord[0]+(-1),boatcord[1]+1],[boatcord[0]+2,boatcord[1]-(-1)],\
+                                  [boatcord[0]+(-2),boatcord[1]+1],[boatcord[0]+1,boatcord[1]-(-2)],[boatcord[0]+(-1),boatcord[1]+2],[boatcord[0]+2,boatcord[1]-(-2)],\
+                                  [boatcord[0]+(-2),boatcord[1]+2]
 
                 for tile in attackrange:
                     attack_tiles.append(tile)
@@ -454,17 +478,14 @@ def mainloop():
                 displaysurf.blit(P2_Boat3.sprite, (P2_Boat3.cordhead[0] * tilesize, P2_Boat3.cordhead[1] * tilesize))
                 displaysurf.blit(P2_Boat4.sprite, (P2_Boat4.cordhead[0] * tilesize, P2_Boat4.cordhead[1] * tilesize))
 
-                ## SPRITES experimental code
-                # sprites_movement.draw(screen)
-                # sprites_movement.update()
 
                 ###DRAW INTERFACE ELEMENTS
                 boat_bg = pygame.draw.rect(screen, red, [550, 600, 20, 20])
                 displaysurf.blit(ship_selected_bg, (600, 10))
-                displaysurf.blit(movement_up, (660 , 25))
-                displaysurf.blit(movement_left, (625, 60))
-                displaysurf.blit(movement_right, (695, 60))
-                displaysurf.blit(movement_down, (660, 95))
+                # displaysurf.blit(movement_up, (660, 25))
+                # displaysurf.blit(movement_left, (625, 60))
+                # displaysurf.blit(movement_right, (695, 60))
+                # displaysurf.blit(movement_down, (660, 95))
 
                 ##DRAW CARD SLOTS (PLAYER1)
                 displaysurf.blit(textures[block], (620, 430))
@@ -483,6 +504,10 @@ def mainloop():
                 displaysurf.blit(textures[block], (780, 500))
                 displaysurf.blit(textures[block], (820, 500))
                 displaysurf.blit(textures[block], (860, 500))
+
+                # SPRITES experimental code
+                sprites_1.draw(screen)
+
 
 
                 ## DRAW ACTIVE STUFF NEEDS REWORK (ALL DRAW STUFF)

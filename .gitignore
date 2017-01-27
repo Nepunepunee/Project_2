@@ -31,3 +31,5 @@ Main/.idea/workspace.xml
 *.pyc
 *.pyc
 *.pyc
+*.pyc
+Main/__pycache__/Game.cpython-35.pyc
