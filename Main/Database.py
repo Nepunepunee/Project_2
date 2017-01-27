@@ -21,16 +21,16 @@ def database_command(command):
     #     self.query = self.database_command("SELECT Name FROM score WHERE Name = {}".format(name))
     #     return self.query.rowcount
     #
-    # def insert_new_score(self, name, score):
-    #     self.database_command("INSERT INTO score VALUES({}, {})".format(name, score))
+def insert_new_score(name, score):
+    database_command("INSERT INTO score VALUES({}, {})".format(name, score))
     #
     # ## def save_state(self, state,x1,y1,x2,y2,):#needs more vars since this saves every single variable from the current game
     #
-    # def get_player(self,name):
-    #     self.database_command("SELECT * FROM score WHERE Name={}}".format(name))
-    #
-    # def update_score(self, name, score):
-    #     self.database_command("UPDATE score SET Score={} WHERE Name={}".format(score, name))
+def get_player(name):
+    database_command("SELECT * FROM score WHERE Name={}}".format(name))
+
+def update_score(name, score):
+    database_command("UPDATE score SET Score={} WHERE Name={}".format(score, name))
     #
     # def restore_game(self):
     #     self.database_command("SELECT * FROM state")
