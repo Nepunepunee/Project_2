@@ -245,9 +245,10 @@ movement_up = sprite(pygame.image.load(os.path.join('../images/movement_up.png')
 movement_left = sprite(pygame.image.load(os.path.join('../images/movement_left.png')).convert_alpha(),625,60,30,30)
 movement_right = sprite(pygame.image.load(os.path.join('../images/movement_right.png')).convert_alpha(),695,60,30,30)
 movement_down = sprite(pygame.image.load(os.path.join('../images/movement_down.png')).convert_alpha(),660,95,30,30)
+end_button = sprite(pygame.image.load(os.path.join('../images/int_end.png')).convert_alpha(),680,170,60,30)
 
 sprites_1 = pygame.sprite.Group() ## MOVEMENT INTERFACE
-sprites_1.add(movement_up,movement_left,movement_right,movement_down)
+sprites_1.add(movement_up,movement_left,movement_right,movement_down,end_button)
 
 
 
@@ -265,6 +266,7 @@ movement_down = pygame.image.load(os.path.join("../images/movement_down.png"))
 movement_left = pygame.image.load(os.path.join("../images/movement_left.png"))
 movement_right = pygame.image.load(os.path.join("../images/movement_right.png"))
 ship_selected_bg = pygame.image.load(os.path.join("../images/ship_selected_bg.png"))
+inventory_bg = pygame.image.load(os.path.join("../images/inventory_bg.png"))
 
 #CREATE BOATS
 P1_Boat1 = Boat(3,18,1,pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
@@ -312,6 +314,9 @@ def mainloop():
     P1_carddraw = []
     P2_carddraw = []
 
+    ##ROUND counter
+    roundtime = 30
+    start_ticks = pygame.time.get_ticks()  # starter tick
 
     while not gameExit:
         global mousemotion
@@ -320,6 +325,9 @@ def mainloop():
         ## FPS counter
         frame_times = []
         start_t = time.time()
+
+
+
         for event in pygame.event.get(): ##STATE CHECK
             if event.type == pygame.MOUSEMOTION:
                 mousemotion = True
@@ -442,8 +450,8 @@ def mainloop():
                                   [boatcord[0]-2,boatcord[1]],[boatcord[0],boatcord[1]-1],[boatcord[0],boatcord[1]-2],\
                                   [boatcord[0], boatcord[1]+3],[boatcord[0], boatcord[1]+4],[boatcord[0], boatcord[1]+3],\
                                   [boatcord[0]+1,boatcord[1]-(-1)],[boatcord[0]+(-1),boatcord[1]+1],[boatcord[0]+2,boatcord[1]-(-1)],\
-                                  [boatcord[0]+(-2),boatcord[1]+1],[boatcord[0]+1,boatcord[1]-(-2)],[boatcord[0]+(-1),boatcord[1]+2],[boatcord[0]+2,boatcord[1]-(-2)],\
-                                  [boatcord[0]+(-2),boatcord[1]+2]
+                                  [boatcord[0]+(-2),boatcord[1]+1],[boatcord[0]+1,boatcord[1]-(-2)],[boatcord[0]+(-1),boatcord[1]+2],\
+                                  [boatcord[0]+2,boatcord[1]-(-2)],[boatcord[0]+(-2),boatcord[1]+2]
 
                 for tile in attackrange:
                     attack_tiles.append(tile)
@@ -480,30 +488,37 @@ def mainloop():
 
 
                 ###DRAW INTERFACE ELEMENTS
-                boat_bg = pygame.draw.rect(screen, red, [550, 600, 20, 20])
+                # boat_bg = pygame.draw.rect(screen, red, [550, 600, 20, 20])
                 displaysurf.blit(ship_selected_bg, (600, 10))
+                displaysurf.blit(inventory_bg, (600, 225))
                 # displaysurf.blit(movement_up, (660, 25))
                 # displaysurf.blit(movement_left, (625, 60))
                 # displaysurf.blit(movement_right, (695, 60))
                 # displaysurf.blit(movement_down, (660, 95))
 
+
+
+
+
                 ##DRAW CARD SLOTS (PLAYER1)
-                displaysurf.blit(textures[block], (620, 430))
-                displaysurf.blit(textures[block], (660, 430))
-                displaysurf.blit(textures[block], (700, 430))
-                displaysurf.blit(textures[block], (740, 430))
-                displaysurf.blit(textures[block], (780, 430))
-                displaysurf.blit(textures[block], (820, 430))
-                displaysurf.blit(textures[block], (860, 430))
+                message_to_screen("PLAYER1: ", red, 620, 250)
+                displaysurf.blit(textures[block], (620, 275))
+                displaysurf.blit(textures[block], (660, 275))
+                displaysurf.blit(textures[block], (700, 275))
+                displaysurf.blit(textures[block], (740, 275))
+                displaysurf.blit(textures[block], (780, 275))
+                displaysurf.blit(textures[block], (820, 275))
+                displaysurf.blit(textures[block], (860, 275))
 
                 ##DRAW CARD SLOTS (PLAYER2)
-                displaysurf.blit(textures[block], (620, 500))
-                displaysurf.blit(textures[block], (660, 500))
-                displaysurf.blit(textures[block], (700, 500))
-                displaysurf.blit(textures[block], (740, 500))
-                displaysurf.blit(textures[block], (780, 500))
-                displaysurf.blit(textures[block], (820, 500))
-                displaysurf.blit(textures[block], (860, 500))
+                message_to_screen("PLAYER2: ", blue, 620, 350)
+                displaysurf.blit(textures[block], (620, 375))
+                displaysurf.blit(textures[block], (660, 375))
+                displaysurf.blit(textures[block], (700, 375))
+                displaysurf.blit(textures[block], (740, 375))
+                displaysurf.blit(textures[block], (780, 375))
+                displaysurf.blit(textures[block], (820, 375))
+                displaysurf.blit(textures[block], (860, 375))
 
                 # SPRITES experimental code
                 sprites_1.draw(screen)
@@ -528,24 +543,29 @@ def mainloop():
 
                 # ##DISPLAY CURRENT SELECTED SHIP AND INFO
                 if ship_selected_img != None:
-                    screen.blit(ship_selected_img, (800, 90))
+                    screen.blit(ship_selected_img, (850, 40))
                     for i in boat_active:
-                        message_to_screen("HP: " + str(i.hp), black, 800, 20)
-                        message_to_screen("DEF: " + str(i.defence), black, 800, 40)
-                        message_to_screen("ATT: " + str(i.attack_range), black, 800, 60)
+                        message_to_screen("HP: " + str(i.hp), black, 765, 20)
+                        message_to_screen("DEF: " + str(i.defence), black, 765, 40)
+                        message_to_screen("ATT: " + str(i.attack_range), black, 765, 60)
+                        displaysurf.blit(textures[block], (770, 175)) ##SHIP CARD SLOTS
+                        displaysurf.blit(textures[block], (805, 175))
+                        displaysurf.blit(textures[block], (840, 175))
+                        displaysurf.blit(textures[block], (875, 175))
+
                 elif ship_selected_img == None:
-                    message_to_screen("No ship selected", black, 610, 150)
+                    message_to_screen("No ship selected", black, 770, 100)
 
                 ##DRAW P1 INVENTORY ITEMS
                 P1_box_x_pos = 620
                 for i in P1_carddraw:
-                    displaysurf.blit(i.img, (P1_box_x_pos, 430))
+                    displaysurf.blit(i.img, (P1_box_x_pos, 275))
                     P1_box_x_pos += 40
 
                 ##DRAW P1 INVENTORY ITEMS
                 P2_box_x_pos = 620
                 for i in P2_carddraw:
-                    displaysurf.blit(i.img, (P2_box_x_pos, 500))
+                    displaysurf.blit(i.img, (P2_box_x_pos, 375))
                     P2_box_x_pos += 40
 
 
@@ -574,6 +594,12 @@ def mainloop():
 
 
                 # start of screen writings
+                seconds = (pygame.time.get_ticks() - start_ticks) / 1000  # calculate how many seconds
+                seconds -= roundtime
+                seconds = int(seconds)
+                if roundtime > 0:
+                    message_to_screen(str(seconds), black, 630, 175)
+
                 mousepos = pygame.mouse.get_pos()
                 #######
                 ## FPS COUNTER
@@ -584,18 +610,17 @@ def mainloop():
                 frame_times = frame_times[-20:]
                 fps_count = len(frame_times) / sum(frame_times)
 
-                ## DEBUGGING MESSAGES TO SCREEN
-                message_to_screen("Mouse Cords " + str(getmousepos()), black, 625, 210)
-                message_to_screen("total ships: " + str(P1_Boat1.total_boats), black, 625, 230)
-                message_to_screen("PLAYER1 ships: " + str(P1_boat_cords.length), red, 625, 250)
-                message_to_screen("PLAYER2 ships: " + str(P2_boat_cords.length), blue, 625, 270)
-                message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 300)
+                # ## DEBUGGING MESSAGES TO SCREEN
+                # message_to_screen("Mouse Cords " + str(getmousepos()), black, 625, 210)
+                # message_to_screen("total ships: " + str(P1_Boat1.total_boats), black, 625, 230)
+                # message_to_screen("PLAYER1 ships: " + str(P1_boat_cords.length), red, 625, 250)
+                # message_to_screen("PLAYER2 ships: " + str(P2_boat_cords.length), blue, 625, 270)
+                message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 450)
 
-                message_to_screen("movement tiles:", black, 600, 330)
-                message_to_screen(str(movement_tiles),black,600,360)
+                message_to_screen("movement tiles:", black, 600, 480)
+                message_to_screen(str(movement_tiles),black,600,510)
 
-                message_to_screen("PLAYER1: " , red, 620, 410)
-                message_to_screen("PLAYER2: " , blue, 620, 480)
+
 
                 pygame.display.flip()
     clock.tick(FPS)
