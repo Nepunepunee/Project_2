@@ -139,7 +139,6 @@ class Player:
     def __init__(self):
         self.boats = Player.boats
 
-
 class Boat:
     health = 100
     total_boats = 0
@@ -170,6 +169,10 @@ class Boat:
         self.cordhead = X,Y
         self.posXhead = X
         self.posYhead = Y
+    def add_position(self,X,Y):
+        self.posXhead = self.posXhead + X
+        self.posYhead = self.posYhead + Y
+        self.cordhead = [self.posXhead,self.posYhead]
 
     def get_cord_to_posX(self,cord):
         return cord[0]
@@ -227,9 +230,10 @@ class cordDict:
 
 
 class sprite(pygame.sprite.Sprite):
-    def __init__(self,image,rectx,recty,width,height):
-        super().__init__()
-        # pygame.sprite.Sprite.__init__(self)
+    def __init__(self,name,image,rectx,recty,width,height):
+        # super().__init__()
+        pygame.sprite.Sprite.__init__(self)
+        self.name = name
         self.image = image
         self.width = width
         self.height = height
@@ -241,14 +245,20 @@ class sprite(pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
 
 ## Sprite GROUPS
-movement_up = sprite(pygame.image.load(os.path.join('../images/movement_up.png')).convert_alpha(),660,25,30,30)
-movement_left = sprite(pygame.image.load(os.path.join('../images/movement_left.png')).convert_alpha(),625,60,30,30)
-movement_right = sprite(pygame.image.load(os.path.join('../images/movement_right.png')).convert_alpha(),695,60,30,30)
-movement_down = sprite(pygame.image.load(os.path.join('../images/movement_down.png')).convert_alpha(),660,95,30,30)
-end_button = sprite(pygame.image.load(os.path.join('../images/int_end.png')).convert_alpha(),680,170,60,30)
+movement_up = sprite('movement_up',pygame.image.load(os.path.join('../images/movement_up.png')).convert_alpha(),660,20,30,30)
+movement_left = sprite('movement_left',pygame.image.load(os.path.join('../images/movement_left.png')).convert_alpha(),625,55,30,30)
+movement_right = sprite('movement_right',pygame.image.load(os.path.join('../images/movement_right.png')).convert_alpha(),695,55,30,30)
+movement_down = sprite('movement_down',pygame.image.load(os.path.join('../images/movement_down.png')).convert_alpha(),660,90,30,30)
+movement_leftturn = sprite('movement_leftturn',pygame.image.load(os.path.join('../images/movement_leftturn.png')).convert_alpha(),620,20,30,30)
+movement_rightturn = sprite('movement_rightturn',pygame.image.load(os.path.join('../images/movement_rightturn.png')).convert_alpha(),705,20,30,30)
+attack_button = sprite('end_button',pygame.image.load(os.path.join('../images/ui_attack.png')).convert_alpha(),610,135,60,20)
+defend_button = sprite('end_button',pygame.image.load(os.path.join('../images/ui_defend.png')).convert_alpha(),685,135,60,20)
+end_button = sprite('end_button',pygame.image.load(os.path.join('../images/ui_end.png')).convert_alpha(),680,170,60,30)
+
+
 
 sprites_1 = pygame.sprite.Group() ## MOVEMENT INTERFACE
-sprites_1.add(movement_up,movement_left,movement_right,movement_down,end_button)
+sprites_1.add(movement_up,movement_left,movement_right,movement_down,movement_leftturn,movement_rightturn,end_button,attack_button,defend_button)
 
 
 
@@ -260,11 +270,6 @@ sprites_1.add(movement_up,movement_left,movement_right,movement_down,end_button)
 movement_tile = pygame.image.load(os.path.join("../images/movement_tile.png"))
 attack_tile = pygame.image.load(os.path.join("../images/attack_tile.png"))
 
-##interface buttons and art
-movement_up = pygame.image.load(os.path.join("../images/movement_up.png"))
-movement_down = pygame.image.load(os.path.join("../images/movement_down.png"))
-movement_left = pygame.image.load(os.path.join("../images/movement_left.png"))
-movement_right = pygame.image.load(os.path.join("../images/movement_right.png"))
 ship_selected_bg = pygame.image.load(os.path.join("../images/ship_selected_bg.png"))
 inventory_bg = pygame.image.load(os.path.join("../images/inventory_bg.png"))
 
@@ -309,6 +314,8 @@ def mainloop():
     movement_tiles = []
     attack_tiles = []
 
+    button_pressed = ''
+
     P1_inventory_full = False
     P2_inventory_full = False
     P1_carddraw = []
@@ -328,10 +335,13 @@ def mainloop():
 
 
 
-        for event in pygame.event.get(): ##STATE CHECK
+        for event in pygame.event.get(): ##STATE CHECKER
             if event.type == pygame.MOUSEMOTION:
-                mousemotion = True
-            if event.type == pygame.QUIT:
+                x,y = event.pos
+                for sprite in sprites_1:
+                    if sprite.rect.collidepoint(x,y):
+                        print ("hovering on a sprite")
+            elif event.type == pygame.QUIT:
                 quitgame()
                 gameExit = True
             elif event.type == pygame.KEYDOWN:
@@ -339,22 +349,51 @@ def mainloop():
                     return "pause"
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mousepos = getmousepos()
-                if boat_active == [] and ship_selected_img != None:
+                x,y = event.pos
+                for sprite in sprites_1:
+                    if sprite.rect.collidepoint(x,y):
+                        button_pressed = sprite.name
+                        controller(button_pressed)
+
+                if not boat_active and ship_selected_img != None:
                     boat_active = selectedboat()
-                elif boat_active == []:
+                elif not boat_active:
                     boat_active = selectedboat()
-                # elif movement_up.collidepoint():
-                #     print ("pressed on sprites")
                 else:
                     moveboat()
+
+
+        def controller(button):
+            if button == 'end_button':
+                del movement_tiles[:]
+                del attack_tiles[:]
+                boat_active.clear()
+
+            if boat_active and movement_tiles:
+                for boat in boat_active:
+                    if button == 'movement_up':
+                        boat.add_position(0,-1)
+                    elif button == 'movement_down':
+                        boat.add_position(0,1)
+                    elif button == 'movement_left':
+                        boat.add_position(-1,0)
+                    elif button == 'movement_right':
+                        boat.add_position(1,0)
+                    elif button == 'movement_leftturn':
+                        print ("left turning")
+                    elif button == 'movement_rightturn':
+                        print ("right turning")
+                    elif button == 'attack_button':
+                        attackmode()
+
+                del movement_tiles[:]
+
 
         def selectedboat():
             global ship_selected_img
             ship_selected = False ## check if ship is selected within this function
             mousecord = getmousepos()
             for boat,cord in P1_boat_cords.dict.items():
-                # print ("boatcord 1 ",cord[0:1])
-                # print ("boatcord 2 ",cord[1:2])
                 if mousecord in cord[0:1] or mousecord in cord[1:2]:
                     ship_selected = True
                     # new_boat = {boat: boat.sprite}
@@ -374,7 +413,7 @@ def mainloop():
                 ship_selected_img = None
                 return []
 
-        print (boat_active)
+
         if boat_active: ## if there is a ship selected.  give the img variable, the sprite of this ship (for render)
             while not tiles_render:
                 for boat in boat_active:
@@ -423,16 +462,18 @@ def mainloop():
                     del attack_tiles[:]
                     tiles_render = False
                     break
-            if attack_toggle == True:
-                del movement_tiles[:]
-                attackmode()
-            else:
-                pass
+            # if attack_toggle == True:
+            #     del movement_tiles[:]
+            #     attackmode()
+            # else:
+            #     pass
 
 
         def attackmode():
             global attack
+            del movement_tiles[:]
             attack = True
+
             for boat in boat_active:
 
                 boatcord = boat.cordhead #SHOW AVAILABLE ATTACK TILES
@@ -491,14 +532,6 @@ def mainloop():
                 # boat_bg = pygame.draw.rect(screen, red, [550, 600, 20, 20])
                 displaysurf.blit(ship_selected_bg, (600, 10))
                 displaysurf.blit(inventory_bg, (600, 225))
-                # displaysurf.blit(movement_up, (660, 25))
-                # displaysurf.blit(movement_left, (625, 60))
-                # displaysurf.blit(movement_right, (695, 60))
-                # displaysurf.blit(movement_down, (660, 95))
-
-
-
-
 
                 ##DRAW CARD SLOTS (PLAYER1)
                 message_to_screen("PLAYER1: ", red, 620, 250)
@@ -522,8 +555,6 @@ def mainloop():
 
                 # SPRITES experimental code
                 sprites_1.draw(screen)
-
-
 
                 ## DRAW ACTIVE STUFF NEEDS REWORK (ALL DRAW STUFF)
                 if len(movement_tiles) > 0:
@@ -598,7 +629,7 @@ def mainloop():
                 seconds -= roundtime
                 seconds = int(seconds)
                 if roundtime > 0:
-                    message_to_screen(str(seconds), black, 630, 175)
+                    message_to_screen(str(seconds), black, 630, 180)
 
                 mousepos = pygame.mouse.get_pos()
                 #######
@@ -611,16 +642,9 @@ def mainloop():
                 fps_count = len(frame_times) / sum(frame_times)
 
                 # ## DEBUGGING MESSAGES TO SCREEN
-                # message_to_screen("Mouse Cords " + str(getmousepos()), black, 625, 210)
-                # message_to_screen("total ships: " + str(P1_Boat1.total_boats), black, 625, 230)
-                # message_to_screen("PLAYER1 ships: " + str(P1_boat_cords.length), red, 625, 250)
-                # message_to_screen("PLAYER2 ships: " + str(P2_boat_cords.length), blue, 625, 270)
                 message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 450)
-
                 message_to_screen("movement tiles:", black, 600, 480)
                 message_to_screen(str(movement_tiles),black,600,510)
-
-
 
                 pygame.display.flip()
     clock.tick(FPS)
