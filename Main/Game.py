@@ -91,7 +91,7 @@ class card(pygame.sprite.Sprite):
         screen.blit(self.image,(X,Y))
 
     def update(self):
-        print ("üpdating pos")
+        print ("updating pos")
         pos = pygame.mouse.get_pos()
         x = pos[0]
         y = pos[1]
@@ -199,14 +199,10 @@ class Boat(pygame.sprite.Sprite):
     def __del__(self):
         pass
 
-    def attack(self):
-        pass
-
     def draw(self, screen):
         screen.blit(self.image, (self.posXhead,self.posYhead))
 
     def set_position(self,X,Y):
-
         self.cordhead = [self.posX+X,self.posY+Y]
         self.posXhead = (X * tilesize)
         self.posYhead = (Y * tilesize)
@@ -261,14 +257,8 @@ P1_boatsprite3 = P1_boat_group.sprites()[2]
 P1_boatsprite4 = P1_boat_group.sprites()[3]
 
 # P2_boat_group.add(P2_Boat1,P2_Boat2,P2_Boat3,P2_Boat4)
-
-
-
 # P1_boat_group = [P1_Boat1,P1_Boat2,P1_Boat3,P1_Boat4]
 # P2_boat_group = [P2_Boat1,P2_Boat2,P2_Boat3,P2_Boat4]
-
-
-
 
 
 class sprite(pygame.sprite.Sprite):
@@ -288,13 +278,13 @@ class sprite(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
-    def update(self):
-        print ("updating pos")
-        pos = pygame.mouse.get_pos()
-        x = pos[0]
-        y = pos[1]
-        self.rect.x = x
-        self.rect.y = y
+    # def update(self):
+    #     print ("updating pos")
+    #     pos = pygame.mouse.get_pos()
+    #     x = pos[0]
+    #     y = pos[1]
+    #     self.rect.x = x
+    #     self.rect.y = y
 
     def resetpos(self):
         self.rect.x = self.orig_posx
@@ -337,16 +327,16 @@ inventory_bg = pygame.image.load(os.path.join("../images/inventory_bg.png"))
 
 
 
-class listupdated:
-   def __init__(self,dict):
-       self.dict = dict
-       self.key = dict.keys()
-       self.value = dict.values()
-       self.length = len(dict)
-
-   def setcord(self,boatcord):
-       for self.key, self.value in self.dict:
-           self.keyvalue = boatcord
+# class listupdated:
+#    def __init__(self,dict):
+#        self.dict = dict
+#        self.key = dict.keys()
+#        self.value = dict.values()
+#        self.length = len(dict)
+#
+#    def setcord(self,boatcord):
+#        for self.key, self.value in self.dict:
+#            self.keyvalue = boatcord
 
 class tiles(pygame.sprite.Sprite):
     def __init__(self,cordx,cordy,image):
@@ -409,7 +399,6 @@ def mainloop():
     #             displaysurf.blit(textures[tilemap[row][column]], (column * tilesize, row * tilesize))
 
     while not gameExit:
-        global mousemotion
         grid = False
 
         ## FPS counter
@@ -618,7 +607,6 @@ def mainloop():
             del movement_tiles[:]
             print ("doing attack mode")
             for boat in boat_active:
-
                 boatcord = boat.cordhead #SHOW AVAILABLE ATTACK TILES
                 # if boat.length == 1:
                 #     attackrange = [tile1 = tiles(boatcord[0]+1,boatcord[1]),[boatcord[0]+2,boatcord[1]],[boatcord[0]-1,boatcord[1]],\
