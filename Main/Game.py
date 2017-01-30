@@ -298,7 +298,7 @@ movement_down = sprite('movement_down',pygame.image.load(os.path.join('../images
 movement_leftturn = sprite('movement_leftturn',pygame.image.load(os.path.join('../images/movement_leftturn.png')).convert_alpha(),620,20,30,30)
 movement_rightturn = sprite('movement_rightturn',pygame.image.load(os.path.join('../images/movement_rightturn.png')).convert_alpha(),705,20,30,30)
 attack_button = sprite('attack_button',pygame.image.load(os.path.join('../images/ui_attack.png')).convert_alpha(),610,135,60,20)
-defend_button = sprite('end_button',pygame.image.load(os.path.join('../images/ui_defend.png')).convert_alpha(),685,135,60,20)
+defend_button = sprite('defend_button',pygame.image.load(os.path.join('../images/ui_defend.png')).convert_alpha(),685,135,60,20)
 end_button = sprite('end_button',pygame.image.load(os.path.join('../images/ui_end.png')).convert_alpha(),650,170,80,30)
 
 sprites_1 = pygame.sprite.Group() ## MOVEMENT INTERFACE
@@ -499,6 +499,9 @@ def mainloop():
                     elif button == 'attack_button':
                         print ("attack pressed")
                         attackmode()
+                    elif button == 'defend_button':
+                        print("defend pressed")
+                        defendmode()
                 del movement_tiles[:]
 
 
@@ -591,21 +594,22 @@ def mainloop():
             mousecord = getmousepos()
             print (mousecord)
             for boat in boat_active:
-                if mousecord in movement_tiles:
-                    boat.set_position(mousecord[0], mousecord[1])
-                    print (movement_tiles)
-                    del movement_tiles[:]
-                elif mousecord[0] > mapwidth-1 or mousecord[0] < 0:
-                    break
-                elif mousecord[1] > mapheight-1 or mousecord[1] < 0:
-                    break
-                elif mousecord != boat.cordhead or mousecord not in movement_tiles:
-                    ship_selected_img = None
-                    boat_active.clear()
-                    del movement_tiles[:]
-                    attack_tiles.remove()
-                    tiles_render = False
-                    break
+                if not boat.defencemode:
+                    if mousecord in movement_tiles:
+                        boat.set_position(mousecord[0], mousecord[1])
+                        print (movement_tiles)
+                        del movement_tiles[:]
+                    elif mousecord[0] > mapwidth-1 or mousecord[0] < 0:
+                        break
+                    elif mousecord[1] > mapheight-1 or mousecord[1] < 0:
+                        break
+                    elif mousecord != boat.cordhead or mousecord not in movement_tiles:
+                        ship_selected_img = None
+                        boat_active.clear()
+                        del movement_tiles[:]
+                        attack_tiles.remove()
+                        tiles_render = False
+                        break
 
 
         print (boat_active)
@@ -645,6 +649,20 @@ def mainloop():
             # for tile in attack_tiles:
             #     if tile.get_rect().collidepoint(pygame.mouse.get_pos()):
             #         print ("hovering over attack tiles")
+
+
+        def defendmode():
+            del movement_tiles[:]
+            for boat in boat_active:
+                boatcord = boat.cordhead
+                if boat.defencemode:
+                    boat.rotate(+90)
+                    boat.attack_range -= 3
+                    boat.defencemode = False
+                else:
+                    boat.rotate(-90)
+                    boat.attack_range += 3
+                    boat.defencemode = True
 
 
         ##DRAW GRID
