@@ -11,8 +11,8 @@ FONT_COLOR = (0, 0, 100)
 
 
 pygame.mixer.init()
-pygame.mixer.music.load("../sounds/menu_music.wav")
-pygame.mixer.music.play(-1)
+# pygame.mixer.music.load("../sounds/menu_music.wav")
+# pygame.mixer.music.play(-1)
 
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
