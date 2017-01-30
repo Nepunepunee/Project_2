@@ -171,6 +171,10 @@ class Player:
     boats = 4
     def __init__(self):
         self.boats = Player.boats
+    def disable(self):
+        print('disabled')
+    def enable(self):
+        print('enabled')
 
 class Boat(pygame.sprite.Sprite):
     health = 100
@@ -359,7 +363,6 @@ attack_tile = 0,0,pygame.image.load(os.path.join("../images/attack_tile.png"))
 
 
 def mainloop():
-    turn = True
     ship_selected_img = None
     attack_mode = False
     tiles_render = False
@@ -471,10 +474,14 @@ def mainloop():
         def switch():
             global turn
             if(turn == True):
-                print(turn)
+                print("player 2's turn.")
+                Player.enable
+                Player.disable
                 turn = False
             else:
-                print(turn)
+                print("player 1's turn")
+                Player.enable
+                Player.disable
                 turn = True
         def controller(button):
             if button == 'end_button':
