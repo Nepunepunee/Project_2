@@ -1,5 +1,6 @@
 import pygame, sys
 
+pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
 pygame.init()
 
 # Globals
@@ -9,14 +10,15 @@ BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 FONT_COLOR = (0, 0, 100)
 
-
-pygame.mixer.init()
-pygame.mixer.music.load("../sounds/menu_music.wav")
-pygame.mixer.music.play(-1)
+click_sound = True
+# main_music = pygame.mixer.music.load("../sounds/menu_music.wav")
+click = pygame.mixer.Sound("../sounds/click.wav")
+# pygame.mixer.music.play(-1)
 
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
     return surface
+
 
 class MenuItem(pygame.font.Font):
     def __init__(self, text, font=None, font_size=10,
@@ -44,10 +46,14 @@ class MenuItem(pygame.font.Font):
         self.label = self.render(self.text, 1, self.font_color)
 
     def is_mouse_selection(self, posx, posy):
+        global click_sound
         if (posx >= self.pos_x and posx <= self.pos_x + self.width) and \
                 (posy >= self.pos_y and posy <= self.pos_y + self.height):
             return True
-        return False
+        if not (posx >= self.pos_x and posx <= self.pos_x + self.width) and \
+                    (posy >= self.pos_y and posy <= self.pos_y + self.height):
+            click_sound = True
+            return False
 
 
 class GameMenu():
@@ -56,8 +62,7 @@ class GameMenu():
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
-
-
+        self.pressed = False
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
         self.items = []
@@ -109,27 +114,35 @@ class GameMenu():
 
         self.items[self.cur_item].set_italic(True)
         self.items[self.cur_item].set_font_color(BLUE)
+        click.play(loops=0, maxtime=0, fade_ms=0)
 
         # Finally check if Enter or Space is pressed
         if key == pygame.K_SPACE or key == pygame.K_RETURN:
             text = self.items[self.cur_item].text
             mainloop = False
-            self.funcs[text]()
+            self.pressed = True
+            return text
 
     def set_mouse_selection(self, item, mpos):
         """Marks the MenuItem the mouse cursor hovers on."""
+
+        global click_sound
         if item.is_mouse_selection(mpos[0],mpos[1]):
             item.set_font_color(BLUE)
             item.set_italic(True)
+            if click_sound:
+                click.play(loops = 0, maxtime = 0, fade_ms = 0)
+                click_sound = False
         else:
             item.set_font_color(FONT_COLOR)
             item.set_italic(False)
 
+
     def run(self):
         mainloop = True
         while mainloop:
-            # Limit frame speed to 50 FPS
-            self.clock.tick(50)
+            # Limit frame speed to 60 FPS
+            self.clock.tick(60)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -137,6 +150,9 @@ class GameMenu():
                 if event.type == pygame.KEYDOWN:
                     self.mouse_is_visible = False
                     self.set_item_selection(event.key)
+                    if self.pressed:
+                        return self.set_item_selection(event.key)
+                        self.pressed = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     for item in self.items:
                         if item.is_mouse_selection(mpos[0], mpos[1]):
