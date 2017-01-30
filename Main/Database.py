@@ -30,8 +30,17 @@ def insert_new_score(name, score):
 def save_state(state,player,x1,y1,x2=None,y2=None,x3=None,y3=None,damage_x1=None,damage__y1=None,damage_x2=None,damage__y2=None,damage_x3=None,damage__y3=None):
     database_command("INSERT INTO state VALUES({}, {},{},{},{},{},{},{},{},{},{},{},{},{})".format(state, player, x1, y1, x2, y2, x3, y3, damage_x1, damage__y1, damage_x2, damage__y2, damage_x3, damage__y3))
 
-def get_state(state):
-    database_command("SELECT * FROM state WHERE State={}".format(state))
+def get_state():
+    query = database_command("SELECT * FROM state")
+    return query
+
+def state_check():
+    query = database_command("SELECT * FROM state")
+    return query.rowcount
+
+def kill_state():
+    for n in range(0, 9):
+        database_command("DELETE FROM state")
 
 def get_player(name):
     database_command("SELECT * FROM score WHERE Name={}".format(name))
