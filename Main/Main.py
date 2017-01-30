@@ -3,7 +3,7 @@ import Menu
 import Game
 import Instruction_menu
 import Pausemenu
-#import Highscores
+import Highscores
 
 class program:
     def __init__(self):
