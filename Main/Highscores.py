@@ -12,8 +12,6 @@ FONT_COLOR = (0, 0, 100)
 
 
 pygame.mixer.init()
-pygame.mixer.music.load("../sounds/menu_music.wav")
-pygame.mixer.music.play(-1)
 
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
@@ -71,7 +69,7 @@ class GameMenu():
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
-
+        self.pressed = False
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
         self.items = []
@@ -138,7 +136,8 @@ class GameMenu():
         if key == pygame.K_SPACE or key == pygame.K_RETURN:
             text = self.items[self.cur_item].text
             mainloop = False
-            self.funcs[text]()
+            self.pressed = True
+            return text
 
     def set_mouse_selection(self, item, mpos):
         """Marks the MenuItem the mouse cursor hovers on."""
@@ -161,6 +160,9 @@ class GameMenu():
                 if event.type == pygame.KEYDOWN:
                     self.mouse_is_visible = False
                     self.set_item_selection(event.key)
+                    if self.pressed:
+                        return self.set_item_selection(event.key)
+                        self.pressed = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     for item in self.items:
                         if item.is_mouse_selection(mpos[0], mpos[1]):
