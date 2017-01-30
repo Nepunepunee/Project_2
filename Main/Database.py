@@ -20,7 +20,7 @@ def database_command(command):
 
     return result
 
-def check_existing_names(name):   #checks if user exists in scoreboard else returns an empty
+def check_exising_names(name):   #checks if user exists in scoreboard else returns an empty
         query = database_command("SELECT Name FROM score WHERE Name = {}".format(name))
         return query.rowcount
 
