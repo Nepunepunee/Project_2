@@ -360,6 +360,7 @@ attack_tile = 0,0,pygame.image.load(os.path.join("../images/attack_tile.png"))
 
 
 def mainloop():
+    player_select = Player()
     ship_selected_img = None
     attack_mode = False
     tiles_render = False
@@ -472,13 +473,13 @@ def mainloop():
             global turn
             if(turn == True):
                 print("player 2's turn.")
-                Player.active = False
+                player_select.active = False
 
 
                 turn = False
             else:
                 print("player 1's turn")
-                Player.active = True
+                player_select.active = True
 
                 turn = True
 
@@ -532,23 +533,21 @@ def mainloop():
             ship_selected = False  ## check if ship is selected within this function
             x, y = event.pos
             for boat in P1_boat_group:
-                if(Player.active == True):
-                    print('testcase')
-
-                if boat.rect.collidepoint(x, y):
-                    ship_selected = True
-                    print ("P1 boat selected")
-                    new_boat = [boat]
-                    return new_boat
+                if(player_select.active == True):
+                    if boat.rect.collidepoint(x, y):
+                        ship_selected = True
+                        print ("P1 boat selected")
+                        new_boat = [boat]
+                        return new_boat
 
             for boat in P2_boat_group:
-                if(Player.active == False):
-                    print('testcase2')
-                if boat.rect.collidepoint(x, y):
-                    ship_selected = True
-                    print ("P2 boat selected")
-                    new_boat = [boat]
-                    return new_boat
+                if(player_select.active == False):
+
+                    if boat.rect.collidepoint(x, y):
+                        ship_selected = True
+                        print ("P2 boat selected")
+                        new_boat = [boat]
+                        return new_boat
 
             # mousecord = getmousepos()
             # for boat, cord in P1_boat_cords.dict.items():
