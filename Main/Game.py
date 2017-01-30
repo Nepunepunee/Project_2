@@ -171,10 +171,7 @@ class Player:
     boats = 4
     def __init__(self):
         self.boats = Player.boats
-    def disable(self):
-        print('disabled')
-    def enable(self):
-        print('enabled')
+        self.active = True
 
 class Boat(pygame.sprite.Sprite):
     health = 100
@@ -475,14 +472,16 @@ def mainloop():
             global turn
             if(turn == True):
                 print("player 2's turn.")
-                Player.enable
-                Player.disable
+                Player.active = False
+
+
                 turn = False
             else:
                 print("player 1's turn")
-                Player.enable
-                Player.disable
+                Player.active = True
+
                 turn = True
+
         def controller(button):
             if button == 'end_button':
                 del movement_tiles[:]
@@ -533,6 +532,9 @@ def mainloop():
             ship_selected = False  ## check if ship is selected within this function
             x, y = event.pos
             for boat in P1_boat_group:
+                if(Player.active == True):
+                    print('testcase')
+
                 if boat.rect.collidepoint(x, y):
                     ship_selected = True
                     print ("P1 boat selected")
@@ -540,6 +542,8 @@ def mainloop():
                     return new_boat
 
             for boat in P2_boat_group:
+                if(Player.active == False):
+                    print('testcase2')
                 if boat.rect.collidepoint(x, y):
                     ship_selected = True
                     print ("P2 boat selected")
