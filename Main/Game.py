@@ -359,6 +359,7 @@ attack_tile = 0,0,pygame.image.load(os.path.join("../images/attack_tile.png"))
 
 
 def mainloop():
+    turn = True
     ship_selected_img = None
     attack_mode = False
     tiles_render = False
@@ -467,12 +468,20 @@ def mainloop():
         # print (P1_Boat1.posYhead)
         # print (P1_Boat1.cordhead)
 
-
+        def switch():
+            global turn
+            if(turn == True):
+                print(turn)
+                turn = False
+            else:
+                print(turn)
+                turn = True
         def controller(button):
             if button == 'end_button':
                 del movement_tiles[:]
                 attack_tiles.remove()
                 boat_active.clear()
+                switch()
             if boat_active and movement_tiles:
                 for boat in boat_active:
                     if button == 'movement_up':
@@ -818,7 +827,7 @@ def mainloop():
 
     game = Game()
     game()
-
+turn = True
 mainloop()
 ### end mainloop
 
