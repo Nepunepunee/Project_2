@@ -93,6 +93,16 @@ class card(pygame.sprite.Sprite):
 
     def update(self,X,Y):
         pass
+
+    def is_mouse_selection(self):
+        mouse = pygame.mouse.get_pos()
+        print("ds")
+        if self.rect.x + self.width > mouse[0] > self.rect.x and self.rect.y + self.height > mouse[1] > self.rect.y:
+            print("d")
+            return True
+        else:
+            return False
+
         # print ("üpdating pos")
         # pos = pygame.mouse.get_pos()
         # x = pos[0]
@@ -397,6 +407,13 @@ def mainloop():
     hover_card = None
     clicked = False
 
+    def set_mouse_selection():
+        for item in turndeck:
+            print("1")
+
+
+
+
     ##ROUND counter
     # roundtime = 30
     # start_ticks = pygame.time.get_ticks()  # starter tick
@@ -511,7 +528,7 @@ def mainloop():
                         attackmode()
                 del movement_tiles[:]
 
-        print ("active card",hover_card)
+        # print ("active card",hover_card)
 
         def selectcard(hovercard):
             print ("in selected card")
@@ -606,7 +623,7 @@ def mainloop():
             global attack_mode
             global tiles_render
             mousecord = getmousepos()
-            print (mousecord)
+            # print (mousecord)
             for boat in boat_active:
                 if mousecord in movement_tiles:
                     boat.set_position(mousecord[0], mousecord[1])
@@ -625,7 +642,7 @@ def mainloop():
                     break
 
 
-        print (boat_active)
+        # print (boat_active)
 
 
 
@@ -810,7 +827,6 @@ def mainloop():
                             P1_drawn = True
 
 
-
                 P1_carddraw.draw(screen)
                 # start of screen writings
                 # seconds = (pygame.time.get_ticks() - start_ticks) / 1000  # calculate how many seconds
@@ -850,7 +866,7 @@ mainloop()
 ### end mainloop
 
 ##check if mainloop has been paused
-print (mainloop())
+# print (mainloop())
 
 
 
