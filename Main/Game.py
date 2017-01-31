@@ -3,7 +3,9 @@ import time
 import pygame,sys,random,os
 from pygame.locals import *
 from Database import *
+import ctypes
 pygame.init()
+
 
 
 ##Colors
@@ -514,11 +516,12 @@ def mainloop():
                 print("player 2's turn.")
                 player_select.active = False
                 turn = False
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
             else:
                 print("player 1's turn")
                 player_select.active = True
                 turn = True
-
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
 
         def controller(button):
             if button == 'end_button':
