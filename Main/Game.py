@@ -279,6 +279,8 @@ class Boat(pygame.sprite.Sprite):
         self.posXhead = (X * tilesize)
         self.posYhead = (Y * tilesize)
         # self.cordhead = [self.posXhead // tilesize, self.posYhead // tilesize]
+        self.rect.x = (X * tilesize)
+        self.rect.y = (Y * tilesize)
 
     def add_position(self,X,Y):
         self.posXhead = (posXhead + X * tilesize)
@@ -286,11 +288,17 @@ class Boat(pygame.sprite.Sprite):
         self.cordhead = [self.posXhead+X,self.posYhead+Y]
 
     def set_cord(self,X,Y):
-        self.cordhead[0] = self.cordhead[0] + X
-        self.cordhead[1] = self.cordhead[1] + Y
-        self.posXhead = self.posXhead + (X * tilesize)
-        self.posYhead = self.posYhead + (Y * tilesize)
+        # self.cordhead[0] = self.cordhead[0] + X
+        # self.cordhead[1] = self.cordhead[1] + Y
+        # self.posXhead = self.posXhead + (X * tilesize)
+        # self.posYhead = self.posYhead + (Y * tilesize)
         # self.cordtail = self.cordtail + X,Y
+        self.posXhead = (self.posXhead + (X * tilesize))
+        self.posYhead = (self.posYhead + (Y * tilesize))
+        self.rect.x = self.rect.x + (X * tilesize)
+        self.rect.y = self.rect.y + (Y * tilesize)
+        print ("rectx: ",self.rect.x)
+        print ("recty: ",self.rect.y)
 
     def rotate(self,angle):
         self.image = pygame.transform.rotate(self.image, angle)
@@ -320,10 +328,10 @@ P2_boat_group = pygame.sprite.Group()
 # P2_boat_group = pygame.sprite.OrderedUpdates()
 
 P1_boat_group.add(P1_Boat1,P1_Boat2,P1_Boat3,P1_Boat4)
-P1_boatsprite1 = P1_boat_group.sprites()[0]
-P1_boatsprite2 = P1_boat_group.sprites()[1]
-P1_boatsprite3 = P1_boat_group.sprites()[2]
-P1_boatsprite4 = P1_boat_group.sprites()[3]
+# P1_boatsprite1 = P1_boat_group.sprites()[0]
+# P1_boatsprite2 = P1_boat_group.sprites()[1]
+# P1_boatsprite3 = P1_boat_group.sprites()[2]
+# P1_boatsprite4 = P1_boat_group.sprites()[3]
 
 
 
@@ -517,6 +525,7 @@ def mainloop():
             global turn
             if (turn == True):
                 print("player 2's turn.")
+
                 player_select.active = False
                 turn = False
             else:
@@ -525,6 +534,7 @@ def mainloop():
                 turn = True
 
         def controller(button):
+            mousecord = getmousepos()
             if button == 'end_button':
                 movement_tiles.empty()
                 attack_tiles.empty()
@@ -533,7 +543,11 @@ def mainloop():
             if boat_active and movement_tiles:
                 for boat in boat_active:
                     if button == 'movement_up':
+                        #pos = get(boat.cordhead[0],boat.cordhead[1]+tilesize)
+
                         boat.set_cord(0,-1)
+                        # boat.set_position(pos[0],pos[1]+1)
+                        # print("x : "+str(boat.cordhead[1]))
                     elif button == 'movement_down':
                         boat.set_cord(0,1)
                     elif button == 'movement_left':
@@ -848,14 +862,14 @@ def mainloop():
 mgui = Tk()
 ment = StringVar
 
-mgui.geometry('170x220+500+300')
-mgui.title('test')
-mlabel = Label(mgui, text='Player 1 name').pack()
-mEntry = Entry(mgui,textvariable=ment).pack()
-#mlabel = Label(mgui, text='Player 2 name').pack()
-#mEntry = Entry(mgui,textvariable=ment).pack()
-mbutton = Button(mgui,text = 'start', command = mhello, fg= 'black',bg = 'white').pack()
-mgui.mainloop()
+# mgui.geometry('170x220+500+300')
+# mgui.title('test')
+# mlabel = Label(mgui, text='Player 1 name').pack()
+# mEntry = Entry(mgui,textvariable=ment).pack()
+# #mlabel = Label(mgui, text='Player 2 name').pack()
+# #mEntry = Entry(mgui,textvariable=ment).pack()
+# mbutton = Button(mgui,text = 'start', command = mhello, fg= 'black',bg = 'white').pack()
+# mgui.mainloop()
 
 turn = True
 mainloop()
