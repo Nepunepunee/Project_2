@@ -3,7 +3,7 @@ import time
 import pygame,sys,random,os
 from pygame.locals import *
 from Database import *
-import ctypes
+from tkinter import *
 pygame.init()
 
 
@@ -69,7 +69,10 @@ RIFLING = 25
 SABOTAGE = 26
 SMOKESCREEN = 27
 SONAR = 28
-
+def mhello():
+    text = ment.get
+    mlabel2 = Label(mgui, text=text).pack()
+    return
 
 class card(pygame.sprite.Sprite):
     def __init__(self,name,rectx,recty,image):
@@ -516,12 +519,10 @@ def mainloop():
                 print("player 2's turn.")
                 player_select.active = False
                 turn = False
-                ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
             else:
                 print("player 1's turn")
                 player_select.active = True
                 turn = True
-                ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
 
         def controller(button):
             if button == 'end_button':
@@ -843,6 +844,19 @@ def mainloop():
     pygame.quit()
     game = Game()
     game()
+
+mgui = Tk()
+ment = StringVar
+
+mgui.geometry('170x220+500+300')
+mgui.title('test')
+mlabel = Label(mgui, text='Player 1 name').pack()
+mEntry = Entry(mgui,textvariable=ment).pack()
+#mlabel = Label(mgui, text='Player 2 name').pack()
+#mEntry = Entry(mgui,textvariable=ment).pack()
+mbutton = Button(mgui,text = 'start', command = mhello, fg= 'black',bg = 'white').pack()
+mgui.mainloop()
+
 turn = True
 mainloop()
 ### end mainloop
