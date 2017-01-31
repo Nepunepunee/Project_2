@@ -179,6 +179,6 @@ class GameMenu():
 # Creating the screen
 screen = pygame.display.set_mode((930, 580), 0, 32)
 menu_bg = load_image('../images/battleship.jpg')
-menu_items = ('Start', 'Instructions', 'Highscore', 'Quit')
+menu_items = ('Start', 'Instructions', 'Highscore','Settings', 'Quit')
 pygame.display.set_caption('Game Menu')
 gm = GameMenu(screen, menu_items)
