@@ -412,11 +412,13 @@ class create_tile(pygame.sprite.Sprite):
         for tiles in group:
             tiles.kill()  # removes from group
             # del tiles
-
+def new_game_db(nameone,nametwo):
+    insert_new_score(nameone,0)
+    insert_new_score(nametwo,0)
 
 
 def mainloop(nameone, nametwo):
-    print(nameone+nametwo)
+    new_game_db(nameone,nametwo)
     player_select = Player()
     ship_selected_img = None
     attack_mode = False
@@ -442,8 +444,8 @@ def mainloop(nameone, nametwo):
     clicked = False
 
     ##ROUND counter
-    # roundtime = 30
-    # start_ticks = pygame.time.get_ticks()  # starter tick
+    roundtime = 30
+    start_ticks = pygame.time.get_ticks()  # starter tick
     # if grid == False:
 
     ##CREATE GRID ON STARTUP (NEW WAY OF RENDERING)
@@ -829,11 +831,17 @@ def mainloop(nameone, nametwo):
 
                 P1_carddraw.draw(screen)
                 # start of screen writings
-                # seconds = (pygame.time.get_ticks() - start_ticks) / 1000  # calculate how many seconds
-                # seconds -= roundtime
-                # seconds = int(seconds)
-                # if roundtime > 0:
-                #     message_to_screen(str(seconds), black, 630, 180)
+                seconds = (pygame.time.get_ticks() - start_ticks) / 200  # calculate how many seconds
+                seconds -= roundtime
+                seconds = int(seconds)
+                if seconds >= 0:
+                    seconds -= roundtime #does not put orginal seconds to -30 needs fix!!!!
+                    print(seconds)
+
+                    switch()
+
+                if roundtime > 0:
+                     message_to_screen(str(seconds), black, 630, 180)
 
                 mousepos = pygame.mouse.get_pos()
 
@@ -871,11 +879,11 @@ ment = StringVar
 # #mEntry = Entry(mgui,textvariable=ment).pack()
 # mbutton = Button(mgui,text = 'start', command = mhello, fg= 'black',bg = 'white').pack()
 # mgui.mainloop()
-
+#
 turn = True
-mainloop()
-### end mainloop
-
-##check if mainloop has been paused
-print (mainloop())
+# mainloop()
+# ### end mainloop
+#
+# ##check if mainloop has been paused
+# print (mainloop())
 
