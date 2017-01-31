@@ -4,6 +4,7 @@ import Game
 import Instruction_menu
 import Pausemenu
 import Highscores
+import Players
 
 class program:
     def __init__(self):
@@ -13,13 +14,15 @@ class program:
         if self.currentscene.__name__ == "Menu":
             self.currentscene = self.currentscene.gm.run()
             if self.currentscene == "Start":
-                self.currentscene = Game.mainloop()
+                self.currentscene = Players.main()
             elif self.currentscene == "Instructions":
                 self.currentscene = Instruction_menu.gm.run()
             elif self.currentscene == "Highscore":
                 self.currentscene = Highscores.gm.run()
             elif self.currentscene == "Quit":
                 self.quitgame()
+        if self.currentscene[2] == "Game":
+            self.currentscene = Game.mainloop()
         if self.currentscene == "Back":
             self.currentscene = Menu
         if self.currentscene == "pause":
