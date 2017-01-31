@@ -2,7 +2,6 @@ import math
 import time
 import pygame,sys,random,os
 from pygame.locals import *
-from Database import *
 pygame.init()
 
 ##Colors
