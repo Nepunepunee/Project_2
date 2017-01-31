@@ -415,7 +415,8 @@ class create_tile(pygame.sprite.Sprite):
 
 
 
-def mainloop():
+def mainloop(nameone, nametwo):
+    print(nameone+nametwo)
     player_select = Player()
     ship_selected_img = None
     attack_mode = False
