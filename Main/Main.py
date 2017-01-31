@@ -5,7 +5,7 @@ import Instruction_menu
 import Pausemenu
 import Highscores
 import Players
-import Settings_menu
+# import Settings_menu
 
 class program:
     def __init__(self):
@@ -19,14 +19,13 @@ class program:
             elif self.currentscene == "Instructions":
                 self.currentscene = Instruction_menu.gm.run()
             elif self.currentscene == "Highscore":
-                #self.currentscene = Highscores.gm.run()
-                print('test')
+                self.currentscene = Highscores.gm.run()
             elif self.currentscene == "Settings":
                 self.currentscene = Settings_menu.gm.run()
             elif self.currentscene == "Quit":
                 self.quitgame()
         if self.currentscene[2] == "Game":
-            self.currentscene = Game.mainloop()
+            self.currentscene = Game.mainloop(self.currentscene[0],self.currentscene[1])
         if self.currentscene == "Back":
             self.currentscene = Menu
         if self.currentscene == "pause":
