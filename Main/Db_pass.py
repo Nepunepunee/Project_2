@@ -1,2 +1,2 @@
 def get_pass():
-    return "password"
+    return "haoran123"
