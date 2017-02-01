@@ -222,6 +222,7 @@ class Boat(pygame.sprite.Sprite):
         self.defence = 0
         self.defencemode = False
         self.movementstep = 1
+        self.attackstep = 1
         Boat.total_boats += 1
 
     def __del__(self):
@@ -303,13 +304,27 @@ class Boat(pygame.sprite.Sprite):
         screen.blit(self.image, (self.posXhead,self.posYhead))
 
     def set_position(self,X,Y):
+        if self.movementstep > 0:
+            self.posXhead = (X * tilesize)
+            self.posYhead = (Y * tilesize)
+            self.cordhead = [X,Y]
+            self.rect.x = (X * tilesize)
+            self.rect.y = (Y * tilesize)
+            self.movementstep -= 1
+        else:
+            return
 
-        self.posXhead = (X * tilesize)
-        self.posYhead = (Y * tilesize)
-        self.cordhead = [X,Y]
-        self.rect.x = (X * tilesize)
-        self.rect.y = (Y * tilesize)
-        print ("setting pos")
+    def set_cord(self, X, Y):
+        if self.movementstep > 0:
+            self.posXhead = (self.posXhead + (X * tilesize))
+            self.posYhead = (self.posYhead + (Y * tilesize))
+            self.rect.x = self.rect.x + (X * tilesize)
+            self.rect.y = self.rect.y + (Y * tilesize)
+            self.cordhead = [math.trunc(self.posXhead // tilesize), math.trunc(self.posYhead // tilesize)]
+            self.movementstep -= 1
+        else:
+            return
+
 
     def set_placeboat(self, X, Y, boat):
         Boat.total_boats += 1
@@ -328,7 +343,7 @@ class Boat(pygame.sprite.Sprite):
         elif boat in P2_boat_group:
             self.posXhead = (X * tilesize)
             self.posYhead = (Y * tilesize)
-            self.cordhead = [X, (Y - boat.length)-1]
+            self.cordhead = [X, (Y - boat.length)+ boat.length]
             self.rect.x = (X * tilesize)
             self.rect.y = (Y * tilesize)
             self.count(boat.player)
@@ -348,12 +363,11 @@ class Boat(pygame.sprite.Sprite):
         self.posYhead = (posYhead + Y * tilesize)
         self.cordhead = [self.posXhead+X,self.posYhead+Y]
 
-    def set_cord(self,X,Y):
-        self.posXhead = (self.posXhead + (X * tilesize))
-        self.posYhead = (self.posYhead + (Y * tilesize))
-        self.rect.x = self.rect.x + (X * tilesize)
-        self.rect.y = self.rect.y + (Y * tilesize)
-        self.cordhead = [self.posXhead,self.posYhead]
+        print ("posxhead",self.posXhead)
+        print ("posyhead",self.posYhead)
+        print ("cordhead",self.cordhead)
+        print ("setting pos")
+
 
     def rotate(self,angle):
         self.image = pygame.transform.rotate(self.image, angle)
@@ -443,6 +457,8 @@ attack_curser = pygame.image.load(os.path.join("../images/attackmarker_tile.png"
 
 ship_selected_bg = pygame.image.load(os.path.join("../images/ship_selected_bg.png"))
 inventory_bg = pygame.image.load(os.path.join("../images/inventory_bg.png"))
+event_bg =  pygame.image.load(os.path.join("../images/event_bg.png"))
+event_log = pygame.image.load(os.path.join("../images/evlog.png"))
 
 
 class create_tile(pygame.sprite.Sprite):
@@ -677,6 +693,8 @@ def mainloop(nameone, nametwo):
                 print("player 2's turn.")
                 ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
                 player_select.active = False
+                for boat in P2_boat_group:
+                    boat.movementstep = 1
                 turn = False
                 if gamestarted:
                     if not P2_inventory_full:
@@ -691,6 +709,8 @@ def mainloop(nameone, nametwo):
                 print("player 1's turn")
                 ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
                 player_select.active = True
+                for boat in P1_boat_group:
+                    boat.movementstep = 1
                 turn = True
                 if gamestarted:
                     if not P1_inventory_full:
@@ -900,20 +920,20 @@ def mainloop(nameone, nametwo):
                 displaysurf.blit(ship_selected_bg, (600, 10))
                 displaysurf.blit(inventory_bg, (600, 225))
 
-                # displaysurf.blit(event_bg, (600, 440))
-                # displaysurf.blit(event_log, (610, 450))
+                displaysurf.blit(event_bg, (600, 460))
+                displaysurf.blit(event_log, (610, 470))
 
                 ##DRAW CARD SLOTS (PLAYER1)
-                message_to_screen(nameone+": "+str(get_score_one()), red, 620, 250)
-                message_to_screen(nametwo + ": " + str(get_score_two()), blue, 620, 350)
+                message_to_screen(nameone+": "+str(get_score_one()), red, 620, 235)
+                message_to_screen(nametwo + ": " + str(get_score_two()), blue, 620, 345)
                 if P1_boats_placed and P2_boats_placed == True:
-                    displaysurf.blit(textures[block], (620, 275))
-                    displaysurf.blit(textures[block], (660, 275))
-                    displaysurf.blit(textures[block], (700, 275))
-                    displaysurf.blit(textures[block], (740, 275))
-                    displaysurf.blit(textures[block], (780, 275))
-                    displaysurf.blit(textures[block], (820, 275))
-                    displaysurf.blit(textures[block], (860, 275))
+                    displaysurf.blit(textures[block], (620, 265))
+                    displaysurf.blit(textures[block], (660, 265))
+                    displaysurf.blit(textures[block], (700, 265))
+                    displaysurf.blit(textures[block], (740, 265))
+                    displaysurf.blit(textures[block], (780, 265))
+                    displaysurf.blit(textures[block], (820, 265))
+                    displaysurf.blit(textures[block], (860, 265))
 
                     ##DRAW CARD SLOTS (PLAYER2)
                     displaysurf.blit(textures[block], (620, 375))
@@ -929,8 +949,8 @@ def mainloop(nameone, nametwo):
                     if len(P1_carddeck) > 0:
                         for card in P1_carddeck:
                             card.rect.x = P1_cardslot_posX
-                            card.rect.y = 275
-                            card.draw(screen, P1_cardslot_posX, 275)
+                            card.rect.y = 265
+                            card.draw(screen, P1_cardslot_posX, 265)
                             P1_cardslot_posX += 40
 
                     # DRAW P2 INVENTORY ITEMS
@@ -938,7 +958,7 @@ def mainloop(nameone, nametwo):
                     if len(P2_carddeck) > 0:
                         for card in P2_carddeck:
                             card.rect.x = P2_cardslot_posX
-                            card.rect.y = 275
+                            card.rect.y = 375
                             card.draw(screen, P2_cardslot_posX, 375)
                             P2_cardslot_posX += 40
 
@@ -976,10 +996,11 @@ def mainloop(nameone, nametwo):
                 # ##DISPLAY CURRENT SELECTED SHIP AND INFO
                 if ship_selected_img != None:
                     screen.blit(ship_selected_img, (850, 40))
-                    for i in boat_active:
-                        message_to_screen("HP: " + str(i.hp), black, 765, 20)
-                        message_to_screen("DEF: " + str(i.defence), black, 765, 40)
-                        message_to_screen("ATT: " + str(i.attack_range), black, 765, 60)
+                    for boat in boat_active:
+                        message_to_screen("HP: " + str(boat.hp), black, 765, 20)
+                        message_to_screen("DEF: " + str(boat.defence), black, 765, 40)
+                        message_to_screen("ATT: " + str(boat.attack_range), black, 765, 60)
+                        message_to_screen("Steps left: " + str(boat.movementstep), black, 765, 150)
                         displaysurf.blit(textures[block], (770, 175)) ##SHIP CARD SLOTS
                         displaysurf.blit(textures[block], (805, 175))
                         displaysurf.blit(textures[block], (840, 175))
@@ -1019,8 +1040,9 @@ def mainloop(nameone, nametwo):
                 #message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 450)
                 #message_to_screen("movement tiles:", black, 600, 480)
                 #message_to_screen(str(movement_tiles),black,600,510)
-                message_to_screen(str(description_card), black, 620, 490)
-                message_to_screen(str(hover_card),orange, 620, 470)
+
+                message_to_screen(str(hover_card),orange, 620, 480)
+                message_to_screen(str(description_card), black, 620, 500)
                 pygame.display.flip()
 
     clock.tick(FPS)
