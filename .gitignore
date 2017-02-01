@@ -94,3 +94,4 @@ Main/.idea/workspace.xml
 *.pyc
 *.xml
 Main/__pycache__/Game.cpython-35.pyc
+*.xml

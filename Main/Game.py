@@ -581,7 +581,6 @@ def mainloop(nameone, nametwo):
 
                 for tile in attack_tiles:
                     if boat_active in P1_boat_group:
-                        if boat_active.attackstep > 0:
                             if tile.rect.collidepoint(x, y):
                                 for boat in P2_boat_group:
                                     if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
@@ -638,7 +637,6 @@ def mainloop(nameone, nametwo):
                                         return "Main menu"
 
                     if boat_active in P2_boat_group:
-                        if boat_active.attackstep > 0:
                             if tile.rect.collidepoint(x, y):
                                 for boat in P1_boat_group:
                                     if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
