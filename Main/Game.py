@@ -526,7 +526,7 @@ def mainloop(nameone, nametwo):
     grid = False
     while not gameExit:
 
-
+        ######
         ## FPS counter
         frame_times = []
         start_t = time.time()

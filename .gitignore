@@ -95,3 +95,6 @@ Main/.idea/workspace.xml
 *.xml
 Main/__pycache__/Game.cpython-35.pyc
 *.xml
+Main/Db_pass.py
+*.pyc
+*.pyc
