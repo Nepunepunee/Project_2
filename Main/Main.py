@@ -3,7 +3,7 @@ import Menu
 import Game
 import Instruction_menu
 import Pausemenu
-import Highscores
+#import Highscores
 import Players
 import Settings_menu
 
@@ -19,7 +19,8 @@ class program:
             elif self.currentscene == "Instructions":
                 self.currentscene = Instruction_menu.gm.run()
             elif self.currentscene == "Highscore":
-                self.currentscene = Highscores.gm.run()
+                #self.currentscene = Highscores.gm.run()
+                print('placeholder')
             elif self.currentscene == "Settings":
                 self.currentscene = Settings_menu.gm.run()
             elif self.currentscene == "Quit":
@@ -36,11 +37,6 @@ class program:
         if self.currentscene == "Main menu":
             self.currentscene = Menu
         self.run()
-
-
-        # Update + draw opzet
-        # self.currentscene = self.currentscene.update()
-        # self.currentscene.draw()
 
     def quitgame(self):
         pygame.quit()
