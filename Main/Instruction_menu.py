@@ -12,8 +12,8 @@ FONT_COLOR = (0, 0, 100)
 
 
 pygame.mixer.init()
-# pygame.mixer.music.load("../sounds/menu_music.wav")
-# pygame.mixer.music.play(-1)
+pygame.mixer.music.load("../sounds/menu_music.wav")
+pygame.mixer.music.play(-1)
 
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
@@ -156,7 +156,6 @@ class GameMenu():
 
             # Redraw the background
             self.screen.fill(self.bg_color)
-            screen.blit(menu_bg, (0, 0))
 
             for item in self.items:
                 if self.mouse_is_visible:
@@ -183,7 +182,6 @@ class GameMenu():
 
 # Creating the screen
 screen = pygame.display.set_mode((930, 580), 0, 32)
-menu_bg = load_image('../images/battleship.jpg')
 menu_items = ('Back', '')
 pygame.display.set_caption('Game Menu')
 gm = GameMenu(screen, menu_items)

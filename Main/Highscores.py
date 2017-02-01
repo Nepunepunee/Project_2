@@ -11,8 +11,6 @@ BLUE = (0, 0, 255)
 FONT_COLOR = (0, 0, 100)
 
 
-pygame.mixer.init()
-
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
     return surface

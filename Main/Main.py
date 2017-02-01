@@ -5,7 +5,7 @@ import Instruction_menu
 import Pausemenu
 import Highscores
 import Players
-# import Settings_menu
+import Settings_menu
 
 class program:
     def __init__(self):

@@ -11,9 +11,9 @@ BLUE = (0, 0, 255)
 FONT_COLOR = (0, 0, 100)
 
 click_sound = True
-# main_music = pygame.mixer.music.load("../sounds/menu_music.wav")
+main_music = pygame.mixer.music.load("../sounds/menu_music.wav")
+pygame.mixer.music.play(-1)
 click = pygame.mixer.Sound("../sounds/click.wav")
-# pygame.mixer.music.play(-1)
 
 def load_image(filename: str) -> pygame.Surface:
     surface = pygame.image.load(filename).convert()
