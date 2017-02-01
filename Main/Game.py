@@ -2,7 +2,7 @@ import math
 import time
 import pygame,sys,random,os
 from pygame.locals import *
-#from Database import *
+from Database import *
 import ctypes
 pygame.init()
 
@@ -465,8 +465,8 @@ class create_tile(pygame.sprite.Sprite):
             tiles.kill()  # removes from group
             # del tiles
 def new_game_db(nameone,nametwo):
-    # insert_new_score(nameone,0)
-    # insert_new_score(nametwo,0)
+    insert_new_score(nameone,0)
+    insert_new_score(nametwo,0)
     print('inserted')
 
 
@@ -568,36 +568,50 @@ def mainloop(nameone, nametwo):
                         if tile.rect.collidepoint(x, y):
                             for boat in P2_boat_group:
                                 if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P2_boat_group.remove(boat)
                                 elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P2_boat_group.remove(boat)
                                 elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P2_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P2_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P2_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P2_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
@@ -610,36 +624,50 @@ def mainloop(nameone, nametwo):
                         if tile.rect.collidepoint(x, y):
                             for boat in P1_boat_group:
                                 if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 100
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P1_boat_group.remove(boat)
                                 elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P1_boat_group.remove(boat)
                                 elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P1_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P1_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P1_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
                                         P1_boat_group.remove(boat)
                                 elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
+                                    #cannon sound
+                                    cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
                                     boat.hp -= 10
                                     player_select.score_playerone += 5
                                     if boat.hp <= 0:
@@ -835,8 +863,6 @@ def mainloop(nameone, nametwo):
         def attackmode():
             movement_tiles.empty()
             print ("doing attack mode")
-            #cannon sound
-            cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
             for boat in boat_active:
                 boatcord = boat.cordhead #SHOW AVAILABLE ATTACK TILES
                 boat.getattack(boat.length)
@@ -853,7 +879,6 @@ def mainloop(nameone, nametwo):
             return player_select.score_playertwo
 
         def win_state():
-            print("something")
             if(player_select.score_playerone > player_select.score_playertwo):
                 winname = nameone
                 winscore = player_select.score_playerone
@@ -862,8 +887,8 @@ def mainloop(nameone, nametwo):
                 winscore = player_select.score_playertwo
 
 
-            #update_score(nameone, player_select.score_playerone)
-            #update_score(nametwo, player_select.score_playertwo)
+            update_score(nameone, player_select.score_playerone)
+            update_score(nametwo, player_select.score_playertwo)
 
 
             ctypes.windll.user32.MessageBoxW(0, "Player " + str(winname) + " wins with " + str(winscore) + " points","You win", 1)
