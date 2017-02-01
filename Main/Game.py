@@ -195,8 +195,12 @@ class Player:
 class Boat(pygame.sprite.Sprite):
     health = 100
     total_boats = 0
-    def __init__(self,posXhead,posYhead,rectx,recty,length,image):
+    placed_count = 0
+    P1_boat_count = 0
+    P2_boat_count = 0
+    def __init__(self,name,posXhead,posYhead,rectx,recty,length,player,image):
         pygame.sprite.Sprite.__init__(self)
+        self.name = name
         self.posX = posXhead
         self.posY = posYhead
         self.posXhead = (posXhead * tilesize)
@@ -204,6 +208,7 @@ class Boat(pygame.sprite.Sprite):
         self.posXtail = (posXhead * tilesize)
         self.posYtail = posYhead + (length-1)
         self.length = length
+        self.player = player
         self.cordhead = [posXhead,posYhead]
         self.cordtail = [self.posXtail,self.posYtail]
         self.image = image
@@ -219,6 +224,51 @@ class Boat(pygame.sprite.Sprite):
 
     def __del__(self):
         pass
+
+    def placeboat(self, X, Y, boat):
+        Boat.total_boats += 1
+        if boat in P1_boat_group:
+            self.cordhead = [self.posX + X, self.posY + Y]
+            self.posXhead = (X * tilesize)
+            self.posYhead = (Y - boat.length + 1) * (tilesize)
+            self.rect.x = (X * tilesize)
+            self.rect.y = (Y * tilesize)
+            self.count(boat.player)
+            return
+        elif boat in P2_boat_group:
+            self.cordhead = [self.posX + X, self.posY + Y]
+            self.posXhead = (X * tilesize)
+            self.posYhead = (Y * tilesize)
+            self.rect.x = (X * tilesize)
+            self.rect.y = (Y * tilesize)
+            self.count(boat.player)
+            return
+
+    def count(self, playername):
+        if playername == "P1":
+            Boat.P1_boat_count = Boat.P1_boat_count + 1
+            print("p1 boat counted")
+        elif playername == "P2":
+            Boat.P2_boat_count = Boat.P2_boat_count + 1
+            print("p2 boat counted")
+        return None
+
+    def getplaceboat(self, P):
+        tiles = []
+        if P == 'P1':
+            tiles = [[0, 19], [1, 19], [2, 19], [3, 19], [4, 19], [5, 19], [6, 19], [7, 19], [8, 19], [9, 19], [10, 19], \
+                     [11, 19], [12, 19], [13, 19], [14, 19], [15, 19], [16, 19], [17, 19], [18, 19], [19, 19]]
+        if P == 'P2':
+            tiles = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], \
+                     [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0]]
+
+        tile_count = 0
+        for tile in tiles:
+            tile_count += 1
+            place_tile = create_tile(tile[0] * tilesize, tile[1] * tilesize,pygame.image.load(os.path.join("../images/movement_tile.png")))
+            placement_tiles.add(place_tile)
+            if tile_count == len(tiles):
+                break
 
     def attack(self):
         pass
@@ -294,8 +344,8 @@ class Boat(pygame.sprite.Sprite):
         self.posYhead = (self.posYhead + (Y * tilesize))
         self.rect.x = self.rect.x + (X * tilesize)
         self.rect.y = self.rect.y + (Y * tilesize)
-        print ("rectx: ",self.rect.x)
-        print ("recty: ",self.rect.y)
+        # self.cordhead[0] = self.cordhead[0] + X
+        # self.cordhead[1] = self.cordhead[1]
 
     def rotate(self,angle):
         self.image = pygame.transform.rotate(self.image, angle)
@@ -309,21 +359,21 @@ class Boat(pygame.sprite.Sprite):
 
 
 #CREATE BOATS
-P1_Boat1 = Boat(3,18,30,30,1,pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
-P1_Boat2 = Boat(6,17,30,60,2,pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
-P1_Boat3 = Boat(10,18,30,60,2,pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
-P1_Boat4 = Boat(16,13,30,90,3,pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
+P1_Boat1 = Boat('P1_Boat1',22,8,30,30,1,'P1',pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
+P1_Boat2 = Boat('P1_Boat2',24,8,30,60,2,'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+P1_Boat3 = Boat('P1_Boat3',26,8,30,60,2,'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+P1_Boat4 = Boat('P1_Boat4',28,8,30,90,3,'P1',pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
 # #
-#P2_Boat1 = Boat(13,3,30,30,1,pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
-#P2_Boat2 = Boat(11,2,30,60,2,pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
-P2_Boat3 = Boat(15,13,30,60,2,pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
-#P2_Boat4 = Boat(6,4,30,90,3,pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
+P2_Boat1 = Boat('P1_Boat1',22,12,30,30,1,'P2',pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
+P2_Boat2 = Boat('P1_Boat2',24,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+P2_Boat3 = Boat('P1_Boat3',26,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+P2_Boat4 = Boat('P1_Boat4',28,12,30,90,3,'P2',pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
 
 P1_boat_group = pygame.sprite.Group()
 P2_boat_group = pygame.sprite.Group()
 
 P1_boat_group.add(P1_Boat1,P1_Boat2,P1_Boat3,P1_Boat4)
-P2_boat_group.add(P2_Boat3)
+P2_boat_group.add(P2_Boat1,P2_Boat2,P2_Boat3,P2_Boat4)
 
 class sprite(pygame.sprite.Sprite):
     def __init__(self,name,image,rectx,recty,width,height):
@@ -363,13 +413,14 @@ movement_leftturn = sprite('movement_leftturn',pygame.image.load(os.path.join('.
 movement_rightturn = sprite('movement_rightturn',pygame.image.load(os.path.join('../images/movement_rightturn.png')).convert_alpha(),705,20,30,30)
 attack_button = sprite('attack_button',pygame.image.load(os.path.join('../images/ui_attack.png')).convert_alpha(),610,135,60,20)
 defend_button = sprite('defend_button',pygame.image.load(os.path.join('../images/ui_defend.png')).convert_alpha(),685,135,60,20)
-end_button = sprite('end_button',pygame.image.load(os.path.join('../images/ui_end.png')).convert_alpha(),650,170,80,30)
+end_button = sprite('end_button',pygame.image.load(os.path.join('../images/ui_end.png')).convert_alpha(),665,170,80,30)
 
 UI_sprites = pygame.sprite.Group() ## MOVEMENT INTERFACE
 UI_sprites.add(movement_up,movement_left,movement_right,movement_down,movement_leftturn,movement_rightturn,end_button,attack_button,defend_button)
 
 attack_tiles = pygame.sprite.Group()
 movement_tiles = pygame.sprite.Group()
+placement_tiles = pygame.sprite.Group()
 
 ## TESTING DRAG WITH MOUSE SPRITES
 dragtest1 = sprite('dragtest1',pygame.image.load(os.path.join('../images/jacksparrow.png')).convert_alpha(),780,500,30,30)
@@ -398,6 +449,9 @@ class create_tile(pygame.sprite.Sprite):
     def setcord(self,X,Y):
         self.cord = X,Y
 
+    # def draw(self, screen):
+    #     screen.blit(self.image, (self.rect.x, self.rect.y))
+
     def delete(self,group):
         for tiles in group:
             tiles.kill()  # removes from group
@@ -407,6 +461,13 @@ def new_game_db(nameone,nametwo):
     # insert_new_score(nametwo,0)
     print('inserted')
 
+
+clicked = False
+P1_boats_placed = False
+P2_boats_placed = False
+P1_inventory_full = False
+P2_inventory_full = False
+gamestarted = False
 
 def mainloop(nameone, nametwo):
     new_game_db(nameone,nametwo)
@@ -420,15 +481,12 @@ def mainloop(nameone, nametwo):
     boat_active = []
     nameone = nameone
     nametwo = nametwo
-
-
     button_pressed = ''
 
     P1_inventory_full = False
     P2_inventory_full = False
-
-    P1_carddraw = pygame.sprite.Group()
-    P2_carddraw = pygame.sprite.Group()
+    P1_carddeck = pygame.sprite.Group()
+    P2_carddeck = pygame.sprite.Group()
     P1_drawn = False
     P1_card_count = 0
 
@@ -441,10 +499,9 @@ def mainloop(nameone, nametwo):
     ##ROUND counter
     roundtime = 30
     start_ticks = pygame.time.get_ticks()  # starter tick
-
+    grid = False
     while not gameExit:
 
-        grid = False
 
         ## FPS counter
         frame_times = []
@@ -460,19 +517,18 @@ def mainloop(nameone, nametwo):
                 for tile in attack_tiles:
                     if tile.rect.collidepoint(x,y):
                         print ("hovering on attack tile")
-
                         tile.image = attack_curser
                     else:
                         tile.image = attack_tile
 
             if event.type == pygame.MOUSEMOTION:
                 x,y = event.pos
-                for sprite in P1_carddraw:
-                    if sprite.rect.collidepoint(x,y):
-                        hover_card = sprite.name
-                        description_card = sprite.description
+                for card in P1_carddeck:
+                    if card.rect.collidepoint(x,y):
+                        hover_card = card
+                        description_card = card.description
                     else:
-                        hover_card_card = None
+                        hover_card = None
 
             if event.type == pygame.KEYDOWN:
                 if event.key == K_ESCAPE:
@@ -495,7 +551,7 @@ def mainloop(nameone, nametwo):
                         button_pressed = sprite.name
                         controller(button_pressed)
                         break
-                for card in P1_carddraw:
+                for card in P1_carddeck:
                     if card.rect.collidepoint(x,y):
                         hover_card = card
 
@@ -595,17 +651,49 @@ def mainloop(nameone, nametwo):
                 clicked = False
 
         def switch():
+            global gamestarted
+            global P1_boats_placed
+            global P2_boats_placed
+            global P1_inventory_full
+            global P2_inventory_full
             global turn
+            placement_tiles.empty()
+
+            if Boat.P1_boat_count >= 10:
+                P1_boats_placed = True
+            if Boat.P2_boat_count >= 10:
+                P2_boats_placed = True
+            if P1_boats_placed and P2_boats_placed:
+                gamestarted = True
             if (turn == True):
                 print("player 2's turn.")
                 ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
                 player_select.active = False
                 turn = False
+                if gamestarted:
+                    if not P2_inventory_full:
+                        print("drawing P2 card")
+                        P2_carddeck.add(random.choice(turndeck))
+                        print(len(P2_carddeck))
+                        if len(P2_carddeck) >= 7:
+                            P2_inventory_full = True
+                        else:
+                            P2_inventory_full = False
             else:
                 print("player 1's turn")
                 ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
                 player_select.active = True
                 turn = True
+                if gamestarted:
+                    if not P1_inventory_full:
+                        print("drawing P1 card")
+                        P1_carddeck.add(random.choice(turndeck))
+                        print(len(P1_carddeck))
+                        if len(P1_carddeck) >= 7:
+                            P1_inventory_full = True
+                        else:
+                            P1_inventory_full = False
+
 
         def controller(button):
             mousecord = getmousepos()
@@ -680,6 +768,13 @@ def mainloop(nameone, nametwo):
         if boat_active: ## if there is a ship selected.  give the img variable, the sprite of this ship (for render)
             while not tiles_render:
                 for boat in boat_active:
+                    if player_select.active == True and P1_boats_placed == False:
+                        print("in P1 boats placed")
+                        boat.getplaceboat(boat.player)
+                    if player_select.active == False and P2_boats_placed == False:
+                        print("in P2 boats placed")
+                        boat.getplaceboat(boat.player)
+
                     ship_selected_img = boat.image
                     boatcord = boat.cordhead
                     boat.getmovement(boat.length)
@@ -690,10 +785,10 @@ def mainloop(nameone, nametwo):
                         boat.getmovement(2)
                     if boat.length == 3:
                         boat.getmovement(3)
+
         if not boat_active:
             ship_selected_img = None
             tiles_render = False
-
 
 
         def moveboat():  ## move fixed boat to the mouse cords
@@ -710,8 +805,9 @@ def mainloop(nameone, nametwo):
                         if tile.rect.collidepoint(x,y):
                             print ("clicked on movement tile")
                             boat.set_position(mousecord[0], mousecord[1])
-                        else:
-                            pass
+                    for tile in placement_tiles:
+                        if tile.rect.collidepoint(x, y):
+                            boat.placeboat(mousecord[0], mousecord[1], boat)
                     if mousecord[0] > mapwidth-1 or mousecord[0] < 0:
                         break
                     elif mousecord[1] > mapheight-1 or mousecord[1] < 0:
@@ -785,46 +881,73 @@ def mainloop(nameone, nametwo):
                 for row in range(mapheight):
                     for column in range(mapwidth):  ##DRAW GRID
                         displaysurf.blit(textures[tilemap[row][column]], (column * tilesize, row * tilesize))
-                # blit the boats at the correct position on the grid
 
-                for boat in P1_boat_group:
-                    boat.draw(screen)
 
-                for boat in P2_boat_group:
-                    boat.draw(screen)
 
                     ###DRAW INTERFACE ELEMENTS
                 displaysurf.blit(ship_selected_bg, (600, 10))
                 displaysurf.blit(inventory_bg, (600, 225))
 
+                # displaysurf.blit(event_bg, (600, 440))
+                # displaysurf.blit(event_log, (610, 450))
+
                 ##DRAW CARD SLOTS (PLAYER1)
                 message_to_screen(nameone+": "+str(get_score_one()), red, 620, 250)
-                displaysurf.blit(textures[block], (620, 275))
-                displaysurf.blit(textures[block], (660, 275))
-                displaysurf.blit(textures[block], (700, 275))
-                displaysurf.blit(textures[block], (740, 275))
-                displaysurf.blit(textures[block], (780, 275))
-                displaysurf.blit(textures[block], (820, 275))
-                displaysurf.blit(textures[block], (860, 275))
+                if P1_boats_placed and P2_boats_placed == True:
+                    displaysurf.blit(textures[block], (620, 275))
+                    displaysurf.blit(textures[block], (660, 275))
+                    displaysurf.blit(textures[block], (700, 275))
+                    displaysurf.blit(textures[block], (740, 275))
+                    displaysurf.blit(textures[block], (780, 275))
+                    displaysurf.blit(textures[block], (820, 275))
+                    displaysurf.blit(textures[block], (860, 275))
 
-                ##DRAW CARD SLOTS (PLAYER2)
-                message_to_screen(nametwo+": "+str(get_score_two()), blue, 620, 350)
-                displaysurf.blit(textures[block], (620, 375))
-                displaysurf.blit(textures[block], (660, 375))
-                displaysurf.blit(textures[block], (700, 375))
-                displaysurf.blit(textures[block], (740, 375))
-                displaysurf.blit(textures[block], (780, 375))
-                displaysurf.blit(textures[block], (820, 375))
-                displaysurf.blit(textures[block], (860, 375))
+                    ##DRAW CARD SLOTS (PLAYER2)
+                    message_to_screen(nametwo+": "+str(get_score_two()), blue, 620, 350)
+                    displaysurf.blit(textures[block], (620, 375))
+                    displaysurf.blit(textures[block], (660, 375))
+                    displaysurf.blit(textures[block], (700, 375))
+                    displaysurf.blit(textures[block], (740, 375))
+                    displaysurf.blit(textures[block], (780, 375))
+                    displaysurf.blit(textures[block], (820, 375))
+                    displaysurf.blit(textures[block], (860, 375))
+
+                    # DRAW P1 INVENTORY ITEMS
+                    P1_cardslot_posX = 620
+                    if len(P1_carddeck) > 0:
+                        for card in P1_carddeck:
+                            card.rect.x = P1_cardslot_posX
+                            card.rect.y = 275
+                            card.draw(screen, P1_cardslot_posX, 275)
+                            P1_cardslot_posX += 40
+
+                    # DRAW P2 INVENTORY ITEMS
+                    P2_cardslot_posX = 620
+                    if len(P2_carddeck) > 0:
+                        for card in P2_carddeck:
+                            card.rect.x = P2_cardslot_posX
+                            card.rect.y = 275
+                            card.draw(screen, P2_cardslot_posX, 375)
+                            P2_cardslot_posX += 40
+
 
                 # SPRITES experimental code
                 UI_sprites.draw(screen)
 
-                ## TESTING DRAG WITH MOUSE SPRITES
-                dragtest.draw(screen)
+
+                if boat_active and player_select.active == True and P1_boats_placed == False:
+                    placement_tiles.draw(screen)
+                if boat_active and player_select.active == False and P2_boats_placed == False:
+                    placement_tiles.draw(screen)
+
+                for boat in P1_boat_group:
+                    boat.draw(screen)
+                for boat in P2_boat_group:
+                    boat.draw(screen)
+
 
                 ## DRAW ACTIVE STUFF NEEDS REWORK (ALL DRAW STUFF)
-                if len(movement_tiles) > 0:
+                if gamestarted and len(movement_tiles) > 0:
                     movement_tiles.draw(screen)
                 else:
                     movement_tiles.empty()
@@ -850,40 +973,9 @@ def mainloop(nameone, nametwo):
                 elif ship_selected_img == None:
                     message_to_screen("No ship selected", black, 770, 100)
 
-                ##FILL P1 INVENTORY
-                while not P1_inventory_full:
-                    P1_carddraw.add(random.choice(turndeck))
-                    print (len(P1_carddraw))
-                    if len(P1_carddraw) >= 7:
-                        P1_inventory_full = True
-                    else:
-                        P1_inventory_full = False
-
-                # ##FILL P2 INVENTORY
-                while not P2_inventory_full:
-                    P2_carddraw.add(random.choice(turndeck))
-                    print (len(P2_carddraw))
-                    if len(P2_carddraw) >= 7:
-                        P2_inventory_full = True
-                    else:
-                        P2_inventory_full = False
-
-                ##DRAW P1 INVENTORY ITEMS
-                P1_cardslot_posX = 620
-                # for i in P1_carddraw:
-                if P1_drawn == False:
-                    print ("drawing cards")
-                    for card in P1_carddraw:
-                        P1_card_count += 1
-                        card.rect.x = P1_cardslot_posX
-                        card.rect.y = 275
-                        card.draw(screen, P1_cardslot_posX, 275)
-                        P1_cardslot_posX += 40
-                        if P1_card_count == len(P1_carddraw):
-                            P1_drawn = True
 
 
-                P1_carddraw.draw(screen)
+                P1_carddeck.draw(screen)
                 # start of screen writings
                 # seconds = (pygame.time.get_ticks() - start_ticks) / 200  # calculate how many seconds
                 # seconds -= roundtime
