@@ -6,7 +6,9 @@ from pygame.locals import *
 import ctypes
 pygame.init()
 
-
+#Sounds
+pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
+cannon_sound = pygame.mixer.Sound("../sounds/cannon.wav") #vervang door goede sound file
 
 ##Colors
 red = (255, 0, 0)
@@ -825,6 +827,8 @@ def mainloop(nameone, nametwo):
         def attackmode():
             movement_tiles.empty()
             print ("doing attack mode")
+            #cannon sound
+            cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
             for boat in boat_active:
                 boatcord = boat.cordhead #SHOW AVAILABLE ATTACK TILES
                 boat.getattack(boat.length)
