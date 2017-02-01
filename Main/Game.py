@@ -200,6 +200,8 @@ class Player:
     def __init__(self):
         self.boats = Player.boats
         self.active = True
+        self.score_playerone = 0
+        self.score_playertwo = 0
 
 class Boat(pygame.sprite.Sprite):
     health = 100
@@ -446,6 +448,8 @@ def mainloop(nameone, nametwo):
     mousemotion = False
     card_selected = False
     boat_active = []
+    nameone = nameone
+    nametwo = nametwo
 
 
     button_pressed = ''
@@ -547,19 +551,82 @@ def mainloop(nameone, nametwo):
                                 if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
                                     print ("p2 boat hit")
                                     boat.hp -= 10
+                                    player_select.score_playerone += 5
+                                    if boat.hp <= 90:
+                                        P2_boat_group.remove(boat)
+
+                                        if(P2_boat_group == 0):
+                                            print('win')
                                 elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
                                     print("p2 boat hit")
                                     boat.hp -= 10
+                                    player_select.score_playerone += 5
+                                    if boat.hp <= 90:
+                                        P2_boat_group.remove(boat)
                                 elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
                                     print("p2 boat hit")
                                     boat.hp -= 10
+                                    player_select.score_playerone += 5
+                                    if boat.hp <= 90:
+                                        P2_boat_group.remove(boat)
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
+                                    print("p2 boat hit")
+                                    boat.hp -= 10
+                                    player_select.score_playerone += 5
+                                    if boat.hp <= 90:
+                                        P2_boat_group.remove(boat)
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
+                                    print("p2 boat hit")
+                                    boat.hp -= 10
+                                    player_select.score_playerone += 5
+                                    if boat.hp <= 90:
+                                        P2_boat_group.remove(boat)
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
+                                    print("p2 boat hit")
+                                    boat.hp -= 10
+                                    player_select.score_playerone += 5
+                                    if boat.hp <= 90:
+                                        P2_boat_group.remove(boat)
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
+                                    print("p2 boat hit")
+                                    boat.hp -= 10
+                                    player_select.score_playerone += 5
+                                    if boat.hp <= 90:
+                                        P2_boat_group.remove(boat)
+                                if(len(P2_boat_group) == 0):
+                                    win_state()
 
                     if boat_active in P2_boat_group:
                         if tile.rect.collidepoint(x, y):
                             for boat in P1_boat_group:
-                                if (tile.rect.x, tile.rect.y) == (boat.rect[0], boat.rect[1]):
-                                        print("p1 boat hit")
-                                        boat.hp -= 10
+                                if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
+                                    print ("p1 boat hit")
+                                    player_select.score_playertwo += 5
+                                    boat.hp -= 10
+                                elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
+                                    print("p1 boat hit")
+                                    player_select.score_playertwo += 5
+                                    boat.hp -= 10
+                                elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
+                                    print("p1 boat hit")
+                                    player_select.score_playertwo += 5
+                                    boat.hp -= 10
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
+                                    print("p1 boat hit")
+                                    player_select.score_playertwo += 5
+                                    boat.hp -= 10
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
+                                    print("p1 boat hit")
+                                    player_select.score_playertwo += 5
+                                    boat.hp -= 10
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
+                                    print("p1 boat hit")
+                                    player_select.score_playertwo += 5
+                                    boat.hp -= 10
+                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
+                                    print("p1 boat hit")
+                                    player_select.score_playertwo += 5
+                                    boat.hp -= 10
 
                 if not boat_active and ship_selected_img != None:
                     boat_active = selectedboat()
@@ -717,25 +784,23 @@ def mainloop(nameone, nametwo):
                     boat.getattack(3)
 
         def get_score_one():
-            score = 0
-            return score
+            return player_select.score_playerone
         def get_score_two():
-            score = 0
-            return score
+            return player_select.score_playertwo
 
-        def win_state(name, score, nametwo, scoretwo):
+        def win_state():
             print("something")
-            if(score > scoretwo):
-                winname = name
-                winscore = score
+            if(player_select.score_playerone > player_select.score_playertwo):
+                winname = nameone
+                winscore = player_select.score_playerone
             else:
                 winname = nametwo
-                winscore = scoretwo
+                winscore = player_select.score_playertwo
             ctypes.windll.user32.MessageBoxW(0, "Player "+str(winname)+" wins with "+str(winscore)+" points", "You win", 1)
 
-            update_score(name, score)
-            update_score(nametwo, scoretwo)
-            return "Main menu"
+            update_score(nameone, player_select.score_playerone)
+            update_score(nametwo, player_select.score_playertwo)
+            return "pause"
 
         def defendmode():
             movement_tiles.empty()
