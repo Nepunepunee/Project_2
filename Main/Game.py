@@ -76,7 +76,7 @@ def mhello():
     return
 
 class card(pygame.sprite.Sprite):
-    def __init__(self,name,rectx,recty,image):
+    def __init__(self,name,rectx,recty,image,description):
         pygame.sprite.Sprite.__init__(self)
         self.posX = 0
         self.posY = 0
@@ -90,6 +90,7 @@ class card(pygame.sprite.Sprite):
         self.cord = [self.rect.x // tilesize, self.rect.y // tilesize]
         self.rect.center = self.rect.center
         self.pos = self.rect.x,self.rect.y
+        self.description = description
 
     def setpos(self,x,y):
         self.rect.x = x
@@ -116,25 +117,25 @@ class card(pygame.sprite.Sprite):
         self.cord = [self.rect.x // tilesize,self.rect.y // tilesize]
 
 
-ADRENALINERUSH = card('ADRENALINERUSH',10,10,pygame.image.load(os.path.join("../images/adrenalinerush.png")))
-ADVANCEDRIFLING = card('ADVANCEDRIFLING',10,10,pygame.image.load(os.path.join("../images/advancedrifling.png")))
-ALUMINIUMHULL = card('ALUMINIUMHULL',10,10,pygame.image.load(os.path.join("../images/aluminiumhull.png")))
-BACKUP = card('BACKUP',10,10,pygame.image.load(os.path.join("../images/backup.png")))
-EMPUPGRADE = card('EMPUPGRADE',10,10,pygame.image.load(os.path.join("../images/empupgrade.png")))
-EXTRAFUEL = card('EXTRAFUEL',10,10,pygame.image.load(os.path.join("../images/extrafuel.png")))
-FARSIGHT = card('FARSIGHT',10,10,pygame.image.load(os.path.join("../images/farsight.png")))
-FLAKARMOR = card('FLAKARMOR',10,10,pygame.image.load(os.path.join("../images/flakarmor.png")))
-FMJUPGRADE = card('FMJUPGRADE',10,10,pygame.image.load(os.path.join("../images/fmjupgrade.png")))
-HEADSHOT = card('HEADSHOT',10,10,pygame.image.load(os.path.join("../images/headshot.png")))
-JACKSPARROW = card('JACKSPARROW',10,10,pygame.image.load(os.path.join("../images/jacksparrow.png")))
-NAVALMINE = card('NAVALMINE',10,10,pygame.image.load(os.path.join("../images/navalmine.png")))
-RALLY = card('RALLY',10,10,pygame.image.load(os.path.join("../images/rally.png")))
-REINFORCEDHULL = card('REINFORCEDHULL',10,10,pygame.image.load(os.path.join("../images/reinforcedhull.png")))
-REPAIR = card('REPAIR',10,10,pygame.image.load(os.path.join("../images/repair.png")))
-RIFLING = card('RIFLING',10,10,pygame.image.load(os.path.join("../images/rifling.png")))
-SABOTAGE = card('SABOTAGE',10,10,pygame.image.load(os.path.join("../images/sabotage.png")))
-SMOKESCREEN = card('SMOKESCREEN',10,10,pygame.image.load(os.path.join("../images/smokescreen.png")))
-SONAR = card('SONAR',10,10,pygame.image.load(os.path.join("../images/sonar.png")))
+ADRENALINERUSH = card('ADRENALINERUSH',10,10,pygame.image.load(os.path.join("../images/adrenalinerush.png")),"One of your ships may move again.")
+ADVANCEDRIFLING = card('ADVANCEDRIFLING',10,10,pygame.image.load(os.path.join("../images/advancedrifling.png")),"Attack range +2 (passive)")
+ALUMINIUMHULL = card('ALUMINIUMHULL',10,10,pygame.image.load(os.path.join("../images/aluminiumhull.png")),"Ship may move twice per turn (passive)")
+BACKUP = card('BACKUP',10,10,pygame.image.load(os.path.join("../images/backup.png")),"draw another card")
+EMPUPGRADE = card('EMPUPGRADE',10,10,pygame.image.load(os.path.join("../images/empupgrade.png")),"Enemy player has to skip this turn")
+EXTRAFUEL = card('EXTRAFUEL',10,10,pygame.image.load(os.path.join("../images/extrafuel.png")),"Ship may move 2 extra steps")
+FARSIGHT = card('FARSIGHT',10,10,pygame.image.load(os.path.join("../images/farsight.png")),"Attack range +2 (passive)")
+FLAKARMOR = card('FLAKARMOR',10,10,pygame.image.load(os.path.join("../images/flakarmor.png")),"Protection against mines (passive)")
+FMJUPGRADE = card('FMJUPGRADE',10,10,pygame.image.load(os.path.join("../images/fmjupgrade.png")),"Attack damage +1 (passive)")
+HEADSHOT = card('HEADSHOT',10,10,pygame.image.load(os.path.join("../images/headshot.png")),"Destroys boat in 1 hit")
+JACKSPARROW = card('JACKSPARROW',10,10,pygame.image.load(os.path.join("../images/jacksparrow.png")),"Steal an opposite boat")
+NAVALMINE = card('NAVALMINE',10,10,pygame.image.load(os.path.join("../images/navalmine.png")),"Place a mine on a coordinate")
+RALLY = card('RALLY',10,10,pygame.image.load(os.path.join("../images/rally.png")),"All ships may use 1 extra step")
+REINFORCEDHULL = card('REINFORCEDHULL',10,10,pygame.image.load(os.path.join("../images/reinforcedhull.png")),"Ship gets +1 armor")
+REPAIR = card('REPAIR',10,10,pygame.image.load(os.path.join("../images/repair.png")),"Ship gets back to full health")
+RIFLING = card('RIFLING',10,10,pygame.image.load(os.path.join("../images/rifling.png")),"Ship Attack range +1 (passive)")
+SABOTAGE = card('SABOTAGE',10,10,pygame.image.load(os.path.join("../images/sabotage.png")),"A chosen ship attacks himself")
+SMOKESCREEN = card('SMOKESCREEN',10,10,pygame.image.load(os.path.join("../images/smokescreen.png")),"A chosen ship cannot attack")
+SONAR = card('SONAR',10,10,pygame.image.load(os.path.join("../images/sonar.png")),"Detect all mines")
 
 
 turndeck = [FMJUPGRADE,FMJUPGRADE,RIFLING,RIFLING,ADVANCEDRIFLING,ADVANCEDRIFLING,NAVALMINE,NAVALMINE,NAVALMINE,
@@ -398,6 +399,9 @@ attack_curser = pygame.image.load(os.path.join("../images/attackmarker_tile.png"
 ship_selected_bg = pygame.image.load(os.path.join("../images/ship_selected_bg.png"))
 inventory_bg = pygame.image.load(os.path.join("../images/inventory_bg.png"))
 
+event_bg = pygame.image.load(os.path.join("../images/event_bg.png"))
+event_log = pygame.image.load(os.path.join("../images/evlog.png"))
+
 
 class create_tile(pygame.sprite.Sprite):
     def __init__(self,cordx,cordy,image):
@@ -444,6 +448,7 @@ def mainloop(nameone, nametwo):
 
     hover_on = None
     hover_card = None
+    description_card = None
     clicked = False
 
     ##ROUND counter
@@ -490,6 +495,15 @@ def mainloop(nameone, nametwo):
                     return "pause"
                 else:
                     pass
+
+            if event.type == pygame.MOUSEMOTION:
+                x,y = event.pos
+                for sprite in P1_carddraw:
+                    if sprite.rect.collidepoint(x,y):
+                       hover_card = sprite.name
+                       description_card = sprite.description
+                    else:
+                        hover_card_card = None
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousepos = getmousepos()
@@ -783,6 +797,8 @@ def mainloop(nameone, nametwo):
                     # boat_bg = pygame.draw.rect(screen, red, [550, 600, 20, 20])
                 displaysurf.blit(ship_selected_bg, (600, 10))
                 displaysurf.blit(inventory_bg, (600, 225))
+                displaysurf.blit(event_bg, (600, 440))
+                displaysurf.blit(event_log, (610, 450))
 
                 ##DRAW CARD SLOTS (PLAYER1)
                 message_to_screen(nameone+": "+str(get_score_one()), red, 620, 250)
@@ -914,6 +930,9 @@ def mainloop(nameone, nametwo):
                 message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 450)
                 message_to_screen("movement tiles:", black, 600, 480)
                 message_to_screen(str(movement_tiles),black,600,510)
+
+                print (description_card)
+                message_to_screen(str(description_card), black, 620, 460)
 
                 pygame.display.flip()
 
