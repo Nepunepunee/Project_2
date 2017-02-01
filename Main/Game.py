@@ -183,6 +183,15 @@ def getpixelcord(pX,pY):
     cord = cord_x, cord_y
     return cord
 
+  # calculate how many seconds
+# Timer function
+def timer():
+    turn = True
+    seconds = int((pygame.time.get_ticks() - start_ticks) / 200 - roundtime)
+    while seconds >= 0:
+        seconds -= roundtime
+    return seconds
+
 
 class Player:
     boats = 4
@@ -416,10 +425,13 @@ class create_tile(pygame.sprite.Sprite):
 #     insert_new_score(nameone,0)
 #     insert_new_score(nametwo,0)
 
+##ROUND counter
+roundtime = 30
+start_ticks = pygame.time.get_ticks()  # starter tick
+
 
 def mainloop(nameone, nametwo):
     #new_game_db(nameone,nametwo)
-    player_select = Player()
     ship_selected_img = None
     attack_mode = False
     tiles_render = False
@@ -443,11 +455,9 @@ def mainloop(nameone, nametwo):
     hover_card = None
     clicked = False
 
-    ##ROUND counter
-    roundtime = 30
-    start_ticks = pygame.time.get_ticks()  # starter tick
     # if grid == False:
 
+    # Round timer function
     ##CREATE GRID ON STARTUP (NEW WAY OF RENDERING)
     # for rw in range(mapheight):
     #     for cl in range(mapwidth):
@@ -523,18 +533,6 @@ def mainloop(nameone, nametwo):
         # print (P1_Boat1.posYhead)
         # print (P1_Boat1.cordhead)
         # print (attack_tiles)
-
-        def switch():
-            global turn
-            if (turn == True):
-                print("player 2's turn.")
-
-                player_select.active = False
-                turn = False
-            else:
-                print("player 1's turn")
-                player_select.active = True
-                turn = True
 
         def controller(button):
             mousecord = getmousepos()
@@ -830,18 +828,10 @@ def mainloop(nameone, nametwo):
 
 
                 P1_carddraw.draw(screen)
-                # start of screen writings
-                seconds = (pygame.time.get_ticks() - start_ticks) / 200  # calculate how many seconds
-                seconds -= roundtime
-                seconds = int(seconds)
-                if seconds >= 0:
-                    seconds -= roundtime #does not put orginal seconds to -30 needs fix!!!!
-                    # print(seconds)
 
-                    switch()
 
-                if roundtime > 0:
-                     message_to_screen(str(seconds), black, 630, 180)
+                # Show timer on screen
+                message_to_screen(str(timer()), black, 620, 180)
 
                 mousepos = pygame.mouse.get_pos()
 
@@ -880,7 +870,6 @@ ment = StringVar
 # mbutton = Button(mgui,text = 'start', command = mhello, fg= 'black',bg = 'white').pack()
 # mgui.mainloop()
 #
-turn = True
 # mainloop()
 # ### end mainloop
 #
