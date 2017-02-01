@@ -74,3 +74,6 @@ Main/__pycache__/Game.cpython-35.pyc
 *.pyc
 Main/.idea/workspace.xml
 *.pyc
+*.xml
+Main/.idea/workspace.xml
+*.xml

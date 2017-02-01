@@ -309,6 +309,7 @@ class Boat(pygame.sprite.Sprite):
         self.cordhead = [X,Y]
         self.rect.x = (X * tilesize)
         self.rect.y = (Y * tilesize)
+        print ("setting pos")
 
     def set_placeboat(self, X, Y, boat):
         Boat.total_boats += 1
