@@ -16,6 +16,7 @@ blue = (0, 0, 255)
 lightblue = (0,200,200)
 black = (0, 0, 0)
 white = (255, 255, 255)
+orange = (255, 99, 71)
 
 #Grid Variables
 tilesize = 29
@@ -76,7 +77,7 @@ def mhello():
     return
 
 class card(pygame.sprite.Sprite):
-    def __init__(self,name,rectx,recty,image,description):
+    def __init__(self,name,rectx,recty,image,description:
         pygame.sprite.Sprite.__init__(self)
         self.posX = 0
         self.posY = 0
@@ -185,23 +186,12 @@ def getpixelcord(pX,pY):
     cord = cord_x, cord_y
     return cord
 
-  # calculate how many seconds
-# Timer function
-def timer():
-    turn = True
-    seconds = int((pygame.time.get_ticks() - start_ticks) / 200 - roundtime)
-    while seconds >= 0:
-        seconds -= roundtime
-    return seconds
-
 
 class Player:
     boats = 4
     def __init__(self):
         self.boats = Player.boats
         self.active = True
-        self.score_playerone = 0
-        self.score_playertwo = 0
 
 class Boat(pygame.sprite.Sprite):
     health = 100
@@ -397,10 +387,10 @@ attack_tiles = pygame.sprite.Group()
 movement_tiles = pygame.sprite.Group()
 
 ## TESTING DRAG WITH MOUSE SPRITES
-dragtest1 = sprite('dragtest1',pygame.image.load(os.path.join('../images/jacksparrow.png')).convert_alpha(),780,500,30,30)
-dragtest2 = sprite('dragtest2',pygame.image.load(os.path.join('../images/jacksparrow.png')).convert_alpha(),820,500,30,30)
-dragtest = pygame.sprite.Group()
-dragtest.add(dragtest1,dragtest2)
+# dragtest1 = sprite('dragtest1',pygame.image.load(os.path.join('../images/jacksparrow.png')).convert_alpha(),780,500,30,30)
+# dragtest2 = sprite('dragtest2',pygame.image.load(os.path.join('../images/jacksparrow.png')).convert_alpha(),820,500,30,30)
+# dragtest = pygame.sprite.Group()
+# dragtest.add(dragtest1,dragtest2)
 
 ##CREATE DIFFERENT TILES
 movement_tile = pygame.image.load(os.path.join("../images/movement_tile.png"))
@@ -434,13 +424,10 @@ def new_game_db(nameone,nametwo):
     insert_new_score(nameone,0)
     insert_new_score(nametwo,0)
 
-##ROUND counter
-roundtime = 30
-start_ticks = pygame.time.get_ticks()  # starter tick
-
 
 def mainloop(nameone, nametwo):
-    #new_game_db(nameone,nametwo)
+    new_game_db(nameone,nametwo)
+    player_select = Player()
     ship_selected_img = None
     attack_mode = False
     tiles_render = False
@@ -448,8 +435,6 @@ def mainloop(nameone, nametwo):
     mousemotion = False
     card_selected = False
     boat_active = []
-    nameone = nameone
-    nametwo = nametwo
 
 
     button_pressed = ''
@@ -465,11 +450,14 @@ def mainloop(nameone, nametwo):
     hover_on = None
     hover_card = None
     description_card = None
+    name_card = None
     clicked = False
 
+    ##ROUND counter
+    roundtime = 30
+    start_ticks = pygame.time.get_ticks()  # starter tick
     # if grid == False:
 
-    # Round timer function
     ##CREATE GRID ON STARTUP (NEW WAY OF RENDERING)
     # for rw in range(mapheight):
     #     for cl in range(mapwidth):
@@ -504,12 +492,6 @@ def mainloop(nameone, nametwo):
                     else:
                         tile.image = attack_tile
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == K_ESCAPE:
-                    return "pause"
-                else:
-                    pass
-
             if event.type == pygame.MOUSEMOTION:
                 x,y = event.pos
                 for sprite in P1_carddraw:
@@ -518,6 +500,12 @@ def mainloop(nameone, nametwo):
                        description_card = sprite.description
                     else:
                         hover_card_card = None
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_ESCAPE:
+                    return "pause"
+                else:
+                    pass
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousepos = getmousepos()
@@ -551,82 +539,19 @@ def mainloop(nameone, nametwo):
                                 if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
                                     print ("p2 boat hit")
                                     boat.hp -= 10
-                                    player_select.score_playerone += 5
-                                    if boat.hp <= 90:
-                                        P2_boat_group.remove(boat)
-
-                                        if(P2_boat_group == 0):
-                                            print('win')
                                 elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
                                     print("p2 boat hit")
                                     boat.hp -= 10
-                                    player_select.score_playerone += 5
-                                    if boat.hp <= 90:
-                                        P2_boat_group.remove(boat)
                                 elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
                                     print("p2 boat hit")
                                     boat.hp -= 10
-                                    player_select.score_playerone += 5
-                                    if boat.hp <= 90:
-                                        P2_boat_group.remove(boat)
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
-                                    print("p2 boat hit")
-                                    boat.hp -= 10
-                                    player_select.score_playerone += 5
-                                    if boat.hp <= 90:
-                                        P2_boat_group.remove(boat)
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
-                                    print("p2 boat hit")
-                                    boat.hp -= 10
-                                    player_select.score_playerone += 5
-                                    if boat.hp <= 90:
-                                        P2_boat_group.remove(boat)
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
-                                    print("p2 boat hit")
-                                    boat.hp -= 10
-                                    player_select.score_playerone += 5
-                                    if boat.hp <= 90:
-                                        P2_boat_group.remove(boat)
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
-                                    print("p2 boat hit")
-                                    boat.hp -= 10
-                                    player_select.score_playerone += 5
-                                    if boat.hp <= 90:
-                                        P2_boat_group.remove(boat)
-                                if(len(P2_boat_group) == 0):
-                                    win_state()
 
                     if boat_active in P2_boat_group:
                         if tile.rect.collidepoint(x, y):
                             for boat in P1_boat_group:
-                                if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
-                                    print ("p1 boat hit")
-                                    player_select.score_playertwo += 5
-                                    boat.hp -= 10
-                                elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
-                                    print("p1 boat hit")
-                                    player_select.score_playertwo += 5
-                                    boat.hp -= 10
-                                elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
-                                    print("p1 boat hit")
-                                    player_select.score_playertwo += 5
-                                    boat.hp -= 10
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
-                                    print("p1 boat hit")
-                                    player_select.score_playertwo += 5
-                                    boat.hp -= 10
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
-                                    print("p1 boat hit")
-                                    player_select.score_playertwo += 5
-                                    boat.hp -= 10
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
-                                    print("p1 boat hit")
-                                    player_select.score_playertwo += 5
-                                    boat.hp -= 10
-                                elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
-                                    print("p1 boat hit")
-                                    player_select.score_playertwo += 5
-                                    boat.hp -= 10
+                                if (tile.rect.x, tile.rect.y) == (boat.rect[0], boat.rect[1]):
+                                        print("p1 boat hit")
+                                        boat.hp -= 10
 
                 if not boat_active and ship_selected_img != None:
                     boat_active = selectedboat()
@@ -646,6 +571,19 @@ def mainloop(nameone, nametwo):
         # print (P1_Boat1.posYhead)
         # print (P1_Boat1.cordhead)
         # print (attack_tiles)
+
+        def switch():
+            global turn
+            if (turn == True):
+                print("player 2's turn.")
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
+                player_select.active = False
+                turn = False
+            else:
+                print("player 1's turn")
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
+                player_select.active = True
+                turn = True
 
         def controller(button):
             mousecord = getmousepos()
@@ -784,23 +722,25 @@ def mainloop(nameone, nametwo):
                     boat.getattack(3)
 
         def get_score_one():
-            return player_select.score_playerone
+            score = 0
+            return score
         def get_score_two():
-            return player_select.score_playertwo
+            score = 0
+            return score
 
-        def win_state():
+        def win_state(name, score, nametwo, scoretwo):
             print("something")
-            if(player_select.score_playerone > player_select.score_playertwo):
-                winname = nameone
-                winscore = player_select.score_playerone
+            if(score > scoretwo):
+                winname = name
+                winscore = score
             else:
                 winname = nametwo
-                winscore = player_select.score_playertwo
+                winscore = scoretwo
             ctypes.windll.user32.MessageBoxW(0, "Player "+str(winname)+" wins with "+str(winscore)+" points", "You win", 1)
 
-            update_score(nameone, player_select.score_playerone)
-            update_score(nametwo, player_select.score_playertwo)
-            return "pause"
+            update_score(name, score)
+            update_score(nametwo, scoretwo)
+            return "Main menu"
 
         def defendmode():
             movement_tiles.empty()
@@ -886,7 +826,7 @@ def mainloop(nameone, nametwo):
                 UI_sprites.draw(screen)
 
                 ## TESTING DRAG WITH MOUSE SPRITES
-                dragtest.draw(screen)
+                # dragtest.draw(screen)
 
                 ## DRAW ACTIVE STUFF NEEDS REWORK (ALL DRAW STUFF)
                 if len(movement_tiles) > 0:
@@ -964,8 +904,18 @@ def mainloop(nameone, nametwo):
 
 
                 P1_carddraw.draw(screen)
-                # Show timer on screen
-                message_to_screen(str(timer()), black, 620, 180)
+                # start of screen writings
+                # seconds = (pygame.time.get_ticks() - start_ticks) / 200  # calculate how many seconds
+                # seconds -= roundtime
+                # seconds = int(seconds)
+                # if seconds >= 0:
+                #     seconds -= roundtime #does not put orginal seconds to -30 needs fix!!!!
+                #     # print(seconds)
+                #
+                #     switch()
+                #
+                # if roundtime > 0:
+                #      message_to_screen(str(seconds), black, 630, 180)
 
                 mousepos = pygame.mouse.get_pos()
 
@@ -979,13 +929,14 @@ def mainloop(nameone, nametwo):
                 #######
                 ## FPS COUNTER
                 ## DEBUGGING MESSAGES TO SCREEN
-                message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 450)
-                message_to_screen("movement tiles:", black, 600, 480)
-                message_to_screen(str(movement_tiles),black,600,510)
+                # message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 450)
+                # message_to_screen("movement tiles:", black, 600, 480)
+                # message_to_screen(str(movement_tiles),black,600,510)
 
+                print (hover_card)
                 print (description_card)
-                message_to_screen(str(description_card), black, 620, 460)
-
+                message_to_screen(str(description_card), black, 620, 490)
+                message_to_screen(str(hover_card),orange, 620, 470)
                 pygame.display.flip()
 
 
@@ -1007,6 +958,7 @@ ment = StringVar
 # mbutton = Button(mgui,text = 'start', command = mhello, fg= 'black',bg = 'white').pack()
 # mgui.mainloop()
 #
+turn = True
 # mainloop()
 # ### end mainloop
 #
