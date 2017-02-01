@@ -2,8 +2,9 @@ import math
 import time
 import pygame,sys,random,os
 from pygame.locals import *
-# from Database import *
+from Database import *
 from tkinter import *
+import ctypes
 pygame.init()
 
 
@@ -412,13 +413,13 @@ class create_tile(pygame.sprite.Sprite):
         for tiles in group:
             tiles.kill()  # removes from group
             # del tiles
-# def new_game_db(nameone,nametwo):
-#     insert_new_score(nameone,0)
-#     insert_new_score(nametwo,0)
+def new_game_db(nameone,nametwo):
+    insert_new_score(nameone,0)
+    insert_new_score(nametwo,0)
 
 
 def mainloop(nameone, nametwo):
-    #new_game_db(nameone,nametwo)
+    new_game_db(nameone,nametwo)
     player_select = Player()
     ship_selected_img = None
     attack_mode = False
@@ -528,11 +529,12 @@ def mainloop(nameone, nametwo):
             global turn
             if (turn == True):
                 print("player 2's turn.")
-
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
                 player_select.active = False
                 turn = False
             else:
                 print("player 1's turn")
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
                 player_select.active = True
                 turn = True
 
@@ -672,6 +674,26 @@ def mainloop(nameone, nametwo):
                 elif boat.length == 3:
                     boat.getattack(3)
 
+        def get_score_one():
+            score = 0
+            return score
+        def get_score_two():
+            score = 0
+            return score
+
+        def win_state(name, score, nametwo, scoretwo):
+            print("something")
+            if(score > scoretwo):
+                winname = name
+                winscore = score
+            else:
+                winname = nametwo
+                winscore = scoretwo
+            ctypes.windll.user32.MessageBoxW(0, "Player "+str(winname)+" wins with "+str(winscore)+" points", "You win", 1)
+
+            update_score(name, score)
+            update_score(nametwo, scoretwo)
+            return "Main menu"
 
         def defendmode():
             movement_tiles.empty()
@@ -729,7 +751,7 @@ def mainloop(nameone, nametwo):
                 displaysurf.blit(inventory_bg, (600, 225))
 
                 ##DRAW CARD SLOTS (PLAYER1)
-                message_to_screen(nameone, red, 620, 250)
+                message_to_screen(nameone+": "+str(get_score_one()), red, 620, 250)
                 displaysurf.blit(textures[block], (620, 275))
                 displaysurf.blit(textures[block], (660, 275))
                 displaysurf.blit(textures[block], (700, 275))
@@ -739,7 +761,7 @@ def mainloop(nameone, nametwo):
                 displaysurf.blit(textures[block], (860, 275))
 
                 ##DRAW CARD SLOTS (PLAYER2)
-                message_to_screen(nametwo, blue, 620, 350)
+                message_to_screen(nametwo+": "+str(get_score_two()), blue, 620, 350)
                 displaysurf.blit(textures[block], (620, 375))
                 displaysurf.blit(textures[block], (660, 375))
                 displaysurf.blit(textures[block], (700, 375))
@@ -831,17 +853,17 @@ def mainloop(nameone, nametwo):
 
                 P1_carddraw.draw(screen)
                 # start of screen writings
-                seconds = (pygame.time.get_ticks() - start_ticks) / 200  # calculate how many seconds
-                seconds -= roundtime
-                seconds = int(seconds)
-                if seconds >= 0:
-                    seconds -= roundtime #does not put orginal seconds to -30 needs fix!!!!
-                    # print(seconds)
-
-                    switch()
-
-                if roundtime > 0:
-                     message_to_screen(str(seconds), black, 630, 180)
+                # seconds = (pygame.time.get_ticks() - start_ticks) / 200  # calculate how many seconds
+                # seconds -= roundtime
+                # seconds = int(seconds)
+                # if seconds >= 0:
+                #     seconds -= roundtime #does not put orginal seconds to -30 needs fix!!!!
+                #     # print(seconds)
+                #
+                #     switch()
+                #
+                # if roundtime > 0:
+                #      message_to_screen(str(seconds), black, 630, 180)
 
                 mousepos = pygame.mouse.get_pos()
 

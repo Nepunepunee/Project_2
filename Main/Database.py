@@ -52,10 +52,10 @@ def get_state(state):
     database_command("SELECT * FROM state WHERE State={}".format(state))
 
 def get_player(name):
-    database_command("SELECT * FROM score WHERE Name={}".format(name))
+    database_command("SELECT score FROM score WHERE Name={}".format("'"+name+"'"))
 
 def update_score(name, score):
-    database_command("UPDATE score SET Score={} WHERE Name={}".format(score, name))
+    database_command("UPDATE score SET Score={} WHERE Name={}".format(score, "'"+name+"'"))
 
 def Get_top():
     result = database_command("SELECT * FROM score ORDER BY Score DESC LIMIT 10 ")
