@@ -2,7 +2,7 @@ import math
 import time
 import pygame,sys,random,os
 from pygame.locals import *
-from Database import *
+# from Database import *
 from tkinter import *
 pygame.init()
 
@@ -412,13 +412,13 @@ class create_tile(pygame.sprite.Sprite):
         for tiles in group:
             tiles.kill()  # removes from group
             # del tiles
-def new_game_db(nameone,nametwo):
-    insert_new_score(nameone,0)
-    insert_new_score(nametwo,0)
+# def new_game_db(nameone,nametwo):
+#     insert_new_score(nameone,0)
+#     insert_new_score(nametwo,0)
 
 
 def mainloop(nameone, nametwo):
-    new_game_db(nameone,nametwo)
+    #new_game_db(nameone,nametwo)
     player_select = Player()
     ship_selected_img = None
     attack_mode = False
@@ -729,7 +729,7 @@ def mainloop(nameone, nametwo):
                 displaysurf.blit(inventory_bg, (600, 225))
 
                 ##DRAW CARD SLOTS (PLAYER1)
-                message_to_screen("PLAYER1: ", red, 620, 250)
+                message_to_screen(nameone, red, 620, 250)
                 displaysurf.blit(textures[block], (620, 275))
                 displaysurf.blit(textures[block], (660, 275))
                 displaysurf.blit(textures[block], (700, 275))
@@ -739,7 +739,7 @@ def mainloop(nameone, nametwo):
                 displaysurf.blit(textures[block], (860, 275))
 
                 ##DRAW CARD SLOTS (PLAYER2)
-                message_to_screen("PLAYER2: ", blue, 620, 350)
+                message_to_screen(nametwo, blue, 620, 350)
                 displaysurf.blit(textures[block], (620, 375))
                 displaysurf.blit(textures[block], (660, 375))
                 displaysurf.blit(textures[block], (700, 375))
@@ -836,7 +836,7 @@ def mainloop(nameone, nametwo):
                 seconds = int(seconds)
                 if seconds >= 0:
                     seconds -= roundtime #does not put orginal seconds to -30 needs fix!!!!
-                    print(seconds)
+                    # print(seconds)
 
                     switch()
 

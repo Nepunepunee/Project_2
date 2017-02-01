@@ -3,7 +3,7 @@ import Menu
 import Game
 import Instruction_menu
 import Pausemenu
-#import Highscores
+import Highscores
 import Players
 # import Settings_menu
 

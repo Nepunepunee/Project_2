@@ -1,7 +1,6 @@
 from pygame.locals import *
 import pygame, sys, eztext
-#
-BLACK = (0,0,0)
+BLACK = (240,0,0)
 
 def main():
     # initialize pygame
@@ -13,7 +12,7 @@ def main():
     # here is the magic: making the text input
     # create an input with a max length of 45,
     # and a red color and a prompt saying 'type here: '
-    txtbx = eztext.Input(maxlength=45, color=(0,0,255), prompt='Naam speler één:   ')
+    txtbx = eztext.Input(maxlength=45, color=(255,0,0), prompt='Naam speler één:   ', x= 100, y= 260)
     # create the pygame clock
     clock = pygame.time.Clock()
     # main loop!
@@ -35,13 +34,14 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     players.append(txtbx.value)
+                    txtbx.color = (0, 0, 255)
                     txtbx.prompt = 'Naam speler twee:   '
                     txtbx.value = ''
 
 
 
         # clear the screen
-        screen.fill((255,255,255))
+        screen.fill((0,0,0))
         # update txtbx
         txtbx.update(events)
         # blit txtbx on the sceen
