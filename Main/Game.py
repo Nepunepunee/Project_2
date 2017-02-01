@@ -320,7 +320,7 @@ P1_Boat4 = Boat(16,13,30,90,3,pygame.image.load(os.path.join('../images/P1_ship_
 # #
 P2_Boat1 = Boat(13,3,30,30,1,pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
 P2_Boat2 = Boat(11,2,30,60,2,pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
-P2_Boat3 = Boat(3,6,30,60,2,pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+P2_Boat3 = Boat(15,13,30,60,2,pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
 P2_Boat4 = Boat(6,4,30,90,3,pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
 
 P1_boat_group = pygame.sprite.Group()
@@ -329,6 +329,8 @@ P2_boat_group = pygame.sprite.Group()
 # P2_boat_group = pygame.sprite.OrderedUpdates()
 
 P1_boat_group.add(P1_Boat1,P1_Boat2,P1_Boat3,P1_Boat4)
+P2_boat_group.add(P2_Boat1,P2_Boat2,P2_Boat3,P2_Boat4)
+
 # P1_boatsprite1 = P1_boat_group.sprites()[0]
 # P1_boatsprite2 = P1_boat_group.sprites()[1]
 # P1_boatsprite3 = P1_boat_group.sprites()[2]
@@ -478,6 +480,7 @@ def mainloop(nameone, nametwo):
                 for tile in attack_tiles:
                     if tile.rect.collidepoint(x,y):
                         print ("hovering on attack tile")
+
                         tile.image = attack_curser
                     else:
                         tile.image = attack_tile
@@ -506,6 +509,34 @@ def mainloop(nameone, nametwo):
                 for card in P1_carddraw:
                     if card.rect.collidepoint(x,y):
                         hover_card = card
+
+                for tile in attack_tiles:
+                    if boat_active in P1_boat_group:
+                        if tile.rect.collidepoint(x, y):
+                            for boat in P2_boat_group:
+                                # print ("tile rectx pressed: ",tile.rect.x)
+                                # print("tile recty pressed: ", tile.rect.y)
+                                # print ("P2 boat cordx: ",boat.rect.x)
+                                # print("P2 boat cordx: ", boat.rect.y)
+                                print(boat.rect[0],boat.rect[1]+tilesize)
+                                print(tile.rect.x,tile.rect.y)
+                                if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
+                                    print ("p2 boat hit")
+                                    boat.hp -= 10
+                                elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
+                                    print("p2 boat hit")
+                                    boat.hp -= 10
+                                elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
+                                    print("p2 boat hit")
+                                    boat.hp -= 10
+
+                    if boat_active in P2_boat_group:
+                        if tile.rect.collidepoint(x, y):
+                            for boat in P1_boat_group:
+                                if (tile.rect.x, tile.rect.y) == (boat.rect[0], boat.rect[1]):
+                                        print("p1 boat hit")
+                                        boat.hp -= 10
+
                 if not boat_active and ship_selected_img != None:
                     boat_active = selectedboat()
                 elif not boat_active:
@@ -726,6 +757,9 @@ def mainloop(nameone, nametwo):
 
 
                 for boat in P1_boat_group:
+                    boat.draw(screen)
+
+                for boat in P2_boat_group:
                     boat.draw(screen)
 
                     # displaysurf.blit(P1_boatsprite1.image, (P1_boatsprite1.cordhead[0] * tilesize, P1_boatsprite1.cordhead[1] * tilesize))
