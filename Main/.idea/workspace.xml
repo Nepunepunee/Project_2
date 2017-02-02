@@ -31,8 +31,20 @@
       <file leaf-file-name="Game.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="528" column="14" lean-forward="false" selection-start-line="528" selection-start-column="14" selection-end-line="528" selection-end-column="14" />
+            <state relative-caret-position="270">
+              <caret line="991" column="68" lean-forward="true" selection-start-line="991" selection-start-column="68" selection-end-line="991" selection-end-column="68" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Game_31-1-2017.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/Game_31-1-2017.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="872">
+              <caret line="888" column="37" lean-forward="false" selection-start-line="888" selection-start-column="37" selection-end-line="888" selection-end-column="37" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -90,6 +102,14 @@
       <find>inventory_</find>
       <find>inventory_bg</find>
       <find>attackstep</find>
+      <find>boat</find>
+      <find>movement</find>
+      <find>movement_tile</find>
+      <find>selectcard</find>
+      <find>hovercard</find>
+      <find>card_selected</find>
+      <find>set_cord</find>
+      <find>movecard</find>
     </findStrings>
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -108,6 +128,7 @@
         <option value="$PROJECT_DIR$/Database.py" />
         <option value="$PROJECT_DIR$/Db_pass.py" />
         <option value="$PROJECT_DIR$/Game.py" />
+        <option value="$USER_HOME$/Desktop/Game_31-1-2017.py" />
       </list>
     </option>
   </component>
@@ -478,13 +499,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="16" column="38" lean-forward="false" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Menu.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
@@ -866,10 +880,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Desktop/Game_31-1-2017.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="872">
+          <caret line="888" column="37" lean-forward="false" selection-start-line="888" selection-start-column="37" selection-end-line="888" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="528" column="14" lean-forward="false" selection-start-line="528" selection-start-column="14" selection-end-line="528" selection-end-column="14" />
+        <state relative-caret-position="270">
+          <caret line="991" column="68" lean-forward="true" selection-start-line="991" selection-start-column="68" selection-end-line="991" selection-end-column="68" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

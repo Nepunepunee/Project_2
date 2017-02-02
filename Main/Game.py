@@ -105,7 +105,10 @@ class card(pygame.sprite.Sprite):
     def setcord(self,x,y):
         self.rect.x = (x * tilesize)
         self.rect.y = (y * tilesize)
-        self.cordhead = [self.rect.x // tilesize, self.rect.y // tilesize]
+        self.cordhead = [self.rect.x // tilesize,self.rect.y // tilesize]
+
+    def setactive(self):
+        self.cordhead = [self.rect.x // block,self.rect.y // block]
 
     def draw(self,screen,X,Y):
         screen.blit(self.image,(X,Y))
@@ -274,9 +277,9 @@ class Boat(pygame.sprite.Sprite):
     def getattack(self,boatlength):
         tiles = []
         if boatlength == 1:
-            tiles = [self.cordhead[0]+1,self.cordhead[1],[self.cordhead[0]+2,self.cordhead[1]],[self.cordhead[0]-1,self.cordhead[1]], \
+            tiles = [self.cordhead[0]+1,self.cordhead[1]],[self.cordhead[0]+2,self.cordhead[1]],[self.cordhead[0]-1,self.cordhead[1]], \
                      [self.cordhead[0]-2,self.cordhead[1]],[self.cordhead[0],self.cordhead[1]-1],[self.cordhead[0],self.cordhead[1]-2], \
-                     [self.cordhead[0], self.cordhead[1]+1], [self.cordhead[0], self.cordhead[1]+2]]
+                     [self.cordhead[0],self.cordhead[1]+1],[self.cordhead[0],self.cordhead[1]+2]
 
         if boatlength == 2:
             tiles = [self.cordhead[0]+1,self.cordhead[1]],[self.cordhead[0]+2,self.cordhead[1]],[self.cordhead[0]-1,self.cordhead[1]], \
@@ -287,7 +290,7 @@ class Boat(pygame.sprite.Sprite):
         if boatlength == 3:
             tiles = [self.cordhead[0]+1,self.cordhead[1]],[self.cordhead[0]+2,self.cordhead[1]],[self.cordhead[0]-1,self.cordhead[1]], \
                     [self.cordhead[0]-2,self.cordhead[1]],[self.cordhead[0],self.cordhead[1]-1],[self.cordhead[0],self.cordhead[1]-2], \
-                    [self.cordhead[0], self.cordhead[1]+3],[self.cordhead[0], self.cordhead[1]+4],[self.cordhead[0], self.cordhead[1]+3], \
+                    [self.cordhead[0],self.cordhead[1]+3],[self.cordhead[0],self.cordhead[1]+4],[self.cordhead[0], self.cordhead[1]+3], \
                     [self.cordhead[0]+1,self.cordhead[1]-(-1)],[self.cordhead[0]+(-1),self.cordhead[1]+1],[self.cordhead[0]+2,self.cordhead[1]-(-1)], \
                     [self.cordhead[0]+(-2),self.cordhead[1]+1],[self.cordhead[0]+1,self.cordhead[1]-(-2)],[self.cordhead[0]+(-1),self.cordhead[1]+2], \
                     [self.cordhead[0]+2,self.cordhead[1]-(-2)],[self.cordhead[0]+(-2),self.cordhead[1]+2]
@@ -455,6 +458,7 @@ movement_tile = pygame.image.load(os.path.join("../images/movement_tile.png"))
 attack_tile = pygame.image.load(os.path.join("../images/attack_tile.png"))
 attack_curser = pygame.image.load(os.path.join("../images/attackmarker_tile.png"))
 
+panel_bg = pygame.image.load(os.path.join("../images/panel_bg.png"))
 ship_selected_bg = pygame.image.load(os.path.join("../images/ship_selected_bg.png"))
 inventory_bg = pygame.image.load(os.path.join("../images/inventory_bg.png"))
 event_bg =  pygame.image.load(os.path.join("../images/event_bg.png"))
@@ -501,7 +505,6 @@ def mainloop(nameone, nametwo):
     tiles_render = False
     gameExit = False
     mousemotion = False
-    card_selected = False
     boat_active = []
     nameone = nameone
     nametwo = nametwo
@@ -526,7 +529,7 @@ def mainloop(nameone, nametwo):
     grid = False
     while not gameExit:
 
-        ######
+
         ## FPS counter
         frame_times = []
         start_t = time.time()
@@ -565,11 +568,7 @@ def mainloop(nameone, nametwo):
                 x,y = event.pos
                 clicked = True
                 if hover_card:
-                    # hover_card = None
                     movecard(hover_card)
-                elif hover_card != None:
-                    card_selected = True
-                    selectcard(hover_card)
                 for sprite in UI_sprites:
                     if sprite.rect.collidepoint(x,y):
                         button_pressed = sprite.name
@@ -794,8 +793,12 @@ def mainloop(nameone, nametwo):
                     card.resetpos()
                 else:
                     card.setcord(mousecord[0], mousecord[1])
-            else:
-                card.setpos(x,y)
+            elif card.name != 'NAVALMINE':
+                if mousecord[0] < 600:
+                    card.resetpos()
+                else:
+                    card.setactive(x,y)
+
             hover_card = None
 
 
@@ -944,9 +947,9 @@ def mainloop(nameone, nametwo):
 
 
                     ###DRAW INTERFACE ELEMENTS
+                displaysurf.blit(panel_bg, (590, 0))
                 displaysurf.blit(ship_selected_bg, (600, 10))
                 displaysurf.blit(inventory_bg, (600, 225))
-
                 displaysurf.blit(event_bg, (600, 460))
                 displaysurf.blit(event_log, (610, 470))
 
