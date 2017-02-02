@@ -6,6 +6,13 @@ from Database import *
 import ctypes
 pygame.init()
 
+def debug():
+    player_select.damage = 50
+    print('debug activated')
+    player_select.debug = True
+    print(player_select.debug)
+    print(player_select.damage)
+
 #Sounds
 pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
 cannon_sound = pygame.mixer.Sound("../sounds/cannon.wav") #vervang door goede sound file
@@ -155,6 +162,8 @@ cardgroup.add(FMJUPGRADE,FMJUPGRADE,RIFLING,RIFLING,ADVANCEDRIFLING,ADVANCEDRIFL
 
 
 ##GLOBAL FUNCTIONS
+
+
 def quitgame():
     pygame.quit()
     quit()
@@ -193,6 +202,8 @@ class Player:
         self.active = True
         self.score_playerone = 0
         self.score_playertwo = 0
+        self.damage = 10
+        self.debug = False
 
 class Boat(pygame.sprite.Sprite):
     health = 100
@@ -349,14 +360,23 @@ class Boat(pygame.sprite.Sprite):
             self.count(boat.player)
             return
 
+
+
     def count(self, playername):
-        if playername == "P1":
-            Boat.P1_boat_count = Boat.P1_boat_count + 1
-            print("p1 boat counted")
-        elif playername == "P2":
-            Boat.P2_boat_count = Boat.P2_boat_count + 1
-            print("p2 boat counted")
-        return None
+        if debug == True:
+            if playername == "P1":
+                Boat.P1_boat_count = Boat.P1_boat_count + 10
+            elif playername == "P2":
+                Boat.P2_boat_count = Boat.P2_boat_count + 10
+            return None
+        else:
+            if playername == "P1":
+                Boat.P1_boat_count = Boat.P1_boat_count + 1
+                print("p1 boat counted")
+            elif playername == "P2":
+                Boat.P2_boat_count = Boat.P2_boat_count + 1
+                print("p2 boat counted")
+            return None
 
     def add_position(self,X,Y):
         self.posXhead = (posXhead + X * tilesize)
@@ -378,24 +398,39 @@ class Boat(pygame.sprite.Sprite):
 
     def get_cord_to_posY(self,cord):
         return cord[1]
-
+player_select = Player()
 
 #CREATE BOATS
-P1_Boat1 = Boat('P1_Boat1',24,8,30,30,1,'P1',pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
-P1_Boat2 = Boat('P1_Boat2',26,8,30,60,2,'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
-P1_Boat3 = Boat('P1_Boat3',28,8,30,60,2,'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
-P1_Boat4 = Boat('P1_Boat4',30,8,30,90,3,'P1',pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
-# #
-P2_Boat1 = Boat('P1_Boat1',24,12,30,30,1,'P2',pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
-P2_Boat2 = Boat('P1_Boat2',26,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
-P2_Boat3 = Boat('P1_Boat3',28,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
-P2_Boat4 = Boat('P1_Boat4',30,12,30,90,3,'P2',pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
 
+# #
 P1_boat_group = pygame.sprite.Group()
 P2_boat_group = pygame.sprite.Group()
+debug = True
 
-P1_boat_group.add(P1_Boat1,P1_Boat2,P1_Boat3,P1_Boat4)
-P2_boat_group.add(P2_Boat1,P2_Boat2,P2_Boat3,P2_Boat4)
+if(debug == True):
+    #P1_Boat1 = Boat('P1_Boat1', 24, 8, 30, 30, 1, 'P1',pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
+    #P1_Boat2 = Boat('P1_Boat2', 26, 8, 30, 60, 2, 'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    P1_Boat3 = Boat('P1_Boat3', 28, 8, 30, 60, 2, 'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    #P1_Boat4 = Boat('P1_Boat4', 30, 8, 30, 90, 3, 'P1',pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
+
+    #P2_Boat1 = Boat('P2_Boat1',24,12,30,30,1,'P2',pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
+    #P2_Boat2 = Boat('P2_Boat2',26,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    P2_Boat3 = Boat('P2_Boat3',28,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    #P2_Boat4 = Boat('P2_Boat4',30,12,30,90,3,'P2',pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
+    P1_boat_group.add(P1_Boat3)
+    P2_boat_group.add(P2_Boat3)
+else:
+    P1_Boat1 = Boat('P1_Boat1', 24, 8, 30, 30, 1, 'P1',pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
+    P1_Boat2 = Boat('P1_Boat2', 26, 8, 30, 60, 2, 'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    P1_Boat3 = Boat('P1_Boat3', 28, 8, 30, 60, 2, 'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    P1_Boat4 = Boat('P1_Boat4', 30, 8, 30, 90, 3, 'P1',pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
+
+    P2_Boat1 = Boat('P2_Boat1',24,12,30,30,1,'P2',pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
+    P2_Boat2 = Boat('P2_Boat2',26,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    P2_Boat3 = Boat('P2_Boat3', 28, 12, 30, 60, 2, 'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    P2_Boat4 = Boat('P2_Boat4',30,12,30,90,3,'P2',pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
+    P1_boat_group.add(P1_Boat1, P1_Boat2, P1_Boat3, P1_Boat4)
+    P2_boat_group.add(P2_Boat1, P2_Boat2, P2_Boat3, P2_Boat4)
 
 class sprite(pygame.sprite.Sprite):
     def __init__(self,name,image,rectx,recty,width,height):
@@ -495,6 +530,8 @@ gamestarted = False
 
 def mainloop(nameone, nametwo):
     new_game_db(nameone,nametwo)
+    if(nameone == 'debug'):
+        debug
     player_select = Player()
     ship_selected_img = None
     attack_mode = False
@@ -551,6 +588,7 @@ def mainloop(nameone, nametwo):
                     if card.rect.collidepoint(x,y):
                         hover_card = card
                         description_card = card.description
+                        name_card = card.name
                     else:
                         hover_card = None
 
@@ -719,7 +757,7 @@ def mainloop(nameone, nametwo):
                 gamestarted = True
             if (turn == True):
                 print("player 2's turn.")
-                ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
                 player_select.active = False
                 for boat in P2_boat_group:
                     boat.movementstep = 1
@@ -736,7 +774,7 @@ def mainloop(nameone, nametwo):
                             P2_inventory_full = False
             else:
                 print("player 1's turn")
-                ctypes.windll.user32.MessageBoxW(0, "Turn player 2", "turn-notification", 1)
+                ctypes.windll.user32.MessageBoxW(0, "Turn player 1", "turn-notification", 1)
                 player_select.active = True
                 for boat in P1_boat_group:
                     boat.movementstep = 1
@@ -1067,9 +1105,9 @@ def mainloop(nameone, nametwo):
                 #message_to_screen("FPS: " + str(round(fps_count, 0)), black, 625, 450)
                 #message_to_screen("movement tiles:", black, 600, 480)
                 #message_to_screen(str(movement_tiles),black,600,510)
-
-                message_to_screen(str(hover_card),orange, 620, 480)
-                message_to_screen(str(description_card), black, 620, 500)
+                if(hover_card != None):
+                    message_to_screen(str(name_card),orange, 620, 480)
+                    message_to_screen(str(description_card), black, 620, 500)
                 pygame.display.flip()
 
     clock.tick(FPS)
