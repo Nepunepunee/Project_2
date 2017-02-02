@@ -6,6 +6,13 @@ from Database import *
 import ctypes
 pygame.init()
 
+def debug():
+    player_select.damage = 50
+    print('debug activated')
+    player_select.debug = True
+    print(player_select.debug)
+    print(player_select.damage)
+
 #Sounds
 pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
 cannon_sound = pygame.mixer.Sound("../sounds/cannon.wav") #vervang door goede sound file
@@ -196,6 +203,8 @@ class Player:
         self.active = True
         self.score_playerone = 0
         self.score_playertwo = 0
+        self.damage = 10
+        self.debug = False
 
 class Boat(pygame.sprite.Sprite):
     health = 100
@@ -353,13 +362,20 @@ class Boat(pygame.sprite.Sprite):
             return
 
     def count(self, playername):
-        if playername == "P1":
-            Boat.P1_boat_count = Boat.P1_boat_count + 1
-            print("p1 boat counted")
-        elif playername == "P2":
-            Boat.P2_boat_count = Boat.P2_boat_count + 1
-            print("p2 boat counted")
-        return None
+        if debug == True:
+            if playername == "P1":
+                Boat.P1_boat_count = Boat.P1_boat_count + 10
+            elif playername == "P2":
+                Boat.P2_boat_count = Boat.P2_boat_count + 10
+            return None
+        else:
+            if playername == "P1":
+                Boat.P1_boat_count = Boat.P1_boat_count + 1
+                print("p1 boat counted")
+            elif playername == "P2":
+                Boat.P2_boat_count = Boat.P2_boat_count + 1
+                print("p2 boat counted")
+            return None
 
     def add_position(self,X,Y):
         self.posXhead = (posXhead + X * tilesize)
@@ -373,8 +389,26 @@ class Boat(pygame.sprite.Sprite):
 
 
     def rotate(self,angle):
-        self.image = pygame.transform.rotate(self.image, angle)
-        return self.image
+        if self.movementstep > 0:
+            self.image = pygame.transform.rotate(self.image, angle)
+            if angle >= 90:
+                self.posXhead = (self.posXhead - tilesize)
+                self.posYhead = self.posXhead
+                self.cordhead = [X, Y]
+                self.rect.x = (self.posXhead - tilesize)
+                self.rect.y = self.posXhead
+                self.movementstep -= 1
+                return self.image
+            elif angle <= 90:
+                self.posXhead = (X * tilesize)
+                self.posYhead = (Y * tilesize)
+                self.cordhead = [X, Y]
+                self.rect.x = (X * tilesize)
+                self.rect.y = (Y * tilesize)
+                self.movementstep -= 1
+                return self.image
+        else:
+            return
 
     def get_cord_to_posX(self,cord):
         return cord[0]
@@ -383,22 +417,48 @@ class Boat(pygame.sprite.Sprite):
         return cord[1]
 
 
-#CREATE BOATS
-P1_Boat1 = Boat('P1_Boat1',24,8,30,30,1,'P1',pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
-P1_Boat2 = Boat('P1_Boat2',26,8,30,60,2,'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
-P1_Boat3 = Boat('P1_Boat3',28,8,30,60,2,'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
-P1_Boat4 = Boat('P1_Boat4',30,8,30,90,3,'P1',pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
-# #
-P2_Boat1 = Boat('P1_Boat1',24,12,30,30,1,'P2',pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
-P2_Boat2 = Boat('P1_Boat2',26,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
-P2_Boat3 = Boat('P1_Boat3',28,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
-P2_Boat4 = Boat('P1_Boat4',30,12,30,90,3,'P2',pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
+# CREATE BOATS
 
+# #
 P1_boat_group = pygame.sprite.Group()
 P2_boat_group = pygame.sprite.Group()
+debug = True
 
-P1_boat_group.add(P1_Boat1,P1_Boat2,P1_Boat3,P1_Boat4)
-P2_boat_group.add(P2_Boat1,P2_Boat2,P2_Boat3,P2_Boat4)
+if (debug == True):
+    # P1_Boat1 = Boat('P1_Boat1', 24, 8, 30, 30, 1, 'P1',pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
+    # P1_Boat2 = Boat('P1_Boat2', 26, 8, 30, 60, 2, 'P1',pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    P1_Boat3 = Boat('P1_Boat3', 28, 8, 30, 60, 2, 'P1',
+                    pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    # P1_Boat4 = Boat('P1_Boat4', 30, 8, 30, 90, 3, 'P1',pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
+
+    # P2_Boat1 = Boat('P2_Boat1',24,12,30,30,1,'P2',pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
+    # P2_Boat2 = Boat('P2_Boat2',26,12,30,60,2,'P2',pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    P2_Boat3 = Boat('P2_Boat3', 28, 12, 30, 60, 2, 'P2',
+                    pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    # P2_Boat4 = Boat('P2_Boat4',30,12,30,90,3,'P2',pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
+    P1_boat_group.add(P1_Boat3)
+    P2_boat_group.add(P2_Boat3)
+else:
+    P1_Boat1 = Boat('P1_Boat1', 24, 8, 30, 30, 1, 'P1',
+                    pygame.image.load(os.path.join('../images/P1_ship_small.png')).convert_alpha())
+    P1_Boat2 = Boat('P1_Boat2', 26, 8, 30, 60, 2, 'P1',
+                    pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    P1_Boat3 = Boat('P1_Boat3', 28, 8, 30, 60, 2, 'P1',
+                    pygame.image.load(os.path.join('../images/P1_ship_med.png')).convert_alpha())
+    P1_Boat4 = Boat('P1_Boat4', 30, 8, 30, 90, 3, 'P1',
+                    pygame.image.load(os.path.join('../images/P1_ship_large.png')).convert_alpha())
+
+    P2_Boat1 = Boat('P2_Boat1', 24, 12, 30, 30, 1, 'P2',
+                    pygame.image.load(os.path.join('../images/P2_ship_small.png')).convert_alpha())
+    P2_Boat2 = Boat('P2_Boat2', 26, 12, 30, 60, 2, 'P2',
+                    pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    P2_Boat3 = Boat('P2_Boat3', 28, 12, 30, 60, 2, 'P2',
+                    pygame.image.load(os.path.join('../images/P2_ship_med.png')).convert_alpha())
+    P2_Boat4 = Boat('P2_Boat4', 30, 12, 30, 90, 3, 'P2',
+                    pygame.image.load(os.path.join('../images/P2_ship_large.png')).convert_alpha())
+
+    P1_boat_group.add(P1_Boat1,P1_Boat2,P1_Boat3,P1_Boat4)
+    P2_boat_group.add(P2_Boat1,P2_Boat2,P2_Boat3,P2_Boat4)
 
 class sprite(pygame.sprite.Sprite):
     def __init__(self,name,image,rectx,recty,width,height):
@@ -499,6 +559,8 @@ gamestarted = False
 
 def mainloop(nameone, nametwo):
     new_game_db(nameone,nametwo)
+    if(nameone == 'debug'):
+        debug
     player_select = Player()
     ship_selected_img = None
     attack_mode = False
