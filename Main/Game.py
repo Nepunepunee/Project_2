@@ -624,49 +624,49 @@ def mainloop(nameone, nametwo):
                                     if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P2_boat_group.remove(boat)
                                     elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P2_boat_group.remove(boat)
                                     elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P2_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P2_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P2_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P2_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P2_boat_group.remove(boat)
@@ -680,49 +680,49 @@ def mainloop(nameone, nametwo):
                                     if (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 100
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P1_boat_group.remove(boat)
                                     elif(tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+tilesize):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P1_boat_group.remove(boat)
                                     elif (tile.rect.x,tile.rect.y) == (boat.rect[0],boat.rect[1]+(tilesize*2)):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P1_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+tilesize, boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P1_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]+(tilesize*2), boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P1_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-tilesize, boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P1_boat_group.remove(boat)
                                     elif (tile.rect.x, tile.rect.y) == (boat.rect[0]-(tilesize*2), boat.rect[1]):
                                         #cannon sound
                                         cannon_sound.play(loops=0, maxtime=0, fade_ms=0)
-                                        boat.hp -= 10
+                                        boat.hp -= player_select.damage
                                         player_select.score_playerone += 5
                                         if boat.hp <= 0:
                                             P1_boat_group.remove(boat)
